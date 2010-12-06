@@ -25,10 +25,11 @@ import java.io.Serializable;
 
 /**
  * A name is a typed string representing a reference to an object.
- * 
+ *
  * @author Scott.Stark@jboss.org
- * @version $Revision: 81156 $
  */
 public interface Name extends Serializable, Comparable<Name> {
+
     public String toString();
+
 }

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2006, JBoss Inc., and individual contributors as indicated
+ * Copyright 2010, JBoss Inc., and individual contributors as indicated
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -58,7 +58,8 @@ public class CompositeValueSupport extends AbstractMetaValue implements Composit
     /** The serialized form */
     private static final ObjectStreamField[] serialPersistentFields = new ObjectStreamField[] {
             new ObjectStreamField("contents", SortedMap.class),
-            new ObjectStreamField("metaType", CompositeMetaType.class), };
+            new ObjectStreamField("metaType", CompositeMetaType.class)
+            };
 
     /** The contents */
     private SortedMap<String, MetaValue> contents;
