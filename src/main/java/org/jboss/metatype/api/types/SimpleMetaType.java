@@ -27,19 +27,6 @@ import java.math.BigInteger;
 import java.util.Comparator;
 import java.util.Date;
 
-import org.jboss.metatype.api.types.helpers.BigDecimalComparator;
-import org.jboss.metatype.api.types.helpers.BigIntegerComparator;
-import org.jboss.metatype.api.types.helpers.BooleanComparator;
-import org.jboss.metatype.api.types.helpers.ByteComparator;
-import org.jboss.metatype.api.types.helpers.CharacterComparator;
-import org.jboss.metatype.api.types.helpers.DateComparator;
-import org.jboss.metatype.api.types.helpers.DoubleComparator;
-import org.jboss.metatype.api.types.helpers.FloatComparator;
-import org.jboss.metatype.api.types.helpers.IntegerComparator;
-import org.jboss.metatype.api.types.helpers.LongComparator;
-import org.jboss.metatype.api.types.helpers.NamedComparator;
-import org.jboss.metatype.api.types.helpers.ShortComparator;
-import org.jboss.metatype.api.types.helpers.StringComparator;
 import org.jboss.metatype.api.values.SimpleValue;
 
 /**
@@ -47,6 +34,7 @@ import org.jboss.metatype.api.values.SimpleValue;
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  * @author <a href="ales.justin@jboss.com">Ales Justin</a>
+ * @author Emanuel Muckenhuber
  */
 public class SimpleMetaType extends AbstractMetaType {
 
@@ -117,27 +105,27 @@ public class SimpleMetaType extends AbstractMetaType {
     private transient char primitiveType;
 
     static {
-        BIGDECIMAL = new SimpleMetaType(BigDecimal.class, BigDecimalComparator.INSTANCE);
-        BIGINTEGER = new SimpleMetaType(BigInteger.class, BigIntegerComparator.INSTANCE);
-        BOOLEAN = new SimpleMetaType(Boolean.class, BooleanComparator.INSTANCE, 'Z');
-        BOOLEAN_PRIMITIVE = new SimpleMetaType(boolean.class, BooleanComparator.INSTANCE, 'Z');
-        BYTE = new SimpleMetaType(Byte.class, ByteComparator.INSTANCE, 'B');
-        BYTE_PRIMITIVE = new SimpleMetaType(byte.class, ByteComparator.INSTANCE, 'B');
-        CHARACTER = new SimpleMetaType(Character.class, CharacterComparator.INSTANCE, 'C');
-        CHARACTER_PRIMITIVE = new SimpleMetaType(char.class, CharacterComparator.INSTANCE, 'C');
-        DATE = new SimpleMetaType(Date.class, DateComparator.INSTANCE);
-        DOUBLE = new SimpleMetaType(Double.class, DoubleComparator.INSTANCE, 'D');
-        DOUBLE_PRIMITIVE = new SimpleMetaType(double.class, DoubleComparator.INSTANCE, 'D');
-        FLOAT = new SimpleMetaType(Float.class, FloatComparator.INSTANCE, 'F');
-        FLOAT_PRIMITIVE = new SimpleMetaType(float.class, FloatComparator.INSTANCE, 'F');
-        INTEGER = new SimpleMetaType(Integer.class, IntegerComparator.INSTANCE, 'I');
-        INTEGER_PRIMITIVE = new SimpleMetaType(int.class, IntegerComparator.INSTANCE, 'I');
-        LONG = new SimpleMetaType(Long.class, LongComparator.INSTANCE, 'J');
-        LONG_PRIMITIVE = new SimpleMetaType(long.class, LongComparator.INSTANCE, 'J');
-        SHORT = new SimpleMetaType(Short.class, ShortComparator.INSTANCE, 'S');
-        SHORT_PRIMITIVE = new SimpleMetaType(short.class, ShortComparator.INSTANCE, 'S');
-        STRING = new SimpleMetaType(String.class, StringComparator.INSTANCE);
-        NAMEDOBJECT = new SimpleMetaType(Name.class, NamedComparator.INSTANCE);
+        BIGDECIMAL = new SimpleMetaType(BigDecimal.class, SimpleMetaTypeComparators.BIG_DECIMAL);
+        BIGINTEGER = new SimpleMetaType(BigInteger.class, SimpleMetaTypeComparators.BIG_INTEGER);
+        BOOLEAN = new SimpleMetaType(Boolean.class, SimpleMetaTypeComparators.BOOLEAN, 'Z');
+        BOOLEAN_PRIMITIVE = new SimpleMetaType(boolean.class, SimpleMetaTypeComparators.BOOLEAN, 'Z');
+        BYTE = new SimpleMetaType(Byte.class, SimpleMetaTypeComparators.BYTE, 'B');
+        BYTE_PRIMITIVE = new SimpleMetaType(byte.class, SimpleMetaTypeComparators.BYTE, 'B');
+        CHARACTER = new SimpleMetaType(Character.class, SimpleMetaTypeComparators.CHARACTER, 'C');
+        CHARACTER_PRIMITIVE = new SimpleMetaType(char.class, SimpleMetaTypeComparators.CHARACTER, 'C');
+        DATE = new SimpleMetaType(Date.class, SimpleMetaTypeComparators.DATE);
+        DOUBLE = new SimpleMetaType(Double.class, SimpleMetaTypeComparators.DOUBLE, 'D');
+        DOUBLE_PRIMITIVE = new SimpleMetaType(double.class, SimpleMetaTypeComparators.DOUBLE, 'D');
+        FLOAT = new SimpleMetaType(Float.class, SimpleMetaTypeComparators.FLOAT, 'F');
+        FLOAT_PRIMITIVE = new SimpleMetaType(float.class, SimpleMetaTypeComparators.FLOAT, 'F');
+        INTEGER = new SimpleMetaType(Integer.class, SimpleMetaTypeComparators.INTEGER, 'I');
+        INTEGER_PRIMITIVE = new SimpleMetaType(int.class, SimpleMetaTypeComparators.INTEGER, 'I');
+        LONG = new SimpleMetaType(Long.class, SimpleMetaTypeComparators.LONG, 'J');
+        LONG_PRIMITIVE = new SimpleMetaType(long.class, SimpleMetaTypeComparators.LONG, 'J');
+        SHORT = new SimpleMetaType(Short.class, SimpleMetaTypeComparators.SHORT, 'S');
+        SHORT_PRIMITIVE = new SimpleMetaType(short.class, SimpleMetaTypeComparators.SHORT, 'S');
+        STRING = new SimpleMetaType(String.class, SimpleMetaTypeComparators.STRING);
+        NAMEDOBJECT = new SimpleMetaType(Name.class, SimpleMetaTypeComparators.NAME);
         VOID = new SimpleMetaType(Void.class, null);
     }
 
