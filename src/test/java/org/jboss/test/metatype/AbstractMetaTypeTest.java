@@ -53,8 +53,7 @@ public abstract class AbstractMetaTypeTest extends TestCase {
     /**
      * Create a new AbstractMetaTypeTest.
      *
-     * @param name
-     *            the test name
+     * @param name the test name
      */
     public AbstractMetaTypeTest(String name) {
         super(name);

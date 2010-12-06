@@ -29,20 +29,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<maven.compiler.source>1.6</maven.compiler.source>
-		<version.jboss.test>1.1.9.GA</version.jboss.test>
 		<version.junit>4.8.1</version.junit>
 	</properties>
 
 	<dependencies>
-		<!-- test dependencies -->
-		<!-- 
-		<dependency>
-			<groupId>org.jboss.test</groupId>
-			<artifactId>jboss-test</artifactId>
-			<version>${version.jboss.test}</version>
-			<scope>test</scope>
-		</dependency>
-		 -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

@@ -57,20 +57,20 @@ abstract class AbstractCompositeMetaType extends AbstractMetaType implements Com
      *
      * getClassName() returns {@link CompositeValue}
      *
-     * @param typeName the name of the composite type, cannot be null or empty
+     * @param typeName the name of the composite type, cannot be <code>null</code> or empty
      * @param description the human readable description of the composite type, cannot
-     *            be null or empty
-     * @param itemNames the names of the items described by this type. Cannot be null,
-     *            must contain at least one element, the elements cannot be null
+     *            be <code>null</code> or empty
+     * @param itemNames the names of the items described by this type. Cannot be <code>null</code>,
+     *            must contain at least one element, the elements cannot be <code>null</code>
      *            or empty. The order of the items is unimportant when
      *            determining equality.
      * @param itemDescriptions the human readable descriptions of the items in the same order
-     *            as the itemNames, cannot be null must have the same number of
+     *            as the itemNames, cannot be <code>null</code> must have the same number of
      *            elements as the itemNames. The elements cannot be null or
      *            empty.
      * @param itemTypes the MetaTypes of the items in the same order as the item
-     *            names, cannot be null must have the same number of elements as
-     *            the itemNames. The elements cannot be null.
+     *            names, cannot be <code>null</code> must have the same number of elements as
+     *            the itemNames. The elements cannot be <code>null</code>.
      * @param ignoreItems whether to ignore items
      * @exception IllegalArgumentException when a parameter does not match what is described above or
      *            when itemNames contains a duplicate name. The names are
@@ -117,9 +117,9 @@ abstract class AbstractCompositeMetaType extends AbstractMetaType implements Com
     /**
      * Construct a composite meta type with no items.
      *
-     * @param typeName the name of the composite type, cannot be null or empty
+     * @param typeName the name of the composite type, cannot be <code>null</code> or empty
      * @param description the human readable description of the composite type, cannot
-     *            be null or empty
+     *            be <code>null</code> or empty
      * @throws IllegalArgumentException when a parameter does not match what is described above.
      */
     protected AbstractCompositeMetaType(String typeName, String description) {
@@ -147,7 +147,7 @@ abstract class AbstractCompositeMetaType extends AbstractMetaType implements Com
      * @param itemName the item name
      * @param itemDescription the item description
      * @param itemType the item type
-     * @throws IllegalArgumentException for a null or empty item name, description or type or
+     * @throws IllegalArgumentException for a <code>null</code> or empty item name, description or type or
      *         duplicate item
      */
     protected void addItem(String itemName, String itemDescription, MetaType itemType) {
@@ -223,8 +223,7 @@ abstract class AbstractCompositeMetaType extends AbstractMetaType implements Com
     /**
      * Implementation of equals
      *
-     * @param obj
-     *            the object to check
+     * @param obj the object to check
      * @return true when equals false otherwise
      */
     protected boolean equalsImpl(Object obj) {

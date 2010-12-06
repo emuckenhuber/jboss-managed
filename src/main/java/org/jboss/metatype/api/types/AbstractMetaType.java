@@ -62,9 +62,9 @@ public abstract class AbstractMetaType implements MetaType {
      * those classes.
      *
      * @param className the name of the class implementing the meta type, cannot be <code>null</code>
-     * @param typeName the name of the meta type, cannot be null
-     * @param description the human readable description of the type, cannot be null
-     * @throws IllegalArgumentException for a null argument or a class is not an allowed class
+     * @param typeName the name of the meta type, cannot be <code>null</code>
+     * @param description the human readable description of the type, cannot be <code>null</code>
+     * @throws IllegalArgumentException for a <code>null</code> argument or a class is not an allowed class
      */
     protected AbstractMetaType(String className, String typeName, String description) {
         init(className, typeName, description);
@@ -77,13 +77,9 @@ public abstract class AbstractMetaType implements MetaType {
      * The class name must be in {@link #ALLOWED_CLASSNAMES} or an array of
      * those classes.
      *
-     * @param className
-     *            the name of the class implementing the meta type, cannot be
-     *            null
-     * @param description
-     *            the human readable description of the type, cannot be null
-     * @throws IllegalArgumentException
-     *             for a null argument or a class is not an allowed class
+     * @param className the name of the class implementing the meta type, cannot be <code>null</code>
+     * @param description the human readable description of the type, cannot be <code>null</code>
+     * @throws IllegalArgumentException for a <code>null</code> argument or a class is not an allowed class
      */
     protected AbstractMetaType(String className, String description) {
         init(className, className, description);
@@ -95,11 +91,8 @@ public abstract class AbstractMetaType implements MetaType {
      * The class name must be in {@link #ALLOWED_CLASSNAMES} or an array of
      * those classes.
      *
-     * @param className
-     *            the name of the class implementing the meta type, cannot be
-     *            null
-     * @throws IllegalArgumentException
-     *             for a null argument or a class is not an allowed class
+     * @param className the name of the class implementing the meta type, cannot be <code>null</code>
+     * @throws IllegalArgumentException for a <code>null</code> argument or a class is not an allowed class
      */
     protected AbstractMetaType(String className) {
         init(className, className, className);
@@ -133,10 +126,6 @@ public abstract class AbstractMetaType implements MetaType {
         return false;
     }
 
-    public boolean isGeneric() {
-        return false;
-    }
-
     public boolean isTable() {
         return false;
     }
@@ -146,10 +135,6 @@ public abstract class AbstractMetaType implements MetaType {
     }
 
     public boolean isCollection() {
-        return false;
-    }
-
-    public boolean isProperties() {
         return false;
     }
 
