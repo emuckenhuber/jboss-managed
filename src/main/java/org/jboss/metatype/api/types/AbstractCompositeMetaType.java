@@ -26,9 +26,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.jboss.metatype.api.types.AbstractMetaType;
-import org.jboss.metatype.api.types.CompositeMetaType;
-import org.jboss.metatype.api.types.MetaType;
 import org.jboss.metatype.api.values.CompositeValue;
 
 /**
@@ -36,7 +33,7 @@ import org.jboss.metatype.api.values.CompositeValue;
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  */
-public abstract class AbstractCompositeMetaType extends AbstractMetaType implements CompositeMetaType {
+abstract class AbstractCompositeMetaType extends AbstractMetaType implements CompositeMetaType {
 
     /** The serialVersionUID */
     private static final long serialVersionUID = -7421421680257307598L;
@@ -120,13 +117,10 @@ public abstract class AbstractCompositeMetaType extends AbstractMetaType impleme
     /**
      * Construct a composite meta type with no items.
      *
-     * @param typeName
-     *            the name of the composite type, cannot be null or empty
-     * @param description
-     *            the human readable description of the composite type, cannot
+     * @param typeName the name of the composite type, cannot be null or empty
+     * @param description the human readable description of the composite type, cannot
      *            be null or empty
-     * @throws IllegalArgumentException
-     *             when a parameter does not match what is described above.
+     * @throws IllegalArgumentException when a parameter does not match what is described above.
      */
     protected AbstractCompositeMetaType(String typeName, String description) {
         this(typeName, description, null, null, null, true);
@@ -135,8 +129,7 @@ public abstract class AbstractCompositeMetaType extends AbstractMetaType impleme
     /**
      * Set the keys
      *
-     * @param keySet
-     *            the key set
+     * @param keySet the key set
      */
     protected void setKeys(Set<String> keySet) {
         if (keySet != null) {
@@ -151,15 +144,11 @@ public abstract class AbstractCompositeMetaType extends AbstractMetaType impleme
     /**
      * Add an item
      *
-     * @param itemName
-     *            the item name
-     * @param itemDescription
-     *            the item description
-     * @param itemType
-     *            the item type
-     * @throws IllegalArgumentException
-     *             for a null or empty item name, description or type or
-     *             duplicate item
+     * @param itemName the item name
+     * @param itemDescription the item description
+     * @param itemType the item type
+     * @throws IllegalArgumentException for a null or empty item name, description or type or
+     *         duplicate item
      */
     protected void addItem(String itemName, String itemDescription, MetaType itemType) {
         if (itemName == null) {

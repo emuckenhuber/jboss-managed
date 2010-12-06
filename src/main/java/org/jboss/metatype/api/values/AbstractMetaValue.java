@@ -26,7 +26,7 @@ package org.jboss.metatype.api.values;
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  */
-public abstract class AbstractMetaValue implements MetaValue {
+abstract class AbstractMetaValue implements MetaValue {
 
     /** The serialVersionUID */
     private static final long serialVersionUID = -2213622770885293629L;
