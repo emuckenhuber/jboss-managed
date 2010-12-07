@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source
- * Copyright 2010, JBoss Inc., and individual contributors as indicated
- * by the @authors tag. See the copyright.txt in the distribution for a
- * full listing of individual contributors.
+ * JBoss, Home of Professional Open Source.
+ * Copyright 2010, Red Hat, Inc., and individual contributors
+ * as indicated by the @author tags. See the copyright.txt file in the
+ * distribution for a full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -19,6 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+
 package org.jboss.metatype.api.values;
 
 import java.io.Serializable;
@@ -48,8 +49,7 @@ public class SimpleValueSupport extends AbstractMetaValue implements SimpleValue
     /**
      * Wrap a simple object in simple value
      *
-     * @param object
-     *            the simple object
+     * @param object the simple object
      * @return the simple value
      */
     public static SimpleValue wrap(Serializable object) {
