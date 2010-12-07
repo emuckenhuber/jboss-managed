@@ -152,13 +152,6 @@ public interface MetaType extends Serializable {
     boolean isSimple();
 
     /**
-     * Retrieve whether the class name of the type is a java primitive type.
-     *
-     * @return
-     */
-    boolean isPrimitive();
-
-    /**
      * Retrieve whether the class name of the type is composite
      *
      * @return true when it is composite or false otherwise
