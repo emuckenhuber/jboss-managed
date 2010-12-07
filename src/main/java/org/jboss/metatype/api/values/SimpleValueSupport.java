@@ -27,7 +27,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
-import org.jboss.metatype.api.types.Name;
 import org.jboss.metatype.api.types.SimpleMetaType;
 
 /**
@@ -230,10 +229,6 @@ public class SimpleValueSupport extends AbstractMetaValue implements SimpleValue
         } else if (getMetaType() == SimpleMetaType.STRING && sv.getMetaType() == SimpleMetaType.STRING) {
             String v1 = String.class.cast(value);
             String v2 = String.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.NAMEDOBJECT && sv.getMetaType() == SimpleMetaType.NAMEDOBJECT) {
-            Name v1 = Name.class.cast(value);
-            Name v2 = Name.class.cast(sv.getValue());
             compare = v1.compareTo(v2);
         } else if (getMetaType() == SimpleMetaType.VOID && sv.getMetaType() == SimpleMetaType.VOID) {
             compare = 0;

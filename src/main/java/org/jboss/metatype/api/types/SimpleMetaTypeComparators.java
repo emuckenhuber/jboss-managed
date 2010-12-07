@@ -84,11 +84,6 @@ class SimpleMetaTypeComparators {
             return o1.compareTo(o2);
         }
     };
-    final static Comparator<Name> NAME = new Comparator<Name>() {
-        public int compare(org.jboss.metatype.api.types.Name o1, org.jboss.metatype.api.types.Name o2) {
-            return o1.compareTo(o2);
-        }
-    };
     final static Comparator<Short> SHORT = new Comparator<Short>() {
         public int compare(Short o1, Short o2) {
             return o1.compareTo(o2);

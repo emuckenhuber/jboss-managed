@@ -29,8 +29,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
-
 import org.jboss.metatype.api.values.ArrayValue;
 import org.jboss.metatype.api.values.CompositeValue;
 import org.jboss.metatype.api.values.EnumValue;
@@ -63,7 +61,6 @@ public interface MetaType extends Serializable {
      * java.math.BigDecimal<br>
      * java.math.BigInteger<br>
      * java.util.Properties<br>
-     * {@link Name}<br>
      * {@link SimpleValue}<br>
      * {@link EnumValue}<br>
      * {@link ArrayValue}<br>
@@ -93,8 +90,6 @@ public interface MetaType extends Serializable {
                     Date.class.getName(),
                     BigDecimal.class.getName(),
                     BigInteger.class.getName(),
-                    Properties.class.getName(),
-                    Name.class.getName(),
                     SimpleValue.class.getName(),
                     EnumValue.class.getName(),
                     ArrayValue.class.getName(),

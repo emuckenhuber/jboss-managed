@@ -92,9 +92,6 @@ public class SimpleMetaType extends AbstractMetaType {
     /** The simple type for java.lang.String */
     public static final SimpleMetaType STRING;
 
-    /** The simple type for an object name */
-    public static final SimpleMetaType NAMEDOBJECT;
-
     /** The simple type for java.lang.Void */
     public static final SimpleMetaType VOID;
 
@@ -126,7 +123,6 @@ public class SimpleMetaType extends AbstractMetaType {
         SHORT = new SimpleMetaType(Short.class, SimpleMetaTypeComparators.SHORT, 'S');
         SHORT_PRIMITIVE = new SimpleMetaType(short.class, SimpleMetaTypeComparators.SHORT, 'S');
         STRING = new SimpleMetaType(String.class, SimpleMetaTypeComparators.STRING);
-        NAMEDOBJECT = new SimpleMetaType(Name.class, SimpleMetaTypeComparators.NAME);
         VOID = new SimpleMetaType(Void.class, null);
     }
 
@@ -218,9 +214,6 @@ public class SimpleMetaType extends AbstractMetaType {
         }
         if (className.equals(DATE.getClassName())) {
             return DATE;
-        }
-        if (className.equals(NAMEDOBJECT.getClassName())) {
-            return NAMEDOBJECT;
         }
         return null;
     }

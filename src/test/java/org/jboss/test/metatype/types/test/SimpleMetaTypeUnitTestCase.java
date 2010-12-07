@@ -27,7 +27,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
-import org.jboss.metatype.api.types.Name;
 import org.jboss.metatype.api.types.SimpleMetaType;
 import org.jboss.metatype.api.values.SimpleValue;
 import org.jboss.metatype.api.values.SimpleValueSupport;
@@ -80,7 +79,6 @@ public class SimpleMetaTypeUnitTestCase extends AbstractMetaTypeTest
       Short.class,
       String.class,
       Void.class,
-      Name.class
    };
 
    SimpleValue[] values = new SimpleValue[] {
@@ -113,7 +111,6 @@ public class SimpleMetaTypeUnitTestCase extends AbstractMetaTypeTest
       new SimpleValueSupport(SimpleMetaType.SHORT, null),
       new SimpleValueSupport(SimpleMetaType.STRING, null),
       new SimpleValueSupport(SimpleMetaType.VOID, null),
-      new SimpleValueSupport(SimpleMetaType.NAMEDOBJECT, null)
    };
 
    /**

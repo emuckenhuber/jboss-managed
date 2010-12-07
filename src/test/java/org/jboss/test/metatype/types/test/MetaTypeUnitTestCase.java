@@ -26,10 +26,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
-
 import org.jboss.metatype.api.types.MetaType;
-import org.jboss.metatype.api.types.Name;
 import org.jboss.metatype.api.values.ArrayValue;
 import org.jboss.metatype.api.values.CompositeValue;
 import org.jboss.metatype.api.values.EnumValue;
@@ -62,7 +59,7 @@ public class MetaTypeUnitTestCase extends AbstractMetaTypeTest
     */
    public void testAllowedClasses() throws Exception {
       List<String> allowedClassNames = MetaType.ALLOWED_CLASSNAMES;
-      assertEquals(28, allowedClassNames.size());
+      assertEquals(26, allowedClassNames.size());
       checkMetaType(allowedClassNames, Void.class);
       checkMetaType(allowedClassNames, Boolean.class);
       checkMetaType(allowedClassNames, Character.class);
@@ -76,13 +73,11 @@ public class MetaTypeUnitTestCase extends AbstractMetaTypeTest
       checkMetaType(allowedClassNames, Date.class);
       checkMetaType(allowedClassNames, BigDecimal.class);
       checkMetaType(allowedClassNames, BigInteger.class);
-      checkMetaType(allowedClassNames, Name.class);
       checkMetaType(allowedClassNames, SimpleValue.class);
       checkMetaType(allowedClassNames, EnumValue.class);
       checkMetaType(allowedClassNames, ArrayValue.class);
       checkMetaType(allowedClassNames, CompositeValue.class);
       checkMetaType(allowedClassNames, TableValue.class);
-      checkMetaType(allowedClassNames, Properties.class);
       checkMetaType(allowedClassNames, boolean.class);
       checkMetaType(allowedClassNames, byte.class);
       checkMetaType(allowedClassNames, char.class);
