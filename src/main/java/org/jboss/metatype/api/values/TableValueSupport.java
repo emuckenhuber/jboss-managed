@@ -31,9 +31,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import org.jboss.metatype.api.types.CompositeMetaType;
 import org.jboss.metatype.api.types.MetaType;
 import org.jboss.metatype.api.types.TableMetaType;
 
@@ -86,6 +87,10 @@ public class TableValueSupport extends AbstractMetaValue implements TableValue {
 
     public TableMetaType getMetaType() {
         return tableType;
+    }
+
+    public CompositeMetaType getRowType() {
+        return tableType.getRowType();
     }
 
     public MetaValue[] calculateIndex(CompositeValue value) {

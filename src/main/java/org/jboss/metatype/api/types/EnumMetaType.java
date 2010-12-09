@@ -24,6 +24,7 @@ package org.jboss.metatype.api.types;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 
 import org.jboss.metatype.api.values.EnumValue;
@@ -139,4 +140,22 @@ public class EnumMetaType extends AbstractMetaType {
     public String toString() {
         return getTypeName() + "{" + validValues + "}";
     }
+
+    /**
+     * Create an {@link EnumMetaType} based on an {@code Enum} class.
+     *
+     * @param <E> the {@code Enum} type
+     * @param enumClass the {@code Enum} class
+     * @return the {@code Enum} meta type
+     */
+    public static <E extends Enum<E>> EnumMetaType create(final Class<E> enumClass) {
+        final String className = enumClass.getName();
+        final EnumSet<E> set = EnumSet.allOf(enumClass);
+        final ArrayList<String> values = new ArrayList<String>();
+        for(Enum<E> e : set) {
+            values.add(e.name());
+        }
+        return new EnumMetaType(className, values);
+    }
+
 }

@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.jboss.metatype.api.types.CompositeMetaType;
 import org.jboss.metatype.api.types.TableMetaType;
 import org.jboss.metatype.api.values.CompositeValue;
 import org.jboss.metatype.api.values.MetaValue;
@@ -52,6 +53,10 @@ public class MockTableValue extends MockMetaValue implements TableValue {
 
     public TableMetaType getMetaType() {
         return (TableMetaType) super.getMetaType();
+    }
+
+    public CompositeMetaType getRowType() {
+        return getMetaType().getRowType();
     }
 
     public MetaValue[] calculateIndex(CompositeValue value) {

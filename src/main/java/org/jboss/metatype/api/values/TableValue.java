@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.jboss.metatype.api.types.CompositeMetaType;
 import org.jboss.metatype.api.types.TableMetaType;
 
 /**
@@ -37,6 +38,13 @@ public interface TableValue extends MetaValue {
 
     /** {@inheritDoc} */
     TableMetaType getMetaType();
+
+    /**
+     * Get the row type.
+     *
+     * @return the row type
+     */
+    CompositeMetaType getRowType();
 
     /**
      * Calculate the index for the value passed if it were added to the table
