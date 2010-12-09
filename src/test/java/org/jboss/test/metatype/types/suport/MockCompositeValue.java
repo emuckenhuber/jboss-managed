@@ -70,4 +70,8 @@ public class MockCompositeValue extends MockMetaValue implements CompositeValue 
     public Collection<MetaValue> values() {
         throw new IllegalStateException("values");
     }
+
+    public void set(String key, MetaValue metaValue) {
+        throw new IllegalStateException("set");
+    }
 }

@@ -39,6 +39,7 @@ import org.jboss.metatype.api.values.TableValue;
  * MetaType.
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
+ * @author Emanuel Muckenhuber
  */
 public interface MetaType extends Serializable {
 
@@ -164,8 +165,7 @@ public interface MetaType extends Serializable {
     /**
      * Whether the passed value is one of those described by this meta type.
      *
-     * @param obj
-     *            the object to test
+     * @param obj the object to test
      * @return true when it is value for this meta type, false otherwise
      */
     boolean isValue(Object obj);

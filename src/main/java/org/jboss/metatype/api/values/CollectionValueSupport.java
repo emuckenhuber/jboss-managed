@@ -22,15 +22,18 @@
 
 package org.jboss.metatype.api.values;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.jboss.metatype.api.types.CollectionMetaType;
+import org.jboss.metatype.api.types.MetaType;
 
 /**
  * CollectionValueSupport.
  *
  * @author <a href="ales.justin@jboss.com">Ales Justin</a>
+ * @autor Emanuel Muckenhuber
  */
 public class CollectionValueSupport extends AbstractMetaValue implements CollectionValue {
 
@@ -40,8 +43,8 @@ public class CollectionValueSupport extends AbstractMetaValue implements Collect
     /** The collection meta type */
     private CollectionMetaType metaType;
 
-    /** The elements */
-    private MetaValue[] elements;
+    /** The delegate collection. */
+    private final Collection<MetaValue> delegate;
 
     /**
      * Create a new CollectionValueSupport.
@@ -50,57 +53,51 @@ public class CollectionValueSupport extends AbstractMetaValue implements Collect
      * @throws IllegalArgumentException for a null array MetaType
      */
     public CollectionValueSupport(CollectionMetaType metaType) {
-        if (metaType == null) {
-            throw new IllegalArgumentException("Null collection meta type");
-        }
-        this.metaType = metaType;
+        this(metaType, new ArrayList<MetaValue>());
+    }
+
+    /**
+     * Create a new CollectionValueSupport.
+     *
+     * @param metaType the collection meta type
+     * @param initialCapacity the initial capacity of the list
+     * @throws IllegalArgumentException for a null array MetaType
+     */
+    public CollectionValueSupport(CollectionMetaType metaType, int initialCapacity) {
+        this(metaType, new ArrayList<MetaValue>(initialCapacity));
     }
 
     /**
      * Create a new ArrayValueSupport.
      *
      * @param metaType the collection meta type
-     * @param elements the elements
+     * @param delegate a delegate collection
      * @throws IllegalArgumentException for a null array MetaType
      */
-    public CollectionValueSupport(CollectionMetaType metaType, MetaValue[] elements) {
-        this(metaType);
-        this.elements = elements;
+    public CollectionValueSupport(CollectionMetaType metaType, Collection<MetaValue> delegate) {
+        if (metaType == null) {
+            throw new IllegalArgumentException("Null collection meta type");
+        }
+        if(delegate == null) {
+            throw new IllegalArgumentException("Null collection");
+        }
+        this.metaType = metaType;
+        this.delegate = delegate;
     }
 
     public CollectionMetaType getMetaType() {
         return metaType;
     }
 
-    /**
-     * Get the value.
-     *
-     * @return the value.
-     */
-    public MetaValue[] getElements() {
-        return elements;
-    }
-
-    /**
-     * Get the size of the collection.
-     *
-     * @return size of the collection.
-     */
-    public int getSize() {
-        return elements != null ? elements.length : 0;
-    }
-
-    public Iterator<MetaValue> iterator() {
-        return new ElementsIterator(elements);
-    }
-
-    /**
-     * Set the value.
-     *
-     * @param elements the elements.
-     */
-    public void setElements(MetaValue[] elements) {
-        this.elements = elements;
+    public boolean add(MetaValue e) {
+        if(e == null) {
+            throw new IllegalArgumentException("null value");
+        }
+        final MetaType elementType = metaType.getElementType();
+        if(! elementType.isValue(e)) {
+            throw new IllegalArgumentException("value " + e + " is not a " + elementType);
+        }
+        return delegate.add(e);
     }
 
     @Override
@@ -108,65 +105,76 @@ public class CollectionValueSupport extends AbstractMetaValue implements Collect
         if (obj == this) {
             return true;
         }
-        if (obj == null || obj instanceof CollectionValue == false) {
+        if (obj == null || obj instanceof CollectionValueSupport == false) {
             return false;
         }
-        CollectionValue other = (CollectionValue) obj;
+        CollectionValueSupport other = (CollectionValueSupport) obj;
         if (metaType.equals(other.getMetaType()) == false) {
             return false;
         }
-        Object[] otherElements = other.getElements();
-        if (elements == null) {
-            return otherElements == null;
-        }
-        return otherElements != null && Arrays.equals(elements, otherElements);
+        return delegate.equals(other.delegate);
     }
 
     @Override
     public int hashCode() {
-        if (elements == null) {
-            return 0;
-        }
-        return elements.hashCode();
+        int result = 17;
+        result += 31 * metaType.hashCode();
+        result += 31 * delegate.hashCode();
+        return result;
     }
 
     @Override
     public String toString() {
-        return metaType + ": " + elements;
+        return metaType + ": " + delegate;
     }
 
-    @Override
-    public MetaValue clone() {
-        CollectionValueSupport result = (CollectionValueSupport) super.clone();
-        int size = getSize();
-        if (size > 0) {
-            result.elements = new MetaValue[size];
-            System.arraycopy(elements, 0, result.elements, 0, size);
-        }
-        return result;
+    public int size() {
+        return delegate.size();
     }
 
-    private static class ElementsIterator implements Iterator<MetaValue> {
-        private int index;
-        private int length;
-        private MetaValue[] elements;
-
-        ElementsIterator(MetaValue[] elements) {
-            this.elements = elements;
-            this.index = 0;
-            this.length = elements != null ? elements.length : 0;
-        }
-
-        public boolean hasNext() {
-            return index < length;
-        }
-
-        public MetaValue next() {
-            return elements[index++];
-        }
-
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
+    public boolean isEmpty() {
+        return delegate.isEmpty();
     }
+
+    public boolean contains(Object o) {
+        return delegate.contains(o);
+    }
+
+    public Iterator<MetaValue> iterator() {
+        return delegate.iterator();
+    }
+
+    public Object[] toArray() {
+        return delegate.toArray();
+    }
+
+    public <T> T[] toArray(T[] a) {
+        // TODO this might should return an array metaType?
+        return delegate.toArray(a);
+    }
+
+    public boolean remove(Object o) {
+        return delegate.remove(o);
+    }
+
+    public boolean containsAll(Collection<?> c) {
+        return delegate.containsAll(c);
+    }
+
+    public boolean addAll(Collection<? extends MetaValue> c) {
+        return delegate.addAll(c);
+    }
+
+    public boolean removeAll(Collection<?> c) {
+        return delegate.removeAll(c);
+    }
+
+    public boolean retainAll(Collection<?> c) {
+        return delegate.retainAll(c);
+    }
+
+    public void clear() {
+        delegate.clear();
+    }
+
 }

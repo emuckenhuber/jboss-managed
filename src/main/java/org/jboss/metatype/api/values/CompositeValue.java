@@ -34,6 +34,7 @@ import org.jboss.metatype.api.types.CompositeMetaType;
  * @see CompositeValueSupport
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
+ * @author Emanuel Muckenhuber
  */
 public interface CompositeValue extends MetaValue {
 
@@ -48,6 +49,14 @@ public interface CompositeValue extends MetaValue {
      * @throws IllegalArgumentException when the key is null or the empty string or when the key does not exist
      */
     MetaValue get(String key);
+
+    /**
+     * Set an item value.
+     *
+     * @param key the key to the item
+     * @param metaValue the value
+     */
+    void set(String key, MetaValue metaValue);
 
     /**
      * Retrieve the array of values for the item with the passed keys

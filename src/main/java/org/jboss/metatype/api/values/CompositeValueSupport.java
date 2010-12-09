@@ -75,6 +75,16 @@ public class CompositeValueSupport extends AbstractMetaValue implements Composit
      * Construct Composite Value
      *
      * @param metaType the composite meta type of the data
+     * @throws IllegalArgumentException for a null metaType
+     */
+    public CompositeValueSupport(CompositeMetaType metaType) {
+        this(metaType, new String[0], new MetaValue[0]);
+    }
+
+    /**
+     * Construct Composite Value
+     *
+     * @param metaType the composite meta type of the data
      * @param itemNames the names of the values
      * @param itemValues the values
      * @throws IllegalArgumentException for a null metaType
@@ -140,16 +150,6 @@ public class CompositeValueSupport extends AbstractMetaValue implements Composit
     /**
      * Construct Composite Value
      *
-     * @param metaType the composite meta type of the data
-     * @throws IllegalArgumentException for a null metaType
-     */
-    public CompositeValueSupport(CompositeMetaType metaType) {
-        this(metaType, null, null);
-    }
-
-    /**
-     * Construct Composite Value
-     *
      * @param compositeMetaType the composite type of the data
      * @param items map of strings to values
      * @throws IllegalArgumentException for a null metaType
@@ -177,10 +177,8 @@ public class CompositeValueSupport extends AbstractMetaValue implements Composit
     /**
      * Set an item value
      *
-     * @param key
-     *            the key
-     * @param value
-     *            the value
+     * @param key the key
+     * @param value the value
      */
     public void set(String key, MetaValue value) {
         MetaType itemType = validateKey(key);

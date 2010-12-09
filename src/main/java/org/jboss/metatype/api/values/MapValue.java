@@ -22,18 +22,18 @@
 
 package org.jboss.metatype.api.values;
 
-import java.util.Collection;
+import java.util.Map;
 
-import org.jboss.metatype.api.types.CollectionMetaType;
+import org.jboss.metatype.api.types.MapMetaType;
 
 /**
- * CollectionValue.
+ * MapValue.
  *
  * @author Emanuel Muckenhuber
  */
-public interface CollectionValue extends MetaValue, Collection<MetaValue> {
+public interface MapValue extends MetaValue, Map<MetaValue, MetaValue> {
 
     /** {@inheritDoc} */
-    CollectionMetaType getMetaType();
+    public MapMetaType getMetaType();
 
 }

@@ -52,7 +52,7 @@ public class ImmutableTableMetaType extends AbstractMetaType implements TableMet
     private transient String cachedToString = null;
 
     /**
-     * Construct a tabe type. The parameters are checked for validity.
+     * Construct a table type. The parameters are checked for validity.
      *
      * @param typeName the name of the tabular type, cannot be null or empty
      * @param description the human readable description of the tabular type, cannot be
@@ -61,7 +61,7 @@ public class ImmutableTableMetaType extends AbstractMetaType implements TableMet
      *            null
      * @param indexNames the names of the item values that uniquely index each row
      *            element in the tabular data, cannot be null or empty. Each
-     *            element must be an item name in the rowType, nul or empty is
+     *            element must be an item name in the rowType, <code>null</code> or empty is
      *            not allowed. The order of the item names in this parameter is
      *            used by {@link TableValue#get} and {@link TableValue#remove}
      *            the TabularValue to match the array of values to items.
