@@ -29,7 +29,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
 import org.jboss.metatype.api.values.ArrayValue;
+import org.jboss.metatype.api.values.CompositeMapValue;
 import org.jboss.metatype.api.values.CompositeValue;
 import org.jboss.metatype.api.values.EnumValue;
 import org.jboss.metatype.api.values.SimpleValue;
@@ -95,6 +97,7 @@ public interface MetaType extends Serializable {
                     EnumValue.class.getName(),
                     ArrayValue.class.getName(),
                     CompositeValue.class.getName(),
+                    CompositeMapValue.class.getName(),
                     TableValue.class.getName()));
 
     /**

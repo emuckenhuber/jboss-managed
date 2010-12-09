@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.metatype.api.types.CollectionMetaType;
+import org.jboss.metatype.api.types.CompositeMapMetaType;
 import org.jboss.metatype.api.types.CompositeMetaType;
 import org.jboss.metatype.api.types.EnumMetaType;
 import org.jboss.metatype.api.types.ImmutableTableMetaType;
@@ -180,6 +181,15 @@ public class MetaTypeFactory {
             return composite;
         }
 
+        public CompositeMapMetaType createMapMetaType(final String index) {
+            final CompositeMetaType composite = create();
+            return new CompositeMapMetaType(composite, index, composite.getDescription());
+        }
+
+        public CompositeMapMetaType createMapMetaType(String index, String description) {
+            final CompositeMetaType composite = create();
+            return new CompositeMapMetaType(composite, index, description);
+        }
     }
 
     static class TableTypeBuilderImpl implements TableTypeBuilder {

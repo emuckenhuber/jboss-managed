@@ -22,10 +22,12 @@
 
 package org.jboss.metatype.api.types;
 
+import org.jboss.metatype.api.values.CompositeValue;
 import org.jboss.metatype.api.values.MapValue;
 
 /**
- * MapMetaType.
+ * A basic Map<MetaValue, MetaValue> type. Also see {@link CompositeMapMetaType} in case the map
+ * should contain a {@link CompositeValue} as value.
  *
  * @author Emanuel Muckenhuber
  */

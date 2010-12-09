@@ -59,7 +59,7 @@ public class MetaTypeUnitTestCase extends AbstractMetaTypeTest
     */
    public void testAllowedClasses() throws Exception {
       List<String> allowedClassNames = MetaType.ALLOWED_CLASSNAMES;
-      assertEquals(26, allowedClassNames.size());
+      assertEquals(27, allowedClassNames.size());
       checkMetaType(allowedClassNames, Void.class);
       checkMetaType(allowedClassNames, Boolean.class);
       checkMetaType(allowedClassNames, Character.class);

@@ -30,7 +30,7 @@ import java.util.TreeMap;
 import org.jboss.metatype.api.values.CompositeValue;
 
 /**
- * ImmutableCompositeMetaType.
+ * AbstractCompositeMetaType.
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  */

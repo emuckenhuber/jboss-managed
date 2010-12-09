@@ -25,6 +25,7 @@ package org.jboss.metatype.api.values;
 import java.util.Collection;
 
 import org.jboss.metatype.api.types.CollectionMetaType;
+import org.jboss.metatype.api.types.CompositeMapMetaType;
 import org.jboss.metatype.api.types.CompositeMetaType;
 import org.jboss.metatype.api.types.SimpleMetaType;
 import org.jboss.metatype.api.types.TableMetaType;
@@ -212,6 +213,28 @@ public class MetaValueFactory {
      */
     public static CompositeValue create(final CompositeMetaType metaType) {
         return new CompositeValueSupport(metaType);
+    }
+
+    /**
+     * Create a composite map value.
+     *
+     * @param metaType the composite map type
+     * @return the composite map value
+     */
+    public static CompositeMapValue create(final CompositeMapMetaType metaType) {
+        return new CompositeMapValueSupport(metaType);
+    }
+
+    /**
+     * Create a composite map value.
+     *
+     * @param entryType the composite entry meta type
+     * @param index the composite item key which should be used as index
+     * @return the compsoite map value
+     */
+    public static CompositeMapValue createCompositeMapValue(final CompositeMetaType entryType, final String index) {
+        final CompositeMapMetaType metaType = new CompositeMapMetaType(entryType, index, index);
+        return new CompositeMapValueSupport(metaType);
     }
 
     /**

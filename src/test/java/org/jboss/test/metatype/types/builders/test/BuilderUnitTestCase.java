@@ -24,7 +24,11 @@ package org.jboss.test.metatype.types.builders.test;
 
 import junit.framework.TestCase;
 
+import org.jboss.metatype.api.types.CompositeMapMetaType;
+import org.jboss.metatype.api.types.CompositeMetaType;
+import org.jboss.metatype.api.types.SimpleMetaType;
 import org.jboss.metatype.api.types.builders.MetaTypeFactory;
+import org.jboss.metatype.api.values.CompositeMapValue;
 import org.jboss.metatype.api.values.CompositeValue;
 import org.jboss.metatype.api.values.MetaValueFactory;
 import org.jboss.metatype.api.values.TableValue;
@@ -34,6 +38,10 @@ import org.jboss.metatype.api.values.TableValue;
  */
 public class BuilderUnitTestCase extends TestCase {
 
+
+    static enum Protocol {
+        HTTP, AJP
+    }
 
     public void test() {
 
@@ -48,6 +56,32 @@ public class BuilderUnitTestCase extends TestCase {
         row.set("name", MetaValueFactory.create("tada"));
 
         value.put(row);
+
+        CompositeMetaType type = MetaTypeFactory.compositeTypeBuilder("typeName?", "awesome composite type")
+            .addItem("name", SimpleMetaType.STRING)
+            .addItem("port", SimpleMetaType.INTEGER_PRIMITIVE)
+            .addItem("protocol", MetaTypeFactory.createEnumType(Protocol.class))
+            .addItem("scheme", SimpleMetaType.STRING)
+            .create();
+
+        CompositeValue composite = MetaValueFactory.create(type);
+        composite.set("name", MetaValueFactory.create("test"));
+
+        CompositeMapMetaType compositeMapType = MetaTypeFactory.compositeTypeBuilder("typeName?", "awesome composite type")
+            .addItem("id", MetaTypeFactory.STRING)
+            .addItem("test", MetaTypeFactory.STRING)
+            .createMapMetaType("id");
+
+        CompositeMapValue compositeMap = MetaValueFactory.create(compositeMapType);
+
+        CompositeValue entry = MetaValueFactory.create(compositeMap.getEntryType());
+        entry.set("id", MetaValueFactory.create("id1"));
+        entry.set("test", MetaValueFactory.create("test1"));
+
+        compositeMap.put(entry);
+
+        assertNotNull(compositeMap.get(MetaValueFactory.create("id1")));
+
     }
 
 }

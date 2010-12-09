@@ -22,6 +22,7 @@
 
 package org.jboss.metatype.api.types.builders;
 
+import org.jboss.metatype.api.types.CompositeMapMetaType;
 import org.jboss.metatype.api.types.CompositeMetaType;
 import org.jboss.metatype.api.types.MetaType;
 
@@ -55,5 +56,22 @@ public interface CompositeTypeBuilder {
      * @return the composite type
      */
     CompositeMetaType create();
+
+    /**
+     * Create a composite map meta type.
+     *
+     * @param index the item name which should be used as index
+     * @return the composite map meta type
+     */
+    CompositeMapMetaType createMapMetaType(final String index);
+
+    /**
+     * Create a composite map meta type.
+     *
+     * @param index the item name which should be used as index
+     * @param description the type description
+     * @return the composite map meta type
+     */
+    CompositeMapMetaType createMapMetaType(final String index, final String description);
 
 }
