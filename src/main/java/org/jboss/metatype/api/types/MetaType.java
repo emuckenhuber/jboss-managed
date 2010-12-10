@@ -34,6 +34,7 @@ import org.jboss.metatype.api.values.ArrayValue;
 import org.jboss.metatype.api.values.CompositeMapValue;
 import org.jboss.metatype.api.values.CompositeValue;
 import org.jboss.metatype.api.values.EnumValue;
+import org.jboss.metatype.api.values.MetaValue;
 import org.jboss.metatype.api.values.SimpleValue;
 import org.jboss.metatype.api.values.TableValue;
 
@@ -168,8 +169,17 @@ public interface MetaType extends Serializable {
     /**
      * Whether the passed value is one of those described by this meta type.
      *
+     * @param value the meta value to test
+     * @return true when it is value for this meta type, false otherwise
+     */
+    boolean isValue(final MetaValue value);
+
+    /**
+     * Whether the passed value is one of those described by this meta type.
+     *
      * @param obj the object to test
      * @return true when it is value for this meta type, false otherwise
      */
     boolean isValue(Object obj);
+
 }

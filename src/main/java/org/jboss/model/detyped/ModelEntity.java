@@ -22,14 +22,10 @@
 
 package org.jboss.model.detyped;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.jboss.metatype.api.types.MetaType;
-import org.jboss.metatype.api.values.CompositeValue;
 import org.jboss.metatype.api.values.MetaValue;
 import org.jboss.model.detyped.info.EntityAttributeInfo;
 import org.jboss.model.detyped.info.ModelEntityInfo;
@@ -59,58 +55,48 @@ import org.jboss.model.detyped.info.ModelEntityInfo;
  */
 public class ModelEntity {
 
+    /** The entity id. */
     private final EntityId id;
     private final boolean idOnly;
-    private final Map<EntityId, ModelEntity> childDetypedElements =
-        new LinkedHashMap<EntityId, ModelEntity>();
-    private final CompositeValue contentValues;
 
     /** The entity info. */
-    private ModelEntityInfo entityInfo;
-    private Map<String, MetaValue> attributeValues;
+    private final ModelEntityInfo entityInfo;
+
+    /** The attribute values. */
+    private final Map<String, MetaValue> attributeValues = new HashMap<String, MetaValue>();
 
     /**
-     * Creates a new ModelEntity whose {@link #isIdOnly()} method
-     * returns <code>true</code>.
+     * Create a new ModelEntity, with idOnly false.
      *
-     * @param id the EntityId. Cannot be <code>null</code>
+     * @param id the entity id
+     * @param info the model entity info
      */
-    public ModelEntity(final EntityId id) {
-        if (id == null) {
-            throw new IllegalArgumentException("id is null");
-        }
-        this.id = id;
-        this.idOnly = true;
-        this.contentValues = null;
+    public ModelEntity(final EntityId id, final ModelEntityInfo info) {
+        this(id, info, false);
     }
 
     /**
-     * Creates a new ModelEntity that includes the full content of
-     * the underlying element.
+     * Create a new ModelEntity.
      *
-     * @param id the EntityId. Cannot be <code>null</code>
-     * @param contentValues {@link CompositeValue} that encapsulates all the
-     *                      properties of the underlying model element that
-     *                      are not themselves represented as <code>children</code>
-     * @param children list of DetypedModelElements that represent properties of
-     *                 the underlying model element that are themselves
-     *                 {@link AbstractAddressableModelElement}s.
+     * @param id the entity id
+     * @param info the model entity info
+     * @param idOnly true if this is a idOnly entity
      */
-    public ModelEntity(final EntityId id,
-            final CompositeValue contentValues,
-            final List<ModelEntity> children) {
-
+    public ModelEntity(final EntityId id, final ModelEntityInfo info, final boolean idOnly) {
         if (id == null) {
             throw new IllegalArgumentException("id is null");
         }
-        this.id = id;
-        this.idOnly = false;
-        this.contentValues = contentValues;
-        if (children != null) {
-            for (ModelEntity child : children) {
-                childDetypedElements.put(child.getElementId(), child);
-            }
+        if(info == null) {
+            throw new IllegalArgumentException("info is null");
         }
+        // Check the ID type
+//        if(! info.getIdentifierType().equals(id.getIdentifierType())) {
+//            throw new IllegalArgumentException(String.format("invalid identifier type (%s), should be (%s)",
+//                    info.getIdentifierType(), id.getIdentifierType()));
+//        }
+        this.id = id;
+        this.entityInfo = info;
+        this.idOnly = idOnly;
     }
 
     /**
@@ -131,26 +117,46 @@ public class ModelEntity {
         return entityInfo;
     }
 
+    /**
+     * Set an attribute value.
+     *
+     * @param attributeName the attribute name
+     * @param value the value to set
+     * @throws IllegalArgumentException if the types don't match
+     */
     public void setAttribute(final String attributeName, final MetaValue value) {
         if(attributeName == null) {
             throw new IllegalArgumentException("null attribute name");
         }
-        final EntityAttributeInfo attribute = getAttributeInfo(attributeName);
+        final EntityAttributeInfo attribute = entityInfo.getAttributeInfo(attributeName);
         if(attribute == null) {
             throw new IllegalArgumentException(String.format("attribute (%s) not declared.", attributeName));
         }
         final MetaType attributeType = attribute.getType();
         if(! attributeType.isValue(value)) {
-            throw new IllegalArgumentException(String.format("invalid attribute value (%s). Required type: %s.", attributeName, attributeType));
+            throw new IllegalArgumentException(String.format("invalid attribute value (%s), should be (%s).", attributeName, attributeType));
         }
         attributeValues.put(attributeName, value);
     }
 
-
+    /**
+     * Get an attribute value.
+     *
+     * @param attributeName the attribute name
+     * @return the attribute value, <code>null</code> if not set
+     */
     public MetaValue getAttribute(final String attributeName) {
         return attributeValues.get(attributeName);
     }
 
+    /**
+     * Get an attribute value.
+     *
+     * @param <T> the expected <code>MetaValue</code> type
+     * @param attributeName the attribute name
+     * @param expected the expected class
+     * @return the attribute value, <code>null</code> if not set
+     */
     public <T extends MetaValue> T getAttribute(final String attributeName, Class<T> expected) {
         final MetaValue value = getAttribute(attributeName);
         if (value == null) {
@@ -158,7 +164,6 @@ public class ModelEntity {
         }
         return expected.cast(value);
     }
-
 
     /**
      *
@@ -168,49 +173,10 @@ public class ModelEntity {
         return this.idOnly;
     }
 
-    public ModelEntity getChildEntity(final EntityId entityId) {
-        return childDetypedElements.get(entityId);
-    }
-
-    public Set<EntityId> getChildEntityIds() {
-        checkIdOnly();
-        return new LinkedHashSet<EntityId>(childDetypedElements.keySet());
-    }
-
-    public Map<EntityId, ModelEntity> getChildEntities() {
-        checkIdOnly();
-        return new LinkedHashMap<EntityId, ModelEntity>(childDetypedElements);
-    }
-
-    public ModelEntity getChildEntity(final EntityAddress relativeAddress) {
-        checkIdOnly();
-        ModelEntity element = this;
-        for (int i = 0; i < relativeAddress.size(); i++) {
-            element = element.getChildEntity(relativeAddress.get(i));
-            if (element == null) {
-                throw new IllegalArgumentException(String.format("No child element exists at path %s", relativeAddress.getSubAddress(0, i+1)));
-            }
-        }
-        return element;
-    }
-
-    public CompositeValue getContentValues() {
-        checkIdOnly();
-        return contentValues;
-    }
-
     private void checkIdOnly() {
         if (idOnly) {
             throw new IllegalStateException("Element is id-only; content cannot be accessed");
         }
     }
 
-    private EntityAttributeInfo getAttributeInfo(final String name) {
-        for(final EntityAttributeInfo attribute : entityInfo.getAttributes()) {
-            if(name.equals(attribute.getName())) {
-                return attribute;
-            }
-        }
-        return null;
-    }
 }

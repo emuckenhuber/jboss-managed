@@ -50,7 +50,7 @@ public interface TableTypeBuilder {
     TableTypeBuilder addColumn(final String name, final String description, final MetaType type);
 
     /**
-     * Add a index column to the table type.
+     * Add an index column to the table type.
      *
      * @param name the column name
      * @param type the column type
@@ -59,7 +59,7 @@ public interface TableTypeBuilder {
     TableTypeBuilder addIndexColumn(final String name, final MetaType type);
 
     /**
-     * Add a index column to the table type.
+     * Add an index column to the table type.
      *
      * @param name the column name
      * @param type the column type
@@ -67,14 +67,6 @@ public interface TableTypeBuilder {
      * @return the table builder
      */
     TableTypeBuilder addIndexColumn(final String name, final String description, final MetaType type);
-
-    /**
-     * Add a index name to the table.
-     *
-     * @param indexName the index name
-     * @return the table type builder
-     */
-    TableTypeBuilder addIndex(final String indexName);
 
     /**
      * Create the table meta type.

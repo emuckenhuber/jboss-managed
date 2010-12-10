@@ -41,22 +41,14 @@ public final class EntityOperationInfo extends EntityFeatureInfo {
         CONFIGURATION, METRIC, MANAGEMENT
     }
 
-    /**
-     * The method's return value.
-     */
+    /** The method's return type. */
     private final MetaType type;
     private final Usage usage;
+    private final Impact impact;
     private final RestartPolicy restartPolicy;
 
-    /**
-     * @serial The signature of the method, that is, the class names of the arguments.
-     */
+    /** The signature of the method, that is, the class names of the arguments. */
     private final EntityParameterInfo[] signature;
-
-    /**
-     * The impact of the method.
-     */
-    private final Impact impact;
 
     /**
      * Constructs an <CODE>EntityOperationInfo</CODE> object.
@@ -94,11 +86,11 @@ public final class EntityOperationInfo extends EntityFeatureInfo {
             Usage usage, RestartPolicy restartPolicy, Impact impact, Fields fields) {
 
         super(name, description, fields);
-
-        if (signature == null || signature.length == 0)
+        if (signature == null || signature.length == 0) {
             signature = NO_PARAMS;
-        else
+        } else {
             signature = signature.clone();
+        }
         this.signature = signature;
         this.type = type;
         this.usage = usage;
@@ -164,8 +156,7 @@ public final class EntityOperationInfo extends EntityFeatureInfo {
     /**
      * Compare this EntityOperationInfo to another.
      *
-     * @param o
-     *            the object to compare to.
+     * @param o the object to compare to.
      *
      * @return true if and only if <code>o</code> is an EntityOperationInfo such
      *         that its {@link #getName()}, {@link #getReturnType()},

@@ -32,6 +32,8 @@ import org.jboss.metatype.api.types.CompositeMetaType;
 import org.jboss.metatype.api.types.MetaType;
 
 /**
+ * The composite value support.
+ *
  * @author Emanuel Muckenhuber
  */
 public class CompositeMapValueSupport extends AbstractMetaValue implements CompositeMapValue {
@@ -107,7 +109,28 @@ public class CompositeMapValueSupport extends AbstractMetaValue implements Compo
         return delegate.put(key, value);
     }
 
+    /**
+     * Special operation when a composite value should be removed.
+     *
+     * @param composite the composite type
+     * @return the composite type
+     */
+    public CompositeValue remove(final CompositeValue composite) {
+        if(composite == null) {
+            throw new IllegalArgumentException("null value");
+        }
+        final CompositeMetaType valueType = metaType.getEntryType();
+        if(composite != null && ! valueType.isValue(composite)) {
+            throw new IllegalArgumentException(String.format("value (%s) is not of type %s", composite, valueType));
+        }
+        final String indexName = metaType.getIndexName();
+        return delegate.remove(composite.get(indexName));
+    }
+
     public CompositeValue remove(Object key) {
+        if(key == null) {
+            throw new IllegalArgumentException("null key");
+        }
         return delegate.remove(key);
     }
 

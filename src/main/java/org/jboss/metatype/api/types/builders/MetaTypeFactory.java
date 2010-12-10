@@ -94,7 +94,7 @@ public class MetaTypeFactory {
      *
      * @param class the class
      * @return the simple type
-     * @throws IllegalArgumentException for a null className or if it is not a simple type
+     * @throws IllegalArgumentException for a null class or if it is not a simple type
      */
     public static SimpleMetaType createSimpleType(final Class<?> clazz) {
         if(clazz == null) {
@@ -199,7 +199,7 @@ public class MetaTypeFactory {
         private final String description;
         private List<String> indexes = new ArrayList<String>();
 
-        public TableTypeBuilderImpl(final String typeName, final String description) {
+        TableTypeBuilderImpl(final String typeName, final String description) {
             this.typeName = typeName;
             this.description = description;
             this.compositeTypeBuilder = new CompositeTypeBuilderImpl(typeName, description);

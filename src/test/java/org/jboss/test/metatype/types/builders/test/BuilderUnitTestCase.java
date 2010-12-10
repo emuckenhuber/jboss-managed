@@ -80,7 +80,7 @@ public class BuilderUnitTestCase extends TestCase {
 
         compositeMap.put(entry);
 
-        assertNotNull(compositeMap.get(MetaValueFactory.create("id1")));
+        assertNotNull("test1", compositeMap.get(MetaValueFactory.create("id1")).get("test"));
 
     }
 

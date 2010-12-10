@@ -51,6 +51,7 @@ public class EntityFeatureInfo implements Serializable, Cloneable {
      */
     private final String description;
 
+    /** The fields. */
     private final Fields fields;
 
     /**

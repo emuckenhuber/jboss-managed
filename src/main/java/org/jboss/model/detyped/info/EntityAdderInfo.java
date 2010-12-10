@@ -35,12 +35,8 @@ public final class EntityAdderInfo extends EntityFeatureInfo {
 
     private final EntityParameterInfo[] NO_PARAMS = new EntityParameterInfo[0];
 
-    /**
-     * @serial The signature of the method, that is, the class names of the
-     *         arguments.
-     */
+    /** The signature of the method, that is, the class names of the arguments. */
     private final EntityParameterInfo[] signature;
-
     private final RestartPolicy restartPolicy;
 
     /**

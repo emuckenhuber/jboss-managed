@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectStreamField;
 
+import org.jboss.metatype.api.values.MetaValue;
+
 /**
  * AbstractMetaType.
  *
@@ -238,6 +240,14 @@ public abstract class AbstractMetaType implements MetaType {
 
         // Not an array
         return className;
+    }
+
+    /** {@inheritDoc} */
+    public boolean isValue(MetaValue metaValue) {
+        if(metaValue == null) {
+            return false;
+        }
+        return equals(metaValue.getMetaType());
     }
 
     /**

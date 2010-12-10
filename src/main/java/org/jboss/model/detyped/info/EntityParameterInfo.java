@@ -33,6 +33,7 @@ public class EntityParameterInfo extends EntityFeatureInfo {
 
     private static final long serialVersionUID = -1934506813806183055L;
 
+    /** The parameter type. */
     private final MetaType type;
 
     /**

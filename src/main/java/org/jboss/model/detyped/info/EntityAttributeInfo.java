@@ -61,12 +61,6 @@ public class EntityAttributeInfo extends EntityFeatureInfo {
      *            The type or class name of the attribute.
      * @param description
      *            A human readable description of the attribute.
-     * @param isReadable
-     *            True if the attribute has a getter method, false otherwise.
-     * @param isWritable
-     *            True if the attribute has a setter method, false otherwise.
-     * @param isIs
-     *            True if this attribute has an "is" getter, false otherwise.
      * @param descriptor
      *            The descriptor for the attribute. This may be null which is
      *            equivalent to an empty descriptor.

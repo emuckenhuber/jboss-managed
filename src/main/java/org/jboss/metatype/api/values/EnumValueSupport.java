@@ -27,9 +27,8 @@ import org.jboss.metatype.api.types.EnumMetaType;
 /**
  * EnumValue.
  *
- * TODO tests
- *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
+ * @author Emanuel Muckenhuber
  */
 public class EnumValueSupport extends AbstractMetaValue implements EnumValue {
 
@@ -79,6 +78,17 @@ public class EnumValueSupport extends AbstractMetaValue implements EnumValue {
      */
     public String getValue() {
         return value;
+    }
+
+    /**
+     * Get the value as <code>enum</code>.
+     *
+     * @param <E> the <code>enum</code> type
+     * @param enumType
+     * @return
+     */
+    public <E extends Enum<E>> E getValue(Class<E> enumType) {
+        return Enum.valueOf(enumType, value);
     }
 
     /**

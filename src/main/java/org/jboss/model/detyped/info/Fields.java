@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * @author Emanuel Muckenhuber
  */
-class Fields implements Serializable, Cloneable {
+public class Fields implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -7634822320747727964L;
 

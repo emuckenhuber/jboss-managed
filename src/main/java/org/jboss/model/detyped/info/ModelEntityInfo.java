@@ -23,8 +23,6 @@
 package org.jboss.model.detyped.info;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.jboss.model.detyped.EntityIdType;
@@ -42,35 +40,23 @@ public class ModelEntityInfo implements Serializable {
     private static final EntityOperationInfo[] NO_OPERATIONS = new EntityOperationInfo[0];
     private static final EntityAdderInfo[] NO_ADDERS = new EntityAdderInfo[0];
 
-
-    private final Fields fields;
-
-    /**
-     * @serial The human readable description of the entity.
-     */
+    /** The human readable description of the entity. */
     private final String description;
 
-    /**
-     * @serial The identifier type for the entity.
-     */
+    /** The identifier type for the entity. */
     private final EntityIdType identifierType;
 
-    /**
-     * @serial The entity attribute descriptors.
-     */
+    /** The entity adder descriptors. */
+    private final EntityAdderInfo[] adders;
+
+    /** The entity attribute descriptors. */
     private final EntityAttributeInfo[] attributes;
 
-    /**
-     * @serial The entity operation descriptors.
-     */
+    /** The entity operation descriptors. */
     private final EntityOperationInfo[] operations;
 
-    private final Map<ModelEntityInfo, Cardinality> children = new LinkedHashMap<ModelEntityInfo, Cardinality>();
-
-    /**
-     * @serial The entity adder descriptors.
-     */
-    private final EntityAdderInfo[] adders;
+    /** The fields. */
+    private final Fields fields;
 
     public ModelEntityInfo(EntityIdType identifierType, String description, EntityAttributeInfo[] attributes,
             EntityOperationInfo[] operations, EntityAdderInfo[] adders, Map<ModelEntityInfo, Cardinality> children) throws IllegalArgumentException {
@@ -97,9 +83,6 @@ public class ModelEntityInfo implements Serializable {
             adders = NO_ADDERS;
         this.adders = adders;
 
-        if (children != null)
-            this.children.putAll(children);
-
         if (fields == null) {
             //
         }
@@ -122,16 +105,21 @@ public class ModelEntityInfo implements Serializable {
         return attributes.length == 0 ? attributes : attributes.clone();
     }
 
+    public EntityAttributeInfo getAttributeInfo(final String name) {
+        for(final EntityAttributeInfo attribute : attributes) {
+            if(name.equals(attribute.getName())) {
+                return attribute;
+            }
+        }
+        return null;
+    }
+
     public EntityOperationInfo[] getOperations() {
         return operations.length == 0 ? operations : operations.clone();
     }
 
     public EntityAdderInfo[] getAdders() {
         return adders.length == 0 ? adders : adders.clone();
-    }
-
-    public Map<ModelEntityInfo, Cardinality> getChildren() {
-        return Collections.unmodifiableMap(children);
     }
 
 }

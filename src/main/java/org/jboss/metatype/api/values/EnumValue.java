@@ -28,6 +28,7 @@ import org.jboss.metatype.api.types.EnumMetaType;
  * EnumValue.
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
+ * @author Emanuel Muckenhuber
  */
 public interface EnumValue extends MetaValue {
 
@@ -35,9 +36,18 @@ public interface EnumValue extends MetaValue {
     EnumMetaType getMetaType();
 
     /**
-     * Get the underlying value
+     * Get the value.
      *
      * @return the underlying value
      */
     public String getValue();
+
+    /**
+     * Get the value as enum.
+     *
+     * @param <E> the enum type.
+     * @param enumType the enum class
+     * @return the enum
+     */
+    public <E extends Enum<E>> E getValue(Class<E> enumType);
 }

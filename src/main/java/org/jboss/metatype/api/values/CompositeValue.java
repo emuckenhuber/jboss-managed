@@ -119,7 +119,7 @@ public interface CompositeValue extends MetaValue {
     int hashCode();
 
     /**
-     * A string representation of the open mbean operation info.
+     * A string representation of the compsite value.
      * <p>
      *
      * It is made up of implementation class and the values mentioned in the
