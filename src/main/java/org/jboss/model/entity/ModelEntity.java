@@ -110,7 +110,7 @@ public class ModelEntity implements Serializable, Cloneable {
         this.idOnly = idOnly;
     }
 
-    protected ModelEntity(ModelEntity toClone) {
+    public ModelEntity(ModelEntity toClone) {
         this.address = toClone.address;
         this.idOnly = toClone.idOnly;
         this.entityInfo = toClone.entityInfo;
