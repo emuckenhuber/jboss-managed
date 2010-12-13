@@ -20,38 +20,41 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.model.entity;
+package org.jboss.model.entity.info;
 
-import org.jboss.model.entity.info.ModelEntityInfo;
-import org.jboss.model.values.MetaValue;
+import org.jboss.model.entity.EntityIdType;
+import org.jboss.model.types.SimpleMetaType;
 
 /**
- * TODO add class javadoc for MutableModelEntity.
+ * The MockEntityInfo creates new EntityAttributeInfo and EntityChildrenInfo
+ * upon request.
  *
- * @author Brian Stansberry
+ * TODO remove
+ *
+ * @author Emanuel Muckenhuber
  */
-public class MutableModelEntity extends ModelEntity {
+public class MockEntityInfo extends ModelEntityInfo {
 
-    private static final long serialVersionUID = 1518224492609827243L;
+    private static final long serialVersionUID = 1L;
 
-    public MutableModelEntity(final ModelEntityInfo info) {
-        super(info);
+    public static MockEntityInfo create(final String entityType) {
+        return new MockEntityInfo(new EntityIdType(entityType));
     }
 
-    public MutableModelEntity(final EntityId id, final ModelEntityInfo info) {
-        super(id, info);
+    /**
+     * @param identifierType
+     * @throws IllegalArgumentException
+     */
+    public MockEntityInfo(EntityIdType identifierType) throws IllegalArgumentException {
+        super(identifierType, MockEntityInfo.class.getName(), null, null, null, null);
     }
 
-    protected void setAttribute(String attributeName, MetaValue value) {
-        super.setAttribute(attributeName, value);
+    public EntityAttributeInfo getAttributeInfo(String name) {
+        return new EntityAttributeInfo(name, SimpleMetaType.STRING, "");
     }
 
-    public void addChildEntity(MutableModelEntity child) {
-        super.addChildEntity(child);
-    }
-
-    public boolean removeChildEntity(EntityId child) {
-        return super.removeChildEntity(child);
+    public EntityChildrenInfo getChildInfo(EntityIdType type) {
+        return new EntityChildrenInfo(this, Cardinality.ZERO_INFINITY);
     }
 
 }

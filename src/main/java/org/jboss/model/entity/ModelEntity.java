@@ -62,8 +62,8 @@ public class ModelEntity implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -1796243230556461143L;
 
-    /** The entity id. */
-    private final EntityId id;
+    /** The entity address. */
+    private final EntityAddress address;
     private final boolean idOnly;
 
     /** The entity info. */
@@ -75,48 +75,43 @@ public class ModelEntity implements Serializable, Cloneable {
     /** The children grouped by type. */
     private final Map<EntityIdType, ModelEntityChildren> children = new HashMap<EntityIdType, ModelEntityChildren>();
 
-    ModelEntity(final ModelEntityInfo info) {
-        this.id = null;
-        this.idOnly = false;
-        this.entityInfo = info;
-    }
-
     /**
      * Create a new ModelEntity, with idOnly false.
      *
-     * @param id the entity id
+     * @param addresss the entity address
      * @param info the model entity info
      */
-    public ModelEntity(final EntityId id, final ModelEntityInfo info) {
-        this(id, info, false);
+    public ModelEntity(final EntityAddress address, final ModelEntityInfo info) {
+        this(address, info, false);
     }
 
     /**
      * Create a new ModelEntity.
      *
-     * @param id the entity id
+     * @param address the entity address
      * @param info the model entity info
      * @param idOnly true if this is a idOnly entity
      */
-    public ModelEntity(final EntityId id, final ModelEntityInfo info, final boolean idOnly) {
-        if (id == null) {
-            throw new IllegalArgumentException("id is null");
+    public ModelEntity(final EntityAddress address, final ModelEntityInfo info, final boolean idOnly) {
+        if (address == null) {
+            throw new IllegalArgumentException("address is null");
         }
         if(info == null) {
             throw new IllegalArgumentException("info is null");
         }
         // Check the ID type
-//        if(! info.getIdentifierType().equals(id.getIdentifierType())) {
-//            throw new IllegalArgumentException(String.format("invalid identifier type (%s), should be (%s)",
-//                    info.getIdentifierType(), id.getIdentifierType()));
-//        }
-        this.id = id;
+        final EntityIdType type = new EntityIdType(address.getLastElement().getElementName());
+        if(! info.getIdentifierType().equals(type)) {
+            throw new IllegalArgumentException(String.format("invalid identifier type (%s), should be (%s)",
+                    info.getIdentifierType(), type));
+        }
+        this.address = address;
         this.entityInfo = info;
         this.idOnly = idOnly;
     }
 
     protected ModelEntity(ModelEntity toClone) {
-        this.id = toClone.id;
+        this.address = toClone.address;
         this.idOnly = toClone.idOnly;
         this.entityInfo = toClone.entityInfo;
         if (!idOnly) {
@@ -134,13 +129,14 @@ public class ModelEntity implements Serializable, Cloneable {
     }
 
     /**
-     * Gets the id of the model element.
+     * Get the entity address
      *
-     * @return the id. Will not be <code>null</code>
+     * @return the entity address
      */
-    public EntityId getElementId() {
-        return this.id;
+    public EntityAddress getAddress() {
+        return address;
     }
+
 
     /**
      * Gets the entity type info.
@@ -168,6 +164,7 @@ public class ModelEntity implements Serializable, Cloneable {
      * @throws IllegalArgumentException if the types don't match
      */
     protected void setAttribute(final String attributeName, final MetaValue value) {
+        checkIdOnly();
         if (isRoot()) {
             throw new IllegalStateException("Cannot mutate content of a root entity");
         }
@@ -192,6 +189,7 @@ public class ModelEntity implements Serializable, Cloneable {
      * @return the attribute value, <code>null</code> if not set
      */
     public MetaValue getAttribute(final String attributeName) {
+        checkIdOnly();
         if(attributeName == null) {
             throw new IllegalArgumentException("null attribute name");
         }
@@ -207,11 +205,30 @@ public class ModelEntity implements Serializable, Cloneable {
      * @return the attribute value, <code>null</code> if not set
      */
     public <T extends MetaValue> T getAttribute(final String attributeName, Class<T> expected) {
+        checkIdOnly();
         final MetaValue value = getAttribute(attributeName);
         if (value == null) {
             return null;
         }
         return expected.cast(value);
+    }
+
+    /**
+     * Get a child entity.
+     *
+     * @param id the entity id
+     * @return the model entity, <code>null</code> if it does not exist
+     */
+    public ModelEntity getChildEntity(final EntityId id) {
+        if(id == null) {
+            throw new IllegalArgumentException("null entity id");
+        }
+        final EntityIdType type = new EntityIdType(id.getElementName()); // TODO
+        ModelEntityChildren children = this.children.get(type);
+        if(children == null) {
+            return null;
+        }
+        return children.getChild(id);
     }
 
     /**
@@ -223,7 +240,7 @@ public class ModelEntity implements Serializable, Cloneable {
         if(entity == null) {
             throw new IllegalArgumentException("null entity");
         }
-        final EntityId id = entity.getElementId();
+        final EntityId id = entity.getAddress().getLastElement();
         addChildEntity(id, entity);
     }
 
@@ -240,7 +257,7 @@ public class ModelEntity implements Serializable, Cloneable {
         if(entity == null) {
             throw new IllegalArgumentException("null entity");
         }
-        final EntityIdType type = null; // TODO
+        final EntityIdType type = new EntityIdType(id.getElementName()); // TODO
         ModelEntityChildren children = this.children.get(type);
         if(children == null) {
             final EntityChildrenInfo info = entityInfo.getChildInfo(type);
@@ -263,8 +280,8 @@ public class ModelEntity implements Serializable, Cloneable {
         if(id == null) {
             throw new IllegalArgumentException("null entity id");
         }
-        final EntityIdType type = null; // TODO
-        ModelEntityChildren children = this.children.get(type);
+        final EntityIdType type = new EntityIdType(id.getElementName()); // TODO
+        final ModelEntityChildren children = this.children.get(type);
         if(children == null) {
             return false;
         } else {
@@ -290,6 +307,17 @@ public class ModelEntity implements Serializable, Cloneable {
         }
     }
 
+    public ModelEntity getChildEntity(final EntityAddress relativeAddress) {
+        ModelEntity element = this;
+        for (int i = 0; i < relativeAddress.size(); i++) {
+            element = element.getChildEntity(relativeAddress.get(i));
+            if (element == null) {
+                return null;
+            }
+        }
+        return element;
+    }
+
     /**
      * Gets whether this entity represents the root of a model, against which
      * all addresses are relative.
@@ -298,7 +326,7 @@ public class ModelEntity implements Serializable, Cloneable {
      *          it is a descendant of the root
      */
     public boolean isRoot() {
-        return this.id == null;
+        return this.address == EntityAddress.ROOT;
     }
 
     /**

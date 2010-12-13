@@ -29,7 +29,7 @@ import org.jboss.model.entity.EntityIdType;
 /**
  * @author Emanuel Muckenhuber
  */
-public abstract class EntityChildrenInfo implements Serializable, Cloneable {
+public class EntityChildrenInfo implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 5780713629997200906L;
 

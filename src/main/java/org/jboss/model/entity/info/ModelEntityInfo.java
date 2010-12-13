@@ -59,35 +59,42 @@ public class ModelEntityInfo implements Serializable, Cloneable {
     private final EntityOperationInfo[] operations;
 
     /** The children infos. */
-    private final Map<EntityIdType, EntityChildrenInfo> childrenInfo = new HashMap<EntityIdType, EntityChildrenInfo>();
+    private final Map<EntityIdType, EntityChildrenInfo> childrenInfo;
 
     /** The fields. */
     private final Fields fields;
 
     public ModelEntityInfo(EntityIdType identifierType, String description, EntityAttributeInfo[] attributes,
-            EntityOperationInfo[] operations, EntityAdderInfo[] adders, Map<ModelEntityInfo, Cardinality> children) throws IllegalArgumentException {
+            EntityOperationInfo[] operations, EntityAdderInfo[] adders, Map<EntityIdType, EntityChildrenInfo> children) throws IllegalArgumentException {
         this(identifierType, description, attributes, operations, adders, children, null);
     }
 
     public ModelEntityInfo(EntityIdType identifierType, String description, EntityAttributeInfo[] attributes,
-            EntityOperationInfo[] operations, EntityAdderInfo[] adders, Map<ModelEntityInfo, Cardinality> children, Fields fields)
+            EntityOperationInfo[] operations, EntityAdderInfo[] adders, Map<EntityIdType, EntityChildrenInfo> children, Fields fields)
             throws IllegalArgumentException {
 
         this.identifierType = identifierType;
-
         this.description = description;
 
-        if (attributes == null)
+        if (attributes == null) {
             attributes = NO_ATTRIBUTES;
+        }
         this.attributes = attributes;
 
-        if (operations == null)
+        if (operations == null) {
             operations = NO_OPERATIONS;
+        }
         this.operations = operations;
 
-        if (adders == null)
+        if (adders == null) {
             adders = NO_ADDERS;
+        }
         this.adders = adders;
+
+        if(children == null) {
+            children = new HashMap<EntityIdType, EntityChildrenInfo>();
+        }
+        this.childrenInfo = children;
 
         if (fields == null) {
             //

@@ -55,6 +55,10 @@ public class ModelEntityChildren implements Serializable, Cloneable {
         }
     }
 
+    protected ModelEntity getChild(final EntityId id) {
+        return children.get(id);
+    }
+
     protected void addChild(final EntityId id, final ModelEntity entity) {
         if(id == null) {
             throw new IllegalArgumentException("null entity id");
