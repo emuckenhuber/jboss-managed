@@ -31,6 +31,7 @@ import org.jboss.model.entity.EntityIdType;
  */
 public abstract class EntityChildrenInfo implements Serializable, Cloneable {
 
+    private static final long serialVersionUID = 5780713629997200906L;
     private final EntityIdType identifierType;
     private final Cardinality cardinality;
 

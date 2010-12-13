@@ -177,15 +177,15 @@ public class ModelEntity implements Serializable, Cloneable {
         return expected.cast(value);
     }
 
-    public void addChild(final ModelEntity entity) {
+    public void addChildEntity(final ModelEntity entity) {
         if(entity == null) {
             throw new IllegalArgumentException("null entity");
         }
         final EntityId id = entity.getElementId();
-        addChild(id, entity);
+        addChildEntity(id, entity);
     }
 
-    public void addChild(final EntityId id, final ModelEntity entity) {
+    public void addChildEntity(final EntityId id, final ModelEntity entity) {
         if(id == null) {
             throw new IllegalArgumentException("null entity id");
         }
@@ -205,7 +205,7 @@ public class ModelEntity implements Serializable, Cloneable {
         children.addChild(id, entity);
     }
 
-    public void removeChild(final EntityId id) {
+    public void removeChildEntity(final EntityId id) {
         if(id == null) {
             throw new IllegalArgumentException("null entity id");
         }
@@ -228,6 +228,17 @@ public class ModelEntity implements Serializable, Cloneable {
         } else {
             return Collections.emptySet();
         }
+    }
+
+    /**
+     * Gets whether this entity represents the root of a model, against which
+     * all addresses are relative.
+     *
+     * @return <code>true</code> if this is the root entity; <code>false</code> if
+     *          it is a descendant of the root
+     */
+    public boolean isRoot() {
+        return this.id == null;
     }
 
     /**
