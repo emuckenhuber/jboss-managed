@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.jboss.model.entity.info.EntityAttributeInfo;
 import org.jboss.model.entity.info.EntityChildrenInfo;
@@ -74,6 +75,12 @@ public class ModelEntity implements Serializable, Cloneable {
     /** The children grouped by type. */
     private final Map<EntityIdType, ModelEntityChildren> children = new HashMap<EntityIdType, ModelEntityChildren>();
 
+    ModelEntity(final ModelEntityInfo info) {
+        this.id = null;
+        this.idOnly = false;
+        this.entityInfo = info;
+    }
+
     /**
      * Create a new ModelEntity, with idOnly false.
      *
@@ -108,6 +115,24 @@ public class ModelEntity implements Serializable, Cloneable {
         this.idOnly = idOnly;
     }
 
+    protected ModelEntity(ModelEntity toClone) {
+        this.id = toClone.id;
+        this.idOnly = toClone.idOnly;
+        this.entityInfo = toClone.entityInfo;
+        if (!idOnly) {
+            for (Map.Entry<String, MetaValue> entry : toClone.attributeValues.entrySet()) {
+                MetaValue value = entry.getValue();
+                if (value != null) {
+                    value = value.clone();
+                }
+                this.attributeValues.put(entry.getKey(), value);
+            }
+            for (Map.Entry<EntityIdType, ModelEntityChildren> entry : toClone.children.entrySet()) {
+                children.put(entry.getKey(), new ModelEntityChildren(entry.getValue()));
+            }
+        }
+    }
+
     /**
      * Gets the id of the model element.
      *
@@ -127,13 +152,25 @@ public class ModelEntity implements Serializable, Cloneable {
     }
 
     /**
+     * Get the available attribute names for this {@code ModelEntity}.
+     *
+     * @return the attribute names
+     */
+    public Set<String> getAttributeNames() {
+        return entityInfo.getAttributeNames();
+    }
+
+    /**
      * Set an attribute value.
      *
      * @param attributeName the attribute name
      * @param value the value to set
      * @throws IllegalArgumentException if the types don't match
      */
-    public void setAttribute(final String attributeName, final MetaValue value) {
+    protected void setAttribute(final String attributeName, final MetaValue value) {
+        if (isRoot()) {
+            throw new IllegalStateException("Cannot mutate content of a root entity");
+        }
         if(attributeName == null) {
             throw new IllegalArgumentException("null attribute name");
         }
@@ -177,7 +214,12 @@ public class ModelEntity implements Serializable, Cloneable {
         return expected.cast(value);
     }
 
-    public void addChildEntity(final ModelEntity entity) {
+    /**
+     * Add a child entity
+     *
+     * @param entity the model entity to add
+     */
+    protected void addChildEntity(final ModelEntity entity) {
         if(entity == null) {
             throw new IllegalArgumentException("null entity");
         }
@@ -185,7 +227,13 @@ public class ModelEntity implements Serializable, Cloneable {
         addChildEntity(id, entity);
     }
 
-    public void addChildEntity(final EntityId id, final ModelEntity entity) {
+    /**
+     * Add a child entity.
+     *
+     * @param id the entity id
+     * @param entity the mode entity
+     */
+    protected void addChildEntity(final EntityId id, final ModelEntity entity) {
         if(id == null) {
             throw new IllegalArgumentException("null entity id");
         }
@@ -205,19 +253,31 @@ public class ModelEntity implements Serializable, Cloneable {
         children.addChild(id, entity);
     }
 
-    public void removeChildEntity(final EntityId id) {
+    /**
+     * Remove a child from this entity.
+     *
+     * @param id the entity id
+     * @return true if the entity was removed, false otherwise
+     */
+    protected boolean removeChildEntity(final EntityId id) {
         if(id == null) {
             throw new IllegalArgumentException("null entity id");
         }
         final EntityIdType type = null; // TODO
         ModelEntityChildren children = this.children.get(type);
         if(children == null) {
-            return;
+            return false;
         } else {
-            children.removeChild(id);
+            return children.removeChild(id);
         }
     }
 
+    /**
+     * Get the children for a given type.
+     *
+     * @param entityType the entity type
+     * @return the entities
+     */
     public Collection<ModelEntity> getChildren(EntityIdType entityType) {
         if(entityType == null) {
             throw new IllegalArgumentException("null entity type");

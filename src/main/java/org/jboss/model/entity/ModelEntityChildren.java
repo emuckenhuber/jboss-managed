@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.jboss.model.entity.info.EntityChildrenInfo;
 
@@ -36,6 +37,7 @@ import org.jboss.model.entity.info.EntityChildrenInfo;
 public class ModelEntityChildren implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -1258248193327793391L;
+
     private final EntityChildrenInfo info;
     private final Map<EntityId, ModelEntity> children = new HashMap<EntityId, ModelEntity>();
 
@@ -44,6 +46,13 @@ public class ModelEntityChildren implements Serializable, Cloneable {
             throw new IllegalArgumentException("null entity children info");
         }
         this.info = info;
+    }
+
+    ModelEntityChildren(final ModelEntityChildren toClone) {
+        this.info = toClone.info;
+        for(final Entry<EntityId, ModelEntity> entry : toClone.children.entrySet()) {
+            children.put(entry.getKey(), new ModelEntity(entry.getValue()));
+        }
     }
 
     protected void addChild(final EntityId id, final ModelEntity entity) {
@@ -68,7 +77,7 @@ public class ModelEntityChildren implements Serializable, Cloneable {
         return Collections.unmodifiableCollection(children.values());
     }
 
-    protected void removeChild(final EntityId id) {
+    protected boolean removeChild(final EntityId id) {
         if(id == null) {
             throw new IllegalArgumentException("null entity id");
         }
@@ -79,7 +88,7 @@ public class ModelEntityChildren implements Serializable, Cloneable {
                 throw new IllegalArgumentException(String.format("min number of (%d) children reached.", min));
             }
         }
-        children.remove(id);
+        return children.remove(id) != null;
     }
 
 

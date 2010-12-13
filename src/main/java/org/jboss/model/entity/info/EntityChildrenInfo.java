@@ -32,17 +32,18 @@ import org.jboss.model.entity.EntityIdType;
 public abstract class EntityChildrenInfo implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 5780713629997200906L;
-    private final EntityIdType identifierType;
+
+    private final ModelEntityInfo info;
     private final Cardinality cardinality;
 
-    public EntityChildrenInfo(final EntityIdType entityType, final Cardinality cardinality) {
-        if(entityType == null) {
+    public EntityChildrenInfo(final ModelEntityInfo info, final Cardinality cardinality) {
+        if(info == null) {
             throw new IllegalArgumentException("null entity type");
         }
         if(cardinality == null) {
             throw new IllegalArgumentException("null entity cardinality");
         }
-        this.identifierType = entityType;
+        this.info = info;
         this.cardinality = cardinality;
     }
 
@@ -54,10 +55,17 @@ public abstract class EntityChildrenInfo implements Serializable, Cloneable {
     }
 
     /**
+     * @return the info
+     */
+    public ModelEntityInfo getModelEntityInfo() {
+        return info;
+    }
+
+    /**
      * @return the identifierType
      */
     public EntityIdType getIdentifierType() {
-        return identifierType;
+        return info.getIdentifierType();
     }
 
 }

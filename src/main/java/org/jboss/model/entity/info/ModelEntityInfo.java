@@ -24,7 +24,9 @@ package org.jboss.model.entity.info;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.jboss.model.entity.EntityIdType;
 
@@ -107,6 +109,14 @@ public class ModelEntityInfo implements Serializable, Cloneable {
 
     public EntityAttributeInfo[] getAttributes() {
         return attributes.length == 0 ? attributes : attributes.clone();
+    }
+
+    public Set<String> getAttributeNames() {
+        final Set<String> set = new HashSet<String>();
+        for(final EntityAttributeInfo attribute : attributes) {
+            set.add(attribute.getName());
+        }
+        return set;
     }
 
     public EntityAttributeInfo getAttributeInfo(final String name) {
