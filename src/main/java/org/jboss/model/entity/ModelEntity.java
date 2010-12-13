@@ -22,10 +22,13 @@
 
 package org.jboss.model.entity;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.model.entity.info.EntityAttributeInfo;
+import org.jboss.model.entity.info.EntityChildrenInfo;
 import org.jboss.model.entity.info.ModelEntityInfo;
 import org.jboss.model.types.MetaType;
 import org.jboss.model.values.MetaValue;
@@ -64,6 +67,9 @@ public class ModelEntity {
 
     /** The attribute values. */
     private final Map<String, MetaValue> attributeValues = new HashMap<String, MetaValue>();
+
+    /** The children grouped by type. */
+    private final Map<EntityIdType, ModelEntityChildren> children = new HashMap<EntityIdType, ModelEntityChildren>();
 
     /**
      * Create a new ModelEntity, with idOnly false.
@@ -146,6 +152,9 @@ public class ModelEntity {
      * @return the attribute value, <code>null</code> if not set
      */
     public MetaValue getAttribute(final String attributeName) {
+        if(attributeName == null) {
+            throw new IllegalArgumentException("null attribute name");
+        }
         return attributeValues.get(attributeName);
     }
 
@@ -163,6 +172,59 @@ public class ModelEntity {
             return null;
         }
         return expected.cast(value);
+    }
+
+    public void addChild(final ModelEntity entity) {
+        if(entity == null) {
+            throw new IllegalArgumentException("null entity");
+        }
+        final EntityId id = entity.getElementId();
+        addChild(id, entity);
+    }
+
+    public void addChild(final EntityId id, final ModelEntity entity) {
+        if(id == null) {
+            throw new IllegalArgumentException("null entity id");
+        }
+        if(entity == null) {
+            throw new IllegalArgumentException("null entity");
+        }
+        final EntityIdType type = null; // TODO
+        ModelEntityChildren children = this.children.get(type);
+        if(children == null) {
+            final EntityChildrenInfo info = entityInfo.getChildInfo(type);
+            if(info == null) {
+                throw new IllegalArgumentException();
+            }
+            children = new ModelEntityChildren(info);
+            this.children.put(type, children);
+        }
+        children.addChild(id, entity);
+    }
+
+    public void removeChild(final EntityId id) {
+        if(id == null) {
+            throw new IllegalArgumentException("null entity id");
+        }
+        final EntityIdType type = null; // TODO
+        ModelEntityChildren children = this.children.get(type);
+        if(children == null) {
+            return;
+        } else {
+            children.removeChild(id);
+        }
+    }
+
+    public Collection<ModelEntity> getChildren(EntityIdType entityType) {
+        if(entityType == null) {
+            throw new IllegalArgumentException("null entity type");
+        }
+        final ModelEntityChildren children = this.children.get(entityType);
+        if(children != null) {
+            return children.getChildren();
+        } else {
+            return Collections.emptySet();
+        }
     }
 
     /**

@@ -23,6 +23,7 @@
 package org.jboss.model.entity.info;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.model.entity.EntityIdType;
@@ -54,6 +55,9 @@ public class ModelEntityInfo implements Serializable {
 
     /** The entity operation descriptors. */
     private final EntityOperationInfo[] operations;
+
+    /** The children infos. */
+    private final Map<EntityIdType, EntityChildrenInfo> childrenInfo = new HashMap<EntityIdType, EntityChildrenInfo>();
 
     /** The fields. */
     private final Fields fields;
@@ -120,6 +124,10 @@ public class ModelEntityInfo implements Serializable {
 
     public EntityAdderInfo[] getAdders() {
         return adders.length == 0 ? adders : adders.clone();
+    }
+
+    public EntityChildrenInfo getChildInfo(final EntityIdType type) {
+        return childrenInfo.get(type);
     }
 
 }

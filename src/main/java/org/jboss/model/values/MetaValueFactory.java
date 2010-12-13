@@ -230,7 +230,7 @@ public class MetaValueFactory {
      *
      * @param entryType the composite entry meta type
      * @param index the composite item key which should be used as index
-     * @return the compsoite map value
+     * @return the composite map value
      */
     public static CompositeMapValue createCompositeMapValue(final CompositeMetaType entryType, final String index) {
         final CompositeMapMetaType metaType = new CompositeMapMetaType(entryType, index, index);
