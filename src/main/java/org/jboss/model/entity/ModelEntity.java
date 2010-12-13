@@ -22,6 +22,7 @@
 
 package org.jboss.model.entity;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -56,7 +57,9 @@ import org.jboss.model.values.MetaValue;
  *
  * @author Brian Stansberry
  */
-public class ModelEntity {
+public class ModelEntity implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -1796243230556461143L;
 
     /** The entity id. */
     private final EntityId id;

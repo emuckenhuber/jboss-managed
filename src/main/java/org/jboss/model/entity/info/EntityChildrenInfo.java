@@ -22,12 +22,14 @@
 
 package org.jboss.model.entity.info;
 
+import java.io.Serializable;
+
 import org.jboss.model.entity.EntityIdType;
 
 /**
  * @author Emanuel Muckenhuber
  */
-public abstract class EntityChildrenInfo {
+public abstract class EntityChildrenInfo implements Serializable, Cloneable {
 
     private final EntityIdType identifierType;
     private final Cardinality cardinality;

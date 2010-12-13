@@ -22,6 +22,7 @@
 
 package org.jboss.model.entity;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,8 +33,9 @@ import org.jboss.model.entity.info.EntityChildrenInfo;
 /**
  * @author Emanuel Muckenhuber
  */
-public class ModelEntityChildren {
+public class ModelEntityChildren implements Serializable, Cloneable {
 
+    private static final long serialVersionUID = -1258248193327793391L;
     private final EntityChildrenInfo info;
     private final Map<EntityId, ModelEntity> children = new HashMap<EntityId, ModelEntity>();
 

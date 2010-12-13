@@ -33,7 +33,7 @@ import org.jboss.model.entity.EntityIdType;
  *
  * @author Brian Stansberry
  */
-public class ModelEntityInfo implements Serializable {
+public class ModelEntityInfo implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 5142058281439142818L;
 
