@@ -46,4 +46,14 @@ public interface MetaValue extends Serializable, Cloneable {
      * @return the cloned meta value
      */
     MetaValue clone();
+
+    /**
+     * Cast the meta value.
+     *
+     * @param <T> the expected type
+     * @param expected the expected class
+     * @return the meta value
+     * @throws ClassCastException
+     */
+    <T extends MetaValue> T as(Class<T> expected);
 }

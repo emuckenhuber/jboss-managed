@@ -268,4 +268,8 @@ public abstract class AbstractMetaType implements MetaType {
             throw new RuntimeException("Unexpected error deserializing MetaType: " + className, e);
         }
     }
+
+    public <T extends MetaType> T as(Class<T> expected) {
+        return expected.cast(this);
+    }
 }

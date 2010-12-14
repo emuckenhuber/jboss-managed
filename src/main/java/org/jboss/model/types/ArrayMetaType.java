@@ -23,6 +23,7 @@
 package org.jboss.model.types;
 
 import org.jboss.model.values.ArrayValue;
+import org.jboss.model.values.MetaValue;
 
 /**
  * ArrayMetaType.
@@ -333,9 +334,9 @@ public class ArrayMetaType extends AbstractMetaType {
     @Override
     @SuppressWarnings("unchecked")
     public boolean isValue(Object obj) {
-        if (obj == null)
+        if (obj == null) {
             return false;
-
+        }
         Class<?> clazz = obj.getClass();
         if (clazz.isArray() == false && (obj instanceof ArrayValue) == false) {
             return false;

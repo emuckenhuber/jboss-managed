@@ -182,4 +182,13 @@ public interface MetaType extends Serializable {
      */
     boolean isValue(Object obj);
 
+    /**
+     * Cast the meta type.
+     *
+     * @param <T> the expected type
+     * @param expected the expected class
+     * @return the meta type
+     * @throws ClassCastException
+     */
+    <T extends MetaType> T as(Class<T> expected);
 }

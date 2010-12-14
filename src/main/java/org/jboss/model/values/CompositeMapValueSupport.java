@@ -24,6 +24,7 @@ package org.jboss.model.values;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -154,4 +155,7 @@ public class CompositeMapValueSupport extends AbstractMetaValue implements Compo
         return delegate.entrySet();
     }
 
+    public Iterator<CompositeValue> iterator() {
+        return delegate.values().iterator();
+    }
 }

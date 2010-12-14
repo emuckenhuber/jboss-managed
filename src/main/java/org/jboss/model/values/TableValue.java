@@ -34,7 +34,7 @@ import org.jboss.model.types.TableMetaType;
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  */
-public interface TableValue extends MetaValue {
+public interface TableValue extends MetaValue, Iterable<CompositeValue> {
 
     /** {@inheritDoc} */
     TableMetaType getMetaType();

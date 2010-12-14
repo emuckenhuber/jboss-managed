@@ -25,16 +25,17 @@ package org.jboss.model.values;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Date;
 
 import org.jboss.model.types.SimpleMetaType;
+import org.jboss.model.types.SimpleTypes;
 
 /**
  * SimpleValue.
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
+ * @author Emanuel Muckenhuber
  */
-public class SimpleValueSupport extends AbstractMetaValue implements SimpleValue {
+public final class SimpleValueSupport extends AbstractMetaValue implements SimpleValue, SimpleTypes {
 
     /** The serialVersionUID */
     private static final long serialVersionUID = 8473043036261557127L;
@@ -96,6 +97,84 @@ public class SimpleValueSupport extends AbstractMetaValue implements SimpleValue
         return wrap(value, double.class.getName());
     }
 
+    public static SimpleValue create(final Object o, final SimpleMetaType metaType) {
+        if(metaType == null) {
+            throw new IllegalArgumentException("null meta type");
+        }
+        if(o == null) {
+            return new SimpleValueSupport(metaType, null);
+        }
+        // First check if it's a simple type
+        SimpleMetaType resolved = SimpleMetaType.resolve(o.getClass().getName());
+        if(resolved == STRING) {
+            return createFromString((String) o, metaType);
+        }
+        if(metaType == STRING) {
+            return new SimpleValueSupport(metaType, asString(o));
+        } else if (metaType == SHORT || metaType == SHORT_PRIMITIVE) {
+            return new SimpleValueSupport(metaType, asNumber(o, metaType).shortValue());
+        } else if (metaType == INTEGER || metaType == INTEGER_PRIMITIVE) {
+            return new SimpleValueSupport(metaType, asNumber(o, metaType).intValue());
+        } else if (metaType == LONG || metaType == LONG_PRIMITIVE) {
+            return new SimpleValueSupport(metaType, asNumber(o, metaType).longValue());
+        } else if (metaType == DOUBLE || metaType == DOUBLE_PRIMITIVE) {
+            return new SimpleValueSupport(metaType, asNumber(o, metaType).doubleValue());
+        } else if (metaType == FLOAT || metaType == FLOAT_PRIMITIVE) {
+            return new SimpleValueSupport(metaType, asNumber(o, metaType).floatValue());
+        } else if (metaType == BIGDECIMAL) {
+            final BigDecimal v = (BigDecimal) o;
+            return new SimpleValueSupport(metaType, v);
+        } else if (metaType == BIGINTEGER) {
+            final BigInteger v = BigInteger.valueOf(asNumber(o, LONG).longValue());
+            return new SimpleValueSupport(metaType, v);
+        } else if (metaType == BOOLEAN || metaType == BOOLEAN_PRIMITIVE) {
+            final Boolean v = o instanceof Boolean ? (Boolean) o : Boolean.parseBoolean((String) o);
+            return new SimpleValueSupport(metaType, v);
+        } else if (metaType == BYTE || metaType == BYTE_PRIMITIVE) {
+            final Byte v = o instanceof Byte ? (Byte) o : Byte.parseByte((String) o);
+            return new SimpleValueSupport(metaType, v);
+        } else if (metaType == CHARACTER || metaType == CHARACTER_PRIMITIVE) {
+            final Character v = (Character) o;
+            return new SimpleValueSupport(metaType, v);
+        } else {
+            throw new IllegalArgumentException("object not a simple type " + o);
+        }
+    }
+
+    public static SimpleValue createFromString(final String str, final SimpleMetaType metaType) {
+        if(metaType == null) {
+            throw new IllegalArgumentException("null meta type");
+        }
+        if(str == null) {
+            return new SimpleValueSupport(metaType, null);
+        }
+        if(metaType == STRING) {
+            return new SimpleValueSupport(metaType, str);
+        } else if (metaType == SHORT || metaType == SHORT_PRIMITIVE) {
+            return new SimpleValueSupport(metaType, asNumber(str, metaType).shortValue());
+        } else if (metaType == INTEGER || metaType == INTEGER_PRIMITIVE) {
+            return new SimpleValueSupport(metaType, asNumber(str, metaType).intValue());
+        } else if (metaType == LONG || metaType == LONG_PRIMITIVE) {
+            return new SimpleValueSupport(metaType, asNumber(str, metaType).longValue());
+        } else if (metaType == DOUBLE || metaType == DOUBLE_PRIMITIVE) {
+            return new SimpleValueSupport(metaType, asNumber(str, metaType).doubleValue());
+        } else if (metaType == FLOAT || metaType == FLOAT_PRIMITIVE) {
+            return new SimpleValueSupport(metaType, asNumber(str, metaType).floatValue());
+        } else if (metaType == BOOLEAN || metaType == BOOLEAN_PRIMITIVE) {
+            final Boolean v = Boolean.parseBoolean(str);
+            return new SimpleValueSupport(metaType, v);
+        } else if (metaType == BYTE || metaType == BYTE_PRIMITIVE) {
+            final Byte v = Byte.parseByte(str);
+            return new SimpleValueSupport(metaType, v);
+        } else if (metaType == BIGINTEGER) {
+            final Long l = Long.parseLong(str);
+            final BigInteger v = BigInteger.valueOf(l);
+            return new SimpleValueSupport(metaType, v);
+        } else {
+            throw new IllegalArgumentException("object not a simple type " + str);
+        }
+    }
+
     /**
      * Create a new SimpleValueSupport.
      *
@@ -133,6 +212,55 @@ public class SimpleValueSupport extends AbstractMetaValue implements SimpleValue
         this.value = value;
     }
 
+    public String asString() {
+        return asString(value);
+    }
+
+    public Integer asInteger() {
+        if(value == null) {
+            return null;
+        }
+       return asNumber().intValue();
+    }
+
+    public Float asFloat() {
+        if(value == null) {
+            return null;
+        }
+        return asNumber().floatValue();
+    }
+
+    public Short asShort() {
+        if(value == null) {
+            return null;
+        }
+        return asNumber().shortValue();
+    }
+
+    public Boolean asBoolean() {
+        if(value == null) {
+            return null;
+        } else if (value instanceof Boolean) {
+            return (Boolean) value;
+        } else {
+            return Boolean.parseBoolean(asString());
+        }
+    }
+
+    public Byte asByte() {
+        if(value == null) {
+            return null;
+        } else if (value instanceof Byte) {
+            return (Byte) value;
+        } else {
+            return Byte.parseByte(asString());
+        }
+    }
+
+    public Number asNumber() {
+        return asNumber(value, metaType);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -148,7 +276,6 @@ public class SimpleValueSupport extends AbstractMetaValue implements SimpleValue
                 return false;
             }
         }
-
         Object otherValue = other.getValue();
         if (value == null && otherValue == null) {
             return true;
@@ -173,96 +300,46 @@ public class SimpleValueSupport extends AbstractMetaValue implements SimpleValue
     }
 
     public int compareTo(SimpleValue sv) {
-        int compare = -1;
-        if (getMetaType() == SimpleMetaType.BIGINTEGER && sv.getMetaType() == SimpleMetaType.BIGINTEGER) {
-            BigInteger v1 = BigInteger.class.cast(value);
-            BigInteger v2 = BigInteger.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.BIGDECIMAL && sv.getMetaType() == SimpleMetaType.BIGDECIMAL) {
-            BigDecimal v1 = BigDecimal.class.cast(value);
-            BigDecimal v2 = BigDecimal.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.BOOLEAN && sv.getMetaType() == SimpleMetaType.BOOLEAN) {
-            Boolean v1 = Boolean.class.cast(value);
-            Boolean v2 = Boolean.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.BOOLEAN_PRIMITIVE && sv.getMetaType() == SimpleMetaType.BOOLEAN_PRIMITIVE) {
-            Boolean v1 = Boolean.class.cast(value);
-            Boolean v2 = Boolean.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.BYTE && sv.getMetaType() == SimpleMetaType.BYTE) {
-            Byte v1 = Byte.class.cast(value);
-            Byte v2 = Byte.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.CHARACTER && sv.getMetaType() == SimpleMetaType.CHARACTER) {
-            Character v1 = Character.class.cast(value);
-            Character v2 = Character.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.CHARACTER_PRIMITIVE && sv.getMetaType() == SimpleMetaType.CHARACTER_PRIMITIVE) {
-            Character v1 = Character.class.cast(value);
-            Character v2 = Character.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.DATE && sv.getMetaType() == SimpleMetaType.DATE) {
-            Date v1 = Date.class.cast(value);
-            Date v2 = Date.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.DOUBLE && sv.getMetaType() == SimpleMetaType.DOUBLE) {
-            Double v1 = Double.class.cast(value);
-            Double v2 = Double.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.FLOAT && sv.getMetaType() == SimpleMetaType.FLOAT) {
-            Float v1 = Float.class.cast(value);
-            Float v2 = Float.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.INTEGER && sv.getMetaType() == SimpleMetaType.INTEGER) {
-            Integer v1 = Integer.class.cast(value);
-            Integer v2 = Integer.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.LONG && sv.getMetaType() == SimpleMetaType.LONG) {
-            Long v1 = Long.class.cast(value);
-            Long v2 = Long.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.SHORT && sv.getMetaType() == SimpleMetaType.SHORT) {
-            Short v1 = Short.class.cast(value);
-            Short v2 = Short.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.STRING && sv.getMetaType() == SimpleMetaType.STRING) {
-            String v1 = String.class.cast(value);
-            String v2 = String.class.cast(sv.getValue());
-            compare = v1.compareTo(v2);
-        } else if (getMetaType() == SimpleMetaType.VOID && sv.getMetaType() == SimpleMetaType.VOID) {
-            compare = 0;
-        } else if (value instanceof Number && sv.getValue() instanceof Number) {
-            // Compare two Numbers using the most precise type
-            Number n0 = (Number) value;
-            Number n1 = (Number) sv.getValue();
-            if (n0 instanceof BigDecimal) {
-                BigDecimal db0 = (BigDecimal) n0;
-                BigDecimal db1 = new BigDecimal(n1.doubleValue());
-                compare = db0.compareTo(db1);
-            } else if (n1 instanceof BigDecimal) {
-                BigDecimal db1 = (BigDecimal) n1;
-                BigDecimal db0 = new BigDecimal(n0.doubleValue());
-                compare = db0.compareTo(db1);
-            } else if (n0 instanceof Float || n0 instanceof Double
-                    || n1 instanceof Float || n1 instanceof Double) {
-                double d0 = n0.doubleValue();
-                double d1 = n1.doubleValue();
-                compare = Double.compare(d0, d1);
-            } else {
-                long l0 = n0.longValue();
-                long l1 = n1.longValue();
-                if (l0 < l1) {
-                    compare = -1;
-                } else if (l0 > l1) {
-                    compare = 1;
-                } else {
-                    compare = 0;
-                }
-            }
+        if(metaType.isValue(sv)) {
+            return metaType.compare(getValue(), sv.getValue());
         }
+        return -1;
+    }
 
-        return compare;
+    static String asString(final Object obj) {
+        if(obj == null) {
+            return null;
+        }
+        return String.valueOf(obj);
+    }
+
+    static Number asNumber(final Object o, final SimpleMetaType metaType) {
+        if(o == null) {
+            return null;
+        } else if(o instanceof Number) {
+            return (Number) o;
+        } else {
+            return asNumber(asString(o), metaType);
+        }
+    }
+
+    static Number asNumber(final String str, final SimpleMetaType metaType) {
+        if(str == null) {
+            return null;
+        }
+        if (metaType == SHORT || metaType == SHORT_PRIMITIVE) {
+            return Short.parseShort(str);
+        } else if (metaType == INTEGER || metaType == INTEGER_PRIMITIVE) {
+            return Integer.parseInt(str);
+        } else if (metaType == LONG || metaType == LONG_PRIMITIVE) {
+            return Long.parseLong(str);
+        } else if (metaType == DOUBLE || metaType == DOUBLE_PRIMITIVE) {
+            return Double.parseDouble(str);
+        } else if (metaType == FLOAT || metaType == FLOAT_PRIMITIVE) {
+            return Float.parseFloat(str);
+        } else {
+            throw new IllegalArgumentException("cannot convert " + str + " to a number");
+        }
     }
 
 }

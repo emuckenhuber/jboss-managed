@@ -28,6 +28,7 @@ import java.math.BigInteger;
 import java.util.Comparator;
 import java.util.Date;
 
+import org.jboss.model.values.MetaValue;
 import org.jboss.model.values.SimpleValue;
 
 /**
@@ -124,6 +125,20 @@ public class SimpleMetaType extends AbstractMetaType {
         SHORT_PRIMITIVE = new SimpleMetaType(short.class, SimpleMetaTypeComparators.SHORT, 'S');
         STRING = new SimpleMetaType(String.class, SimpleMetaTypeComparators.STRING);
         VOID = new SimpleMetaType(Void.class, null);
+    }
+
+    /**
+     * Resolve a simple type.
+     *
+     * @param clazz the class
+     * @return the simple type
+     * @throws IllegalArgumentException for a null className or if it is not a simple type
+     */
+    public static SimpleMetaType resolve(Class<?> clazz) {
+        if(clazz == null) {
+            throw new IllegalArgumentException("null class");
+        }
+        return resolve(clazz.getName());
     }
 
     /**
@@ -282,8 +297,18 @@ public class SimpleMetaType extends AbstractMetaType {
         if (obj == null || obj instanceof SimpleValue == false) {
             return false;
         }
-        SimpleValue value = (SimpleValue) obj;
-        return equals(value.getMetaType());
+        final SimpleValue value = (SimpleValue) obj;
+        return isValue(value);
+    }
+
+    public boolean isValue(MetaValue value) {
+        if(value == null) {
+            return false;
+        }
+        if(! equals(value.getMetaType())) {
+            return equalsIgnorePrimitive(value.getMetaType());
+        }
+        return true;
     }
 
     @Override
@@ -316,7 +341,10 @@ public class SimpleMetaType extends AbstractMetaType {
         if (obj == null || obj instanceof SimpleMetaType == false) {
             return false;
         }
-        SimpleMetaType other = (SimpleMetaType) obj;
+        final SimpleMetaType other = (SimpleMetaType) obj;
+        if(this.primitiveType == '\0') {
+            return false;
+        }
         return this.primitiveType == other.primitiveType;
     }
 

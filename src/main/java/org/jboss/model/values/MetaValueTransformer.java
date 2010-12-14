@@ -22,35 +22,20 @@
 
 package org.jboss.model.values;
 
-import java.util.Map;
-
-import org.jboss.model.types.CompositeMapMetaType;
-import org.jboss.model.types.CompositeMetaType;
+import org.jboss.model.types.MetaType;
 
 /**
- * A {@link MetaValue} with a Map like APi - where the {@link CompositeValue} is the map entry and contains
- * its own index. In a nutshell a variation of the {@link TableValue} only with a single index key.
- *
  * @author Emanuel Muckenhuber
  */
-public interface CompositeMapValue extends MetaValue, Map<MetaValue, CompositeValue>, Iterable<CompositeValue> {
-
-    /** {@inheritDoc} */
-    CompositeMapMetaType getMetaType();
+public interface MetaValueTransformer<I, O> {
 
     /**
-     * Gets the composite entry meta type.
+     * Transform a value.
      *
-     * @return the entry type
+     * @param value the value
+     * @param metaType the meta type
+     * @return the output
      */
-    CompositeMetaType getEntryType();
-
-    /**
-     * Add a composite value.
-     *
-     * @param value the composite value
-     * @return the previous value associated with the index of the composite index key
-     */
-    CompositeValue put(final CompositeValue value);
+    O transform(I value, MetaType metaType) throws Exception;
 
 }

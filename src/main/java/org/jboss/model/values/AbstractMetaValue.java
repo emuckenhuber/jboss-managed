@@ -40,4 +40,8 @@ abstract class AbstractMetaValue implements MetaValue {
             throw new Error("Unexpected error in clone: ", e);
         }
     }
+
+    public <T extends MetaValue> T as(Class<T> expected) {
+        return expected.cast(this);
+    }
 }

@@ -33,6 +33,7 @@ import org.jboss.model.types.ImmutableTableMetaType;
 import org.jboss.model.types.MetaType;
 import org.jboss.model.types.MutableCompositeMetaType;
 import org.jboss.model.types.SimpleMetaType;
+import org.jboss.model.types.SimpleTypes;
 import org.jboss.model.types.TableMetaType;
 
 /**
@@ -40,54 +41,7 @@ import org.jboss.model.types.TableMetaType;
  *
  * @author Emanuel Muckenhuber
  */
-public class MetaTypeFactory {
-
-    /** The simple type for java.math.BigDecimal */
-    public static final SimpleMetaType BIGDECIMAL = SimpleMetaType.BIGDECIMAL;
-
-    /** The simple type for java.math.BigInteger */
-    public static final SimpleMetaType BIGINTEGER = SimpleMetaType.BIGINTEGER;
-
-    /** The simple type for java.lang.Boolean */
-    public static final SimpleMetaType BOOLEAN = SimpleMetaType.BOOLEAN;
-    public static final SimpleMetaType BOOLEAN_PRIMITIVE = SimpleMetaType.BOOLEAN_PRIMITIVE;
-
-    /** The simple type for java.lang.Byte */
-    public static final SimpleMetaType BYTE = SimpleMetaType.BYTE;
-    public static final SimpleMetaType BYTE_PRIMITIVE = SimpleMetaType.BYTE_PRIMITIVE;
-
-    /** The simple type for java.lang.Character */
-    public static final SimpleMetaType CHARACTER = SimpleMetaType.CHARACTER;
-    public static final SimpleMetaType CHARACTER_PRIMITIVE = SimpleMetaType.CHARACTER_PRIMITIVE;
-
-    /** The simple type for java.lang.Date */
-    public static final SimpleMetaType DATE = SimpleMetaType.DATE;
-
-    /** The simple type for java.lang.Double */
-    public static final SimpleMetaType DOUBLE = SimpleMetaType.DOUBLE;
-    public static final SimpleMetaType DOUBLE_PRIMITIVE = SimpleMetaType.DOUBLE_PRIMITIVE;
-
-    /** The simple type for java.lang.Float */
-    public static final SimpleMetaType FLOAT = SimpleMetaType.FLOAT;
-    public static final SimpleMetaType FLOAT_PRIMITIVE = SimpleMetaType.FLOAT_PRIMITIVE;
-
-    /** The simple type for java.lang.Integer */
-    public static final SimpleMetaType INTEGER = SimpleMetaType.INTEGER;
-    public static final SimpleMetaType INTEGER_PRIMITIVE = SimpleMetaType.INTEGER_PRIMITIVE;
-
-    /** The simple type for java.lang.Long */
-    public static final SimpleMetaType LONG = SimpleMetaType.LONG;
-    public static final SimpleMetaType LONG_PRIMITIVE = SimpleMetaType.LONG_PRIMITIVE;
-
-    /** The simple type for java.lang.Short */
-    public static final SimpleMetaType SHORT = SimpleMetaType.SHORT;
-    public static final SimpleMetaType SHORT_PRIMITIVE = SimpleMetaType.SHORT_PRIMITIVE;
-
-    /** The simple type for java.lang.String */
-    public static final SimpleMetaType STRING = SimpleMetaType.STRING;
-
-    /** The simple type for java.lang.Void */
-    public static final SimpleMetaType VOID = SimpleMetaType.VOID;
+public class MetaTypeFactory implements SimpleTypes {
 
     /**
      * Create a simple meta type.

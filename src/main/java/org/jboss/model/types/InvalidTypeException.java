@@ -20,37 +20,31 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.model.values;
-
-import java.util.Map;
-
-import org.jboss.model.types.CompositeMapMetaType;
-import org.jboss.model.types.CompositeMetaType;
+package org.jboss.model.types;
 
 /**
- * A {@link MetaValue} with a Map like APi - where the {@link CompositeValue} is the map entry and contains
- * its own index. In a nutshell a variation of the {@link TableValue} only with a single index key.
+ * The {@code InvalidTypeException}.
  *
  * @author Emanuel Muckenhuber
  */
-public interface CompositeMapValue extends MetaValue, Map<MetaValue, CompositeValue>, Iterable<CompositeValue> {
+public class InvalidTypeException extends RuntimeException {
 
-    /** {@inheritDoc} */
-    CompositeMapMetaType getMetaType();
+    private static final long serialVersionUID = -3236173290554207502L;
 
-    /**
-     * Gets the composite entry meta type.
-     *
-     * @return the entry type
-     */
-    CompositeMetaType getEntryType();
+    public InvalidTypeException() {
+        super();
+    }
 
-    /**
-     * Add a composite value.
-     *
-     * @param value the composite value
-     * @return the previous value associated with the index of the composite index key
-     */
-    CompositeValue put(final CompositeValue value);
+    public InvalidTypeException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public InvalidTypeException(String message) {
+        super(message);
+    }
+
+    public InvalidTypeException(Throwable cause) {
+        super(cause);
+    }
 
 }

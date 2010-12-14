@@ -43,7 +43,7 @@ import org.jboss.model.types.TableMetaType;
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  */
-public class TableValueSupport extends AbstractMetaValue implements TableValue {
+public final class TableValueSupport extends AbstractMetaValue implements TableValue {
 
     /** The serialVersionUID */
     private static final long serialVersionUID = -6862672408820383430L;
@@ -167,6 +167,10 @@ public class TableValueSupport extends AbstractMetaValue implements TableValue {
 
     public Collection<CompositeValue> values() {
         return dataMap.values();
+    }
+
+    public Iterator<CompositeValue> iterator() {
+        return dataMap.values().iterator();
     }
 
     @Override

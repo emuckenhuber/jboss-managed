@@ -23,6 +23,7 @@
 package org.jboss.test.model.types.suport;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -105,5 +106,9 @@ public class MockTableValue extends MockMetaValue implements TableValue {
 
     public Collection<CompositeValue> values() {
         throw new IllegalStateException("values");
+    }
+
+    public Iterator<CompositeValue> iterator() {
+        throw new IllegalStateException("iterator");
     }
 }
