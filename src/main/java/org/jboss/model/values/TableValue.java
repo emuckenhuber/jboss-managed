@@ -33,6 +33,7 @@ import org.jboss.model.types.TableMetaType;
  * TableValue.
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
+ * @author Emanuel Muckenhuber
  */
 public interface TableValue extends MetaValue, Iterable<CompositeValue> {
 

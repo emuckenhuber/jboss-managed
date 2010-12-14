@@ -249,8 +249,7 @@ public interface SimpleValue extends MetaValue, SimpleTypes, Comparable<SimpleVa
          * @param o the object
          * @param metaType the expected type
          * @return the simple meta type
-         * @throws IllegalArgumentException if the object is not a simple value, or the
-         *         cannot be converted to a simple value
+         * @throws IllegalArgumentException if the object cannot be converted to a simple value.
          */
         public static SimpleValue create(Object o, SimpleMetaType metaType) {
             return SimpleValueSupport.create(o, metaType);

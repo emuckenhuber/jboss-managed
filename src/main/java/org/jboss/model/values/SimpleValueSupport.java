@@ -103,6 +103,9 @@ public final class SimpleValueSupport extends AbstractMetaValue implements Simpl
         if(o == null) {
             return new SimpleValueSupport(metaType, null);
         }
+        if(o instanceof SimpleValue) {
+            return (SimpleValue) o;
+        }
         // First check if it's a simple type
         SimpleMetaType.resolve(o.getClass().getName());
         if(metaType == STRING) {

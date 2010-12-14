@@ -23,7 +23,6 @@
 package org.jboss.model.types;
 
 import org.jboss.model.values.ArrayValue;
-import org.jboss.model.values.MetaValue;
 
 /**
  * ArrayMetaType.
