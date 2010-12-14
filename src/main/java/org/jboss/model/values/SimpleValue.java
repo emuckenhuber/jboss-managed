@@ -25,6 +25,7 @@ package org.jboss.model.values;
 import java.io.Serializable;
 
 import org.jboss.model.types.SimpleMetaType;
+import org.jboss.model.types.SimpleTypes;
 
 /**
  * SimpleValue.
@@ -32,7 +33,7 @@ import org.jboss.model.types.SimpleMetaType;
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  * @author Scott.Stark@jboss.org
  */
-public interface SimpleValue extends MetaValue, Comparable<SimpleValue> {
+public interface SimpleValue extends MetaValue, SimpleTypes, Comparable<SimpleValue> {
 
     /** {@inheritDoc} */
     SimpleMetaType getMetaType();

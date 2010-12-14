@@ -27,7 +27,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.jboss.model.types.SimpleMetaType;
-import org.jboss.model.types.SimpleTypes;
 
 /**
  * SimpleValue.
@@ -35,7 +34,7 @@ import org.jboss.model.types.SimpleTypes;
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  * @author Emanuel Muckenhuber
  */
-public final class SimpleValueSupport extends AbstractMetaValue implements SimpleValue, SimpleTypes {
+public final class SimpleValueSupport extends AbstractMetaValue implements SimpleValue {
 
     /** The serialVersionUID */
     private static final long serialVersionUID = 8473043036261557127L;
