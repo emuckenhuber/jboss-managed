@@ -25,6 +25,7 @@ package org.jboss.model.types.builders;
 import org.jboss.model.types.CompositeMapMetaType;
 import org.jboss.model.types.CompositeMetaType;
 import org.jboss.model.types.MetaType;
+import org.jboss.model.types.Named;
 
 /**
  * @author Emanuel Muckenhuber
@@ -51,6 +52,25 @@ public interface CompositeTypeBuilder {
     CompositeTypeBuilder addItem(final String itemName, final String description, final MetaType itemType);
 
     /**
+     * Add an item to the composite type.
+     *
+     * @param itemName the item name
+     * @param itemType the item type
+     * @return the composite builder
+     */
+    CompositeTypeBuilder addItem(final Named itemName, final MetaType itemType);
+
+    /**
+     * Add an item to the composite type.
+     *
+     * @param itemName the item name
+     * @param description the item description
+     * @param itemType the item type
+     * @return the composite builder
+     */
+    CompositeTypeBuilder addItem(final Named itemName, final String description, final MetaType itemType);
+
+    /**
      * Create the composite type.
      *
      * @return the composite type
@@ -69,9 +89,26 @@ public interface CompositeTypeBuilder {
      * Create a composite map meta type.
      *
      * @param index the item name which should be used as index
+     * @return the composite map meta type
+     */
+    CompositeMapMetaType createMapMetaType(final Named index);
+
+    /**
+     * Create a composite map meta type.
+     *
+     * @param index the item name which should be used as index
      * @param description the type description
      * @return the composite map meta type
      */
     CompositeMapMetaType createMapMetaType(final String index, final String description);
+
+    /**
+     * Create a composite map meta type.
+     *
+     * @param index the item name which should be used as index
+     * @param description the type description
+     * @return the composite map meta type
+     */
+    CompositeMapMetaType createMapMetaType(final Named index, final String description);
 
 }

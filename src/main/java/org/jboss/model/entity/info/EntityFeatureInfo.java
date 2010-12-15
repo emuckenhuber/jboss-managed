@@ -24,12 +24,15 @@ package org.jboss.model.entity.info;
 
 import java.io.Serializable;
 
+import org.jboss.model.types.Named;
+
 /**
  * TODO add class javadoc for EntityFeatureInfo.
  *
  * @author Brian Stansberry
+ * @author Emanuel Muckenhuber
  */
-public class EntityFeatureInfo implements Serializable, Cloneable {
+public class EntityFeatureInfo implements Named, Serializable, Cloneable {
 
     private static final long serialVersionUID = -6601713831278724297L;
 

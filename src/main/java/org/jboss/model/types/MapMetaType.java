@@ -35,27 +35,36 @@ public class MapMetaType extends AbstractMetaType {
 
     private static final long serialVersionUID = 4937011667344237556L;
 
-    private final MetaType keyType;
-    private final MetaType valueType;
+    private final String[] itemNames = new String[] { "KEY", "VALUE" };
+    private final String[] itemDescriptions = new String[] { "The Map key", "The Map value" };
+
+    private final CompositeMetaType entryType;
 
     public MapMetaType(final MetaType keyType, final MetaType valueType) {
         super(MapValue.class.getName(), "");
-        this.keyType = keyType;
-        this.valueType = valueType;
+        this.entryType = new ImmutableCompositeMetaType("", "", itemNames, itemDescriptions,
+                new MetaType[] { keyType, valueType });
+    }
+
+    /**
+     * @return the entryType
+     */
+    public CompositeMetaType getEntryType() {
+        return entryType;
     }
 
     /**
      * @return the keyType
      */
     public MetaType getKeyType() {
-        return keyType;
+        return entryType.getType("KEY");
     }
 
     /**
      * @return the valueType
      */
     public MetaType getValueType() {
-        return valueType;
+        return entryType.getType("VALUE");
     }
 
     public boolean isValue(Object obj) {
@@ -77,10 +86,10 @@ public class MapMetaType extends AbstractMetaType {
         if (getTypeName().equals(other.getTypeName()) == false) {
             return false;
         }
-        if(!keyType.equals(other.getKeyType())) {
+        if(!getKeyType().equals(other.getKeyType())) {
             return false;
         }
-        if(!valueType.equals(other.getValueType())) {
+        if(!getValueType().equals(other.getValueType())) {
             return false;
         }
         return true;
@@ -88,8 +97,8 @@ public class MapMetaType extends AbstractMetaType {
 
     public int hashCode() {
         int result = 17;
-        result += 31 * keyType.hashCode();
-        result += 31 * valueType.hashCode();
+        result += 31 * getKeyType().hashCode();
+        result += 31 * getValueType().hashCode();
         return result;
     }
 

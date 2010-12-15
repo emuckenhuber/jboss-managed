@@ -25,13 +25,18 @@ package org.jboss.model.types.builders;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.model.entity.info.EntityAttributeInfo;
+import org.jboss.model.entity.info.ModelEntityInfo;
+import org.jboss.model.types.ArrayMetaType;
 import org.jboss.model.types.CollectionMetaType;
 import org.jboss.model.types.CompositeMapMetaType;
 import org.jboss.model.types.CompositeMetaType;
 import org.jboss.model.types.EnumMetaType;
 import org.jboss.model.types.ImmutableTableMetaType;
+import org.jboss.model.types.MapMetaType;
 import org.jboss.model.types.MetaType;
 import org.jboss.model.types.MutableCompositeMetaType;
+import org.jboss.model.types.Named;
 import org.jboss.model.types.SimpleMetaType;
 import org.jboss.model.types.SimpleTypes;
 import org.jboss.model.types.TableMetaType;
@@ -42,6 +47,9 @@ import org.jboss.model.types.TableMetaType;
  * @author Emanuel Muckenhuber
  */
 public class MetaTypeFactory implements SimpleTypes {
+
+    final static String UNDEFINED = "##UNDEFINED##";
+    final static String UNDOCUMENTED = "##UNDOCUMENTED##";
 
     /**
      * Create a simple meta type.
@@ -60,7 +68,7 @@ public class MetaTypeFactory implements SimpleTypes {
     /**
      * Create a simple meta type.
      *
-     * @param className the classname.
+     * @param className the class name
      * @return the simple type
      * @throws IllegalArgumentException for a null className or if it is not a simple type
      */
@@ -80,6 +88,27 @@ public class MetaTypeFactory implements SimpleTypes {
     }
 
     /**
+     * Create an array meta type with a dimension of 1.
+     *
+     * @param elementType the element type
+     * @return the array meta type
+     */
+    public static ArrayMetaType createArrayMetaType(final MetaType elementType) {
+        return new ArrayMetaType(1, elementType);
+    }
+
+    /**
+     * Create an array meta type.
+     *
+     * @param dimension the dimension
+     * @param elementType the element type
+     * @return the array meta type
+     */
+    public static ArrayMetaType createArrayMetaType(final int dimension, final MetaType elementType) {
+        return new ArrayMetaType(dimension, elementType);
+    }
+
+    /**
      * Create a collection meta type.
      *
      * @param typeName the type name
@@ -91,6 +120,28 @@ public class MetaTypeFactory implements SimpleTypes {
     }
 
     /**
+     * Create a map meta type.
+     *
+     * @param typeName the type name
+     * @param keyType the key type
+     * @param valueType the value type
+     * @return the map meta type
+     */
+    public static MapMetaType createMapMetaType(final String typeName, final MetaType keyType, final MetaType valueType) {
+        return new MapMetaType(keyType, valueType);
+    }
+
+    /**
+     * Create a composite type builder.
+     *
+     * @param className the class name
+     * @return the composite type builder
+     */
+    public static CompositeTypeBuilder compositeTypeBuilder(String className) {
+        return new CompositeTypeBuilderImpl(className, UNDOCUMENTED);
+    }
+
+    /**
      * Create a composite type builder.
      *
      * @param className the class name
@@ -99,6 +150,34 @@ public class MetaTypeFactory implements SimpleTypes {
      */
     public static CompositeTypeBuilder compositeTypeBuilder(String className, String description) {
         return new CompositeTypeBuilderImpl(className, description);
+    }
+
+    /**
+     * Creates a composite type based on a {@link ModelEntityInfo} attributes.
+     *
+     * @param info the model entity info
+     * @return the composite meta type
+     */
+    public static CompositeMetaType createCompositeType(final ModelEntityInfo info) {
+        if(info == null) {
+            throw new IllegalArgumentException("null entity info");
+        }
+        final MutableCompositeMetaType composite = new MutableCompositeMetaType(info.getIdentifierType().getElementName(), info.getDescription());
+        for(final EntityAttributeInfo attribute : info.getAttributes()) {
+            composite.addItem(attribute.getName(), attribute.getDescription(), attribute.getType());
+        }
+        composite.freeze();
+        return composite;
+    }
+
+    /**
+     * Create a table type builder.
+     *
+     * @param typeName the type name.
+     * @return the type builder
+     */
+    public static TableTypeBuilder tableTypeBuilder(String typeName) {
+        return new TableTypeBuilderImpl(typeName, UNDOCUMENTED);
     }
 
     /**
@@ -130,6 +209,20 @@ public class MetaTypeFactory implements SimpleTypes {
             return this;
         }
 
+        public CompositeTypeBuilder addItem(Named itemName, MetaType itemType) {
+            if(itemName == null) {
+                throw new IllegalArgumentException("null item name");
+            }
+            return addItem(itemName.getName(), itemType);
+        }
+
+        public CompositeTypeBuilder addItem(Named itemName, String description, MetaType itemType) {
+            if(itemName == null) {
+                throw new IllegalArgumentException("null item name");
+            }
+            return addItem(itemName.getName(), description, itemType);
+        }
+
         public CompositeMetaType create() {
             composite.freeze();
             return composite;
@@ -143,6 +236,14 @@ public class MetaTypeFactory implements SimpleTypes {
         public CompositeMapMetaType createMapMetaType(String index, String description) {
             final CompositeMetaType composite = create();
             return new CompositeMapMetaType(composite, index, description);
+        }
+
+        public CompositeMapMetaType createMapMetaType(Named index) {
+            return createMapMetaType(index.getName());
+        }
+
+        public CompositeMapMetaType createMapMetaType(Named index, String description) {
+            return createMapMetaType(index.getName(), description);
         }
     }
 

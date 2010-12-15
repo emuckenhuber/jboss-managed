@@ -23,7 +23,7 @@
 package org.jboss.model.entity.info;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -42,6 +42,7 @@ public class ModelEntityInfo implements Serializable, Cloneable {
     private static final EntityAttributeInfo[] NO_ATTRIBUTES = new EntityAttributeInfo[0];
     private static final EntityOperationInfo[] NO_OPERATIONS = new EntityOperationInfo[0];
     private static final EntityAdderInfo[] NO_ADDERS = new EntityAdderInfo[0];
+    private static final  Map<EntityIdType, EntityChildrenInfo> NO_CHILDREN = Collections.emptyMap();
 
     /** The human readable description of the entity. */
     private final String description;
@@ -92,7 +93,7 @@ public class ModelEntityInfo implements Serializable, Cloneable {
         this.adders = adders;
 
         if(children == null) {
-            children = new HashMap<EntityIdType, EntityChildrenInfo>();
+            children = NO_CHILDREN;
         }
         this.childrenInfo = children;
 

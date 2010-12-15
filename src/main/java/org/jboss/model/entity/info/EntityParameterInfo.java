@@ -35,26 +35,29 @@ public class EntityParameterInfo extends EntityFeatureInfo {
 
     /** The parameter type. */
     private final MetaType type;
+    private final boolean nillable;
 
     /**
      * @param name the name of the data
      * @param type the type of the data
      * @param description a human readable description of the data. Can be <code>null</code>.
+     * @param nillable whether the parameter can be <code>null</code> or not
      */
-    public EntityParameterInfo(String name, MetaType type, String description) {
-        this(name, type, description, null);
+    public EntityParameterInfo(String name, MetaType type, String description, boolean nillable) {
+        this(name, type, description, nillable, null);
     }
 
     /**
      * @param name the name of the data
      * @param type the type of the data
      * @param description a human readable description of the data. Can be <code>null</code>.
-     * @param fields the fields for the operation.  Can be <code>null</code>
-     * which is equivalent to an empty descriptor.
+     * @param nillable whether the parameter can be <code>null</code> or not
+     * @param fields the fields for the operation.  Can be <code>null</code> which is equivalent to an empty descriptor.
      */
-    public EntityParameterInfo(String name, MetaType type, String description, Fields fields) {
+    public EntityParameterInfo(String name, MetaType type, String description, boolean nillable, Fields fields) {
         super(name, description, fields);
         this.type = type;
+        this.nillable = nillable;
     }
 
     /**
@@ -64,6 +67,13 @@ public class EntityParameterInfo extends EntityFeatureInfo {
      */
     public MetaType getType() {
         return type;
+    }
+
+    /**
+     * @return the nillable
+     */
+    public boolean isNillable() {
+        return nillable;
     }
 
     @Override

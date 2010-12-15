@@ -96,7 +96,7 @@ public final class SimpleValueSupport extends AbstractMetaValue implements Simpl
         return wrap(value, double.class.getName());
     }
 
-    public static SimpleValue create(final Object o, final SimpleMetaType metaType) {
+    public static SimpleValue create(Object o, final SimpleMetaType metaType) {
         if(metaType == null) {
             throw new IllegalArgumentException("null meta type");
         }
@@ -104,7 +104,13 @@ public final class SimpleValueSupport extends AbstractMetaValue implements Simpl
             return new SimpleValueSupport(metaType, null);
         }
         if(o instanceof SimpleValue) {
-            return (SimpleValue) o;
+            final SimpleValue other = (SimpleValue) o;
+            // In case it's a value of the same type, just return the value
+            if(metaType.isValue(other)) {
+                return other;
+            }
+            // otherwise try to convert it
+            o = other.getValue();
         }
         // First check if it's a simple type
         SimpleMetaType.resolve(o.getClass().getName());
@@ -313,7 +319,7 @@ public final class SimpleValueSupport extends AbstractMetaValue implements Simpl
         if(str == null) {
             return null;
         }
-        if(str.length() > 1) {
+        if(str.length() != 1) {
             throw new IllegalArgumentException("illegal character" + str);
         }
         return new Character(str.charAt(0));

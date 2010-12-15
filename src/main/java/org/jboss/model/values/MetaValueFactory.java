@@ -24,10 +24,17 @@ package org.jboss.model.values;
 
 import java.util.Collection;
 
+import org.jboss.model.entity.ModelEntity;
+import org.jboss.model.entity.info.EntityAttributeInfo;
+import org.jboss.model.entity.info.ModelEntityInfo;
+import org.jboss.model.types.ArrayMetaType;
 import org.jboss.model.types.CollectionMetaType;
 import org.jboss.model.types.CompositeMapMetaType;
 import org.jboss.model.types.CompositeMetaType;
+import org.jboss.model.types.MapMetaType;
+import org.jboss.model.types.SimpleMetaType;
 import org.jboss.model.types.TableMetaType;
+import org.jboss.model.types.builders.MetaTypeFactory;
 
 /**
  * @author Emanuel Muckenhuber
@@ -55,6 +62,33 @@ public class MetaValueFactory extends SimpleValue.Factory {
     }
 
     /**
+     * Create a simple array value.
+     *
+     * @param array the array object
+     * @param metaType the array meta type
+     * @return the array value
+     */
+    public static ArrayValue createSimpleArray(final Object[] array, final SimpleMetaType metaType) {
+        final int length = array.length;
+        final MetaValue[] value = new MetaValue[length];
+        for(int i = 0; i < length; i++) {
+            value[i] = create(array[i], metaType);
+        }
+        return createArray(value, MetaTypeFactory.createArrayMetaType(metaType));
+    }
+
+    /**
+     * Create an array value.
+     *
+     * @param value the {@code MetaValue] array value
+     * @param metaType the array meta type
+     * @return the array value
+     */
+    public static ArrayValue createArray(final Object value, final ArrayMetaType metaType) {
+        return new ArrayValueSupport(metaType, value);
+    }
+
+    /**
      * Create a composite map value.
      *
      * @param entryType the composite entry meta type
@@ -64,6 +98,16 @@ public class MetaValueFactory extends SimpleValue.Factory {
     public static CompositeMapValue createCompositeMapValue(final CompositeMetaType entryType, final String index) {
         final CompositeMapMetaType metaType = new CompositeMapMetaType(entryType, index, index);
         return new CompositeMapValueSupport(metaType);
+    }
+
+    /**
+     * Create a map value.
+     *
+     * @param metaType the map meta type
+     * @return the map value
+     */
+    public static MapValue create(final MapMetaType metaType) {
+        return new MapValueSupport(metaType);
     }
 
     /**
@@ -106,6 +150,29 @@ public class MetaValueFactory extends SimpleValue.Factory {
      */
     public static CollectionValue create(final CollectionMetaType metaType, Collection<MetaValue> collection) {
         return new CollectionValueSupport(metaType, collection);
+    }
+
+    /**
+     * Create a composite value based on a {@code ModelEntity}.
+     *
+     * @param entity the model entity.
+     * @return the composite value
+     */
+    public static CompositeValue createCompositeValue(final ModelEntity entity) {
+        if(entity == null) {
+            throw new IllegalArgumentException("null entity");
+        }
+        final ModelEntityInfo entityInfo = entity.getEntityInfo();
+        final CompositeMetaType metaType = MetaTypeFactory.createCompositeType(entityInfo);
+        final CompositeValue value = create(metaType);
+        for(final EntityAttributeInfo attribute : entityInfo.getAttributes()) {
+            final String attributeName = attribute.getName();
+            final MetaValue attributeValue = entity.getAttribute(attributeName);
+            if(attributeValue != null) {
+                value.set(attributeName, attributeValue);
+            }
+        }
+        return value;
     }
 
 }
