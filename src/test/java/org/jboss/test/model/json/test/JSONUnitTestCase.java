@@ -38,15 +38,20 @@ import org.jboss.model.values.MetaValueFactory;
  */
 public class JSONUnitTestCase extends TestCase {
 
-    public void test() throws Exception {
+    private static final CompositeMetaType TYPE;
 
-        final CompositeMetaType type = MetaTypeFactory.compositeTypeBuilder("socket-binding", "test")
+    static {
+        TYPE = MetaTypeFactory.compositeTypeBuilder("socket-binding", "test")
             .addItem("name", MetaTypeFactory.STRING)
             .addItem("port", MetaTypeFactory.INTEGER)
             .addItem("fixed-port", MetaTypeFactory.BOOLEAN)
             .addItem("interface-name", MetaTypeFactory.STRING)
             .create();
+    }
 
+    public void test() throws Exception {
+
+        final CompositeMetaType type = TYPE;
         final CompositeValue value = MetaValueFactory.create(type);
         value.set("name", MetaValueFactory.create("http"));
         value.set("port", MetaValueFactory.create(8080));
@@ -66,8 +71,26 @@ public class JSONUnitTestCase extends TestCase {
         assertEquals(MetaValueFactory.create(8080), rValues.get("port"));
         assertEquals(MetaValueFactory.create(false), rValues.get("fixed-port"));
         assertEquals(MetaValueFactory.create("public"), rValues.get("interface-name"));
+
     }
 
+    public void test2() throws Exception {
+        final JSONObject json = new JSONObject();
+        json.put("name", "http");
+        json.put("port", 8080);
+        json.put("fixed-port", false);
+        json.put("interface-name", "public");
+
+        final CompositeMetaType type = TYPE;
+        final MetaValue recreated = JSONMetaValueTransformer.getInstance().transform(json, type);
+        assertNotNull(recreated);
+        assertTrue(recreated.getMetaType().isComposite());
+        final CompositeValue rValues = recreated.as(CompositeValue.class);
+        assertEquals(MetaValueFactory.create("http"), rValues.get("name"));
+        assertEquals(MetaValueFactory.create(8080), rValues.get("port"));
+        assertEquals(MetaValueFactory.create(false), rValues.get("fixed-port"));
+        assertEquals(MetaValueFactory.create("public"), rValues.get("interface-name"));
+    }
 
 
 }
