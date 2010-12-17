@@ -37,10 +37,6 @@ public final class EntityOperationInfo extends EntityFeatureInfo {
 
     private final EntityParameterInfo[] NO_PARAMS = new EntityParameterInfo[0];
 
-    public enum Usage {
-        CONFIGURATION, METRIC, MANAGEMENT, UNKOWN
-    }
-
     /** The method's return type. */
     private final MetaType type;
     private final Usage usage;

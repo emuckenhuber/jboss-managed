@@ -23,14 +23,28 @@
 package org.jboss.model.entity.info;
 
 /**
- * TODO add class javadoc for RestartPolicy.
+ * Whether a given operation requires a server restart to take effect
+ * in the runtime.
  *
  * @author Brian Stansberry
  */
 public enum RestartPolicy {
 
-    REQUIRED,
-    RECOMMENDED,
+    /**
+     * Requires a full restart of the server VM process for the change to
+     * take effect.
+     */
+    COLD_START_REQUIRED,
+    /**
+     * Does not require a restart of the server VM process, but requires a
+     * restart of the core service on which all other services depend. Effect
+     * is a restart of all services.
+     */
+    WARM_START_REQUIRED,
+    /**
+     * No restart is required; the operation will impact the runtime immediately.
+     */
     NOT_REQUIRED,
+    /** Indicates that whether a restart is required is unknown. */
     UNKNOWN
 }

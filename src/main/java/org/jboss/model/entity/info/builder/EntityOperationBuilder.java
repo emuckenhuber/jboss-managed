@@ -26,9 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.model.entity.info.EntityOperationInfo;
-import org.jboss.model.entity.info.EntityOperationInfo.Usage;
 import org.jboss.model.entity.info.Impact;
 import org.jboss.model.entity.info.RestartPolicy;
+import org.jboss.model.entity.info.Usage;
 import org.jboss.model.types.MetaType;
 import org.jboss.model.types.Named;
 
