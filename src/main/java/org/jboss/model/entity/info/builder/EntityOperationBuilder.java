@@ -25,7 +25,7 @@ package org.jboss.model.entity.info.builder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jboss.model.entity.info.EntityOperationInfo;
+import org.jboss.model.entity.info.ManagedResourceOperationInfo;
 import org.jboss.model.entity.info.Impact;
 import org.jboss.model.entity.info.RestartPolicy;
 import org.jboss.model.entity.info.Usage;
@@ -35,7 +35,7 @@ import org.jboss.model.types.Named;
 /**
  * @author Emanuel Muckenhuber
  */
-public class EntityOperationBuilder extends AbstractEntityFeatureBuilder<EntityOperationInfo> {
+public class EntityOperationBuilder extends AbstractEntityFeatureBuilder<ManagedResourceOperationInfo> {
 
     private MetaType returnType;
     private Usage usage = Usage.UNKOWN;
@@ -104,9 +104,9 @@ public class EntityOperationBuilder extends AbstractEntityFeatureBuilder<EntityO
         }
     }
 
-    public EntityOperationInfo create() {
+    public ManagedResourceOperationInfo create() {
         checkValid();
-        return new EntityOperationInfo(name, description, createSignature(signatureBulders), returnType, usage, restartPolicy, impact, null);
+        return new ManagedResourceOperationInfo(name, description, createSignature(signatureBulders), returnType, usage, restartPolicy, impact, null);
     }
 
 }

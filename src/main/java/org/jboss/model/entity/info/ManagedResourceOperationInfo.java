@@ -27,15 +27,15 @@ import java.util.Arrays;
 import org.jboss.model.types.MetaType;
 
 /**
- * TODO add class javadoc for EntityOperationInfo.
+ * TODO add class javadoc for ManagedResourceOperationInfo.
  *
  * @author Brian Stansberry
  */
-public final class EntityOperationInfo extends EntityFeatureInfo {
+public final class ManagedResourceOperationInfo extends ManagedResourceFeatureInfo {
 
     private static final long serialVersionUID = 5230879009939410051L;
 
-    private final EntityParameterInfo[] NO_PARAMS = new EntityParameterInfo[0];
+    private final ManagedResourceParameterInfo[] NO_PARAMS = new ManagedResourceParameterInfo[0];
 
     /** The method's return type. */
     private final MetaType type;
@@ -44,32 +44,32 @@ public final class EntityOperationInfo extends EntityFeatureInfo {
     private final RestartPolicy restartPolicy;
 
     /** The signature of the method, that is, the class names of the arguments. */
-    private final EntityParameterInfo[] signature;
+    private final ManagedResourceParameterInfo[] signature;
 
     /**
-     * Constructs an <CODE>EntityOperationInfo</CODE> object.
+     * Constructs an <CODE>ManagedResourceOperationInfo</CODE> object.
      *
      * @param name The name of the method.
      * @param description A human readable description of the operation.
      * @param signature
-     *            <CODE>EntityParameterInfo</CODE> objects describing the
+     *            <CODE>ManagedResourceParameterInfo</CODE> objects describing the
      *            parameters(arguments) of the method. This may be null with the
      *            same effect as a zero-length array.
      * @param type The type of the method's return value.
      * @param impact The impact of the method
      */
-    public EntityOperationInfo(String name, String description, EntityParameterInfo[] signature, MetaType type,
+    public ManagedResourceOperationInfo(String name, String description, ManagedResourceParameterInfo[] signature, MetaType type,
             Usage usage, RestartPolicy restartPolicy, Impact impact) {
         this(name, description, signature, type, usage, restartPolicy, impact, null);
     }
 
     /**
-     * Constructs an <CODE>EntityOperationInfo</CODE> object.
+     * Constructs an <CODE>ManagedResourceOperationInfo</CODE> object.
      *
      * @param name The name of the method.
      * @param description A human readable description of the operation.
      * @param signature
-     *            <CODE>EntityParameterInfo</CODE> objects describing the
+     *            <CODE>ManagedResourceParameterInfo</CODE> objects describing the
      *            parameters(arguments) of the method. This may be null with the
      *            same effect as a zero-length array.
      * @param type The type of the method's return value.
@@ -78,7 +78,7 @@ public final class EntityOperationInfo extends EntityFeatureInfo {
      *            The descriptor for the operation. This may be null which is
      *            equivalent to an empty descriptor.
      */
-    public EntityOperationInfo(String name, String description, EntityParameterInfo[] signature, MetaType type,
+    public ManagedResourceOperationInfo(String name, String description, ManagedResourceParameterInfo[] signature, MetaType type,
             Usage usage, RestartPolicy restartPolicy, Impact impact, Fields fields) {
 
         super(name, description, fields);
@@ -106,19 +106,19 @@ public final class EntityOperationInfo extends EntityFeatureInfo {
     /**
      * <p>
      * Returns the list of parameters for this operation. Each parameter is
-     * described by an <CODE>EntityParameterInfo</CODE> object.
+     * described by an <CODE>ManagedResourceParameterInfo</CODE> object.
      * </p>
      *
      * <p>
      * The returned array is a shallow copy of the internal array, which means
      * that it is a copy of the internal array of references to the
-     * <CODE>EntityParameterInfo</CODE> objects but that each referenced
-     * <CODE>EntityParameterInfo</CODE> object is not copied.
+     * <CODE>ManagedResourceParameterInfo</CODE> objects but that each referenced
+     * <CODE>ManagedResourceParameterInfo</CODE> object is not copied.
      * </p>
      *
-     * @return An array of <CODE>EntityParameterInfo</CODE> objects.
+     * @return An array of <CODE>ManagedResourceParameterInfo</CODE> objects.
      */
-    public EntityParameterInfo[] getSignature() {
+    public ManagedResourceParameterInfo[] getSignature() {
         if (signature.length == 0)
             return signature;
         else
@@ -150,25 +150,25 @@ public final class EntityOperationInfo extends EntityFeatureInfo {
     }
 
     /**
-     * Compare this EntityOperationInfo to another.
+     * Compare this ManagedResourceOperationInfo to another.
      *
      * @param o the object to compare to.
      *
-     * @return true if and only if <code>o</code> is an EntityOperationInfo such
+     * @return true if and only if <code>o</code> is an ManagedResourceOperationInfo such
      *         that its {@link #getName()}, {@link #getReturnType()},
      *         {@link #getDescription()}, {@link #getImpact()},
      *         {@link #getFields()} and {@link #getSignature()} values are
      *         equal (not necessarily identical) to those of this
-     *         EntityOperationInfo. Two signature arrays are equal if their
+     *         ManagedResourceOperationInfo. Two signature arrays are equal if their
      *         elements are pairwise equal.
      */
     @Override
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof EntityOperationInfo))
+        if (!(o instanceof ManagedResourceOperationInfo))
             return false;
-        EntityOperationInfo p = (EntityOperationInfo) o;
+        ManagedResourceOperationInfo p = (ManagedResourceOperationInfo) o;
         return (p.getName().equals(getName()) && p.getReturnType().equals(getReturnType())
                 && p.getDescription().equals(getDescription()) && p.getImpact() == getImpact()
                 && Arrays.equals(p.signature, signature) && p.getFields().equals(getFields()));

@@ -25,14 +25,14 @@ package org.jboss.model.entity.info.builder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jboss.model.entity.info.EntityAdderInfo;
+import org.jboss.model.entity.info.ManagedResourceAdderInfo;
 import org.jboss.model.entity.info.RestartPolicy;
 import org.jboss.model.types.Named;
 
 /**
  * @author Emanuel Muckenhuber
  */
-public class EntityAdderInfoBuilder extends AbstractEntityFeatureBuilder<EntityAdderInfo> {
+public class EntityAdderInfoBuilder extends AbstractEntityFeatureBuilder<ManagedResourceAdderInfo> {
 
     private RestartPolicy restartPolicy = RestartPolicy.UNKNOWN;
     private List<EntityParameterInfoBuilder> signatureBulders = new ArrayList<EntityParameterInfoBuilder>();
@@ -77,9 +77,9 @@ public class EntityAdderInfoBuilder extends AbstractEntityFeatureBuilder<EntityA
         //
     }
 
-    protected EntityAdderInfo create() {
+    protected ManagedResourceAdderInfo create() {
         checkValid();
-        return new EntityAdderInfo(name, description, createSignature(signatureBulders), restartPolicy, null);
+        return new ManagedResourceAdderInfo(name, description, createSignature(signatureBulders), restartPolicy, null);
     }
 
 }

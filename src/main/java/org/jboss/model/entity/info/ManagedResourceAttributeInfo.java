@@ -25,11 +25,11 @@ package org.jboss.model.entity.info;
 import org.jboss.model.types.MetaType;
 
 /**
- * TODO add class javadoc for EntityAttributeInfo.
+ * TODO add class javadoc for ManagedResourceAttributeInfo.
  *
  * @author Brian Stansberry
  */
-public class EntityAttributeInfo extends EntityFeatureInfo {
+public class ManagedResourceAttributeInfo extends ManagedResourceFeatureInfo {
 
     private static final long serialVersionUID = 5982298740361044908L;
 
@@ -39,7 +39,7 @@ public class EntityAttributeInfo extends EntityFeatureInfo {
     private final MetaType attributeType;
 
     /**
-     * Constructs an <CODE>EntityAttributeInfo</CODE> object.
+     * Constructs an <CODE>ManagedResourceAttributeInfo</CODE> object.
      *
      * @param name
      *            The name of the attribute.
@@ -48,12 +48,12 @@ public class EntityAttributeInfo extends EntityFeatureInfo {
      * @param description
      *            A human readable description of the attribute.
      */
-    public EntityAttributeInfo(String name, MetaType type, String description) {
+    public ManagedResourceAttributeInfo(String name, MetaType type, String description) {
         this(name, type, description, null);
     }
 
     /**
-     * Constructs an <CODE>EntityAttributeInfo</CODE> object.
+     * Constructs an <CODE>ManagedResourceAttributeInfo</CODE> object.
      *
      * @param name
      *            The name of the attribute.
@@ -66,7 +66,7 @@ public class EntityAttributeInfo extends EntityFeatureInfo {
      *            equivalent to an empty descriptor.
      *
      */
-    public EntityAttributeInfo(String name, MetaType type, String description, Fields fields) {
+    public ManagedResourceAttributeInfo(String name, MetaType type, String description, Fields fields) {
         super(name, description, fields);
 
         this.attributeType = type;
@@ -126,9 +126,9 @@ public class EntityAttributeInfo extends EntityFeatureInfo {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof EntityAttributeInfo))
+        if (!(o instanceof ManagedResourceAttributeInfo))
             return false;
-        EntityAttributeInfo p = (EntityAttributeInfo) o;
+        ManagedResourceAttributeInfo p = (ManagedResourceAttributeInfo) o;
         return (p.getName().equals(getName()) && p.getType().equals(getType())
                 && p.getDescription().equals(getDescription()) && p.getFields().equals(getFields()));
     }

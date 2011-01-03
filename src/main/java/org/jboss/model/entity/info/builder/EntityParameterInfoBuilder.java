@@ -22,13 +22,13 @@
 
 package org.jboss.model.entity.info.builder;
 
-import org.jboss.model.entity.info.EntityParameterInfo;
+import org.jboss.model.entity.info.ManagedResourceParameterInfo;
 import org.jboss.model.types.MetaType;
 
 /**
  * @author Emanuel Muckenhuber
  */
-public class EntityParameterInfoBuilder extends AbstractEntityFeatureBuilder<EntityParameterInfo> {
+public class EntityParameterInfoBuilder extends AbstractEntityFeatureBuilder<ManagedResourceParameterInfo> {
 
     private MetaType parameterType;
     private boolean nillable;
@@ -66,9 +66,9 @@ public class EntityParameterInfoBuilder extends AbstractEntityFeatureBuilder<Ent
         }
     }
 
-    protected EntityParameterInfo create() {
+    protected ManagedResourceParameterInfo create() {
         checkValid();
-        return new EntityParameterInfo(name, parameterType, description, nillable);
+        return new ManagedResourceParameterInfo(name, parameterType, description, nillable);
     }
 
 }

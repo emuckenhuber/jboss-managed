@@ -24,14 +24,14 @@ package org.jboss.model.entity.info.builder;
 
 import java.util.List;
 
-import org.jboss.model.entity.info.EntityFeatureInfo;
-import org.jboss.model.entity.info.EntityParameterInfo;
+import org.jboss.model.entity.info.ManagedResourceFeatureInfo;
+import org.jboss.model.entity.info.ManagedResourceParameterInfo;
 import org.jboss.model.types.Named;
 
 /**
  * @author Emanuel Muckenhuber
  */
-public abstract class AbstractEntityFeatureBuilder<T extends EntityFeatureInfo> {
+public abstract class AbstractEntityFeatureBuilder<T extends ManagedResourceFeatureInfo> {
 
     final String name;
     final String description;
@@ -55,16 +55,16 @@ public abstract class AbstractEntityFeatureBuilder<T extends EntityFeatureInfo> 
 
     protected abstract T create();
 
-    static EntityParameterInfo[] createSignature(List<EntityParameterInfoBuilder> signatureBulders) {
+    static ManagedResourceParameterInfo[] createSignature(List<EntityParameterInfoBuilder> signatureBulders) {
         final int size = signatureBulders.size();
         if(size > 0) {
-            final EntityParameterInfo[] array = new EntityParameterInfo[size];
+            final ManagedResourceParameterInfo[] array = new ManagedResourceParameterInfo[size];
             return createArray(signatureBulders, array);
         }
         return null;
     }
 
-    static <T extends EntityFeatureInfo> T[] createArray(final List<? extends AbstractEntityFeatureBuilder<T>> builders, T[] array) {
+    static <T extends ManagedResourceFeatureInfo> T[] createArray(final List<? extends AbstractEntityFeatureBuilder<T>> builders, T[] array) {
         final int length = array.length;
         for(int i = 0; i < length; i++) {
             array[i] = builders.get(i).create();

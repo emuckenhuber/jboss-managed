@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- * Compares the order of two {@link EntityAddress}es. Sorts by
+ * Compares the order of two {@link ManagedResourceAddress}es. Sorts by
  * {@link EntityId}, then by depth, e.g.
  *
  * <pre>
@@ -39,12 +39,12 @@ import java.util.Comparator;
  * @author Steve Woodcock (<a
  *         href="mailto:stevew@jofti.com">stevew@jofti.com</a>)
  */
-class EntityAddressComparator implements Comparator<EntityAddress>, Serializable {
+class ManagedResourceAddressComparator implements Comparator<ManagedResourceAddress>, Serializable {
     private static final long serialVersionUID = -1420112846834101918L;
-    static final EntityAddressComparator INSTANCE = new EntityAddressComparator();
+    static final ManagedResourceAddressComparator INSTANCE = new ManagedResourceAddressComparator();
 
     @Override
-    public int compare(EntityAddress a, EntityAddress b) {
+    public int compare(ManagedResourceAddress a, ManagedResourceAddress b) {
         int s1 = a.size();
         int s2 = b.size();
 

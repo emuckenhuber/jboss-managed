@@ -29,37 +29,37 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.jboss.model.entity.info.EntityChildrenInfo;
+import org.jboss.model.entity.info.ManagedResourceChildrenInfo;
 
 /**
  * @author Emanuel Muckenhuber
  */
-public class ModelEntityChildren implements Serializable, Cloneable {
+public class ManagedResourceChildren implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -1258248193327793391L;
 
-    private final EntityChildrenInfo info;
-    private final Map<EntityId, ModelEntity> children = new HashMap<EntityId, ModelEntity>();
+    private final ManagedResourceChildrenInfo info;
+    private final Map<EntityId, ManagedResource> children = new HashMap<EntityId, ManagedResource>();
 
-    public ModelEntityChildren(final EntityChildrenInfo info) {
+    public ManagedResourceChildren(final ManagedResourceChildrenInfo info) {
         if(info == null) {
             throw new IllegalArgumentException("null entity children info");
         }
         this.info = info;
     }
 
-    ModelEntityChildren(final ModelEntityChildren toClone) {
+    ManagedResourceChildren(final ManagedResourceChildren toClone) {
         this.info = toClone.info;
-        for(final Entry<EntityId, ModelEntity> entry : toClone.children.entrySet()) {
-            children.put(entry.getKey(), new ModelEntity(entry.getValue()));
+        for(final Entry<EntityId, ManagedResource> entry : toClone.children.entrySet()) {
+            children.put(entry.getKey(), new ManagedResource(entry.getValue()));
         }
     }
 
-    protected ModelEntity getChild(final EntityId id) {
+    protected ManagedResource getChild(final EntityId id) {
         return children.get(id);
     }
 
-    protected void addChild(final EntityId id, final ModelEntity entity) {
+    protected void addChild(final EntityId id, final ManagedResource entity) {
         if(id == null) {
             throw new IllegalArgumentException("null entity id");
         }
@@ -77,7 +77,7 @@ public class ModelEntityChildren implements Serializable, Cloneable {
         children.put(id, entity);
     }
 
-    protected Collection<ModelEntity> getChildren() {
+    protected Collection<ManagedResource> getChildren() {
         return Collections.unmodifiableCollection(children.values());
     }
 

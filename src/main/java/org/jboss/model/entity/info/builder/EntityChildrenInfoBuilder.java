@@ -23,18 +23,18 @@
 package org.jboss.model.entity.info.builder;
 
 import org.jboss.model.entity.info.Cardinality;
-import org.jboss.model.entity.info.EntityChildrenInfo;
-import org.jboss.model.entity.info.ModelEntityInfo;
+import org.jboss.model.entity.info.ManagedResourceChildrenInfo;
+import org.jboss.model.entity.info.ManagedResourceInfo;
 
 /**
  * @author Emanuel Muckenhuber
  */
 public class EntityChildrenInfoBuilder {
 
-    private final ModelEntityInfo info;
+    private final ManagedResourceInfo info;
     private Cardinality cardinality = Cardinality.ZERO_INFINITY;
 
-    EntityChildrenInfoBuilder(final ModelEntityInfo info) {
+    EntityChildrenInfoBuilder(final ManagedResourceInfo info) {
         if(info == null) {
             throw new IllegalArgumentException("null child entity info");
         }
@@ -49,8 +49,8 @@ public class EntityChildrenInfoBuilder {
         return this;
     }
 
-    EntityChildrenInfo create() {
-        return new EntityChildrenInfo(info, cardinality);
+    ManagedResourceChildrenInfo create() {
+        return new ManagedResourceChildrenInfo(info, cardinality);
     }
 
 }

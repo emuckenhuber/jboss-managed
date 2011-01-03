@@ -28,12 +28,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.jboss.model.entity.EntityIdType;
-import org.jboss.model.entity.info.EntityAdderInfo;
-import org.jboss.model.entity.info.EntityAttributeInfo;
-import org.jboss.model.entity.info.EntityChildrenInfo;
-import org.jboss.model.entity.info.EntityFeatureInfo;
-import org.jboss.model.entity.info.EntityOperationInfo;
-import org.jboss.model.entity.info.ModelEntityInfo;
+import org.jboss.model.entity.info.ManagedResourceAdderInfo;
+import org.jboss.model.entity.info.ManagedResourceAttributeInfo;
+import org.jboss.model.entity.info.ManagedResourceChildrenInfo;
+import org.jboss.model.entity.info.ManagedResourceFeatureInfo;
+import org.jboss.model.entity.info.ManagedResourceOperationInfo;
+import org.jboss.model.entity.info.ManagedResourceInfo;
 import org.jboss.model.types.MetaType;
 import org.jboss.model.types.Named;
 
@@ -156,60 +156,60 @@ public class ModelEntityInfoBuilder {
         return addOperation(getName(name), description);
     }
 
-    public EntityChildrenInfoBuilder addChildInfo(final ModelEntityInfo info) {
+    public EntityChildrenInfoBuilder addChildInfo(final ManagedResourceInfo info) {
         final EntityChildrenInfoBuilder builder = new EntityChildrenInfoBuilder(info);
         childrenBuilders.add(builder);
         return builder;
     }
 
-    public ModelEntityInfo create() {
-        return new ModelEntityInfo(identifierType, description,
+    public ManagedResourceInfo create() {
+        return new ManagedResourceInfo(identifierType, description,
                 createAttributes(attributeBuilders),
                 creatOperations(operationBuilders),
                 createAdders(adderBuilders),
                 createChildrenMap(childrenBuilders));
     }
 
-    static EntityAttributeInfo[] createAttributes(List<EntityAttributeInfoBuilder> builders) {
+    static ManagedResourceAttributeInfo[] createAttributes(List<EntityAttributeInfoBuilder> builders) {
         final int size = builders.size();
         if(size > 0) {
-            EntityAttributeInfo[] array = new EntityAttributeInfo[size];
+            ManagedResourceAttributeInfo[] array = new ManagedResourceAttributeInfo[size];
             return createArray(builders, array);
         }
         return null;
     }
 
-    static EntityOperationInfo[] creatOperations(List<EntityOperationBuilder> builders) {
+    static ManagedResourceOperationInfo[] creatOperations(List<EntityOperationBuilder> builders) {
         final int size = builders.size();
         if(size > 0) {
-            EntityOperationInfo[] array = new EntityOperationInfo[size];
+            ManagedResourceOperationInfo[] array = new ManagedResourceOperationInfo[size];
             return createArray(builders, array);
         }
         return null;
     }
 
-    static EntityAdderInfo[] createAdders(List<EntityAdderInfoBuilder> builders) {
+    static ManagedResourceAdderInfo[] createAdders(List<EntityAdderInfoBuilder> builders) {
         final int size = builders.size();
         if(size > 0) {
-            EntityAdderInfo[] array = new EntityAdderInfo[size];
+            ManagedResourceAdderInfo[] array = new ManagedResourceAdderInfo[size];
             return createArray(builders, array);
         }
         return null;
     }
 
-    static Map<EntityIdType, EntityChildrenInfo> createChildrenMap(List<EntityChildrenInfoBuilder> builders) {
+    static Map<EntityIdType, ManagedResourceChildrenInfo> createChildrenMap(List<EntityChildrenInfoBuilder> builders) {
         final int size = builders.size();
         if(size > 0) {
-            final Map<EntityIdType, EntityChildrenInfo> adders = new HashMap<EntityIdType, EntityChildrenInfo>(size);
+            final Map<EntityIdType, ManagedResourceChildrenInfo> adders = new HashMap<EntityIdType, ManagedResourceChildrenInfo>(size);
             for(final EntityChildrenInfoBuilder builder : builders) {
-                final EntityChildrenInfo child = builder.create();
+                final ManagedResourceChildrenInfo child = builder.create();
                 adders.put(child.getIdentifierType(), child);
             }
         }
         return null;
     }
 
-    static <T extends EntityFeatureInfo> T[] createArray(final List<? extends AbstractEntityFeatureBuilder<T>> builders, T[] array) {
+    static <T extends ManagedResourceFeatureInfo> T[] createArray(final List<? extends AbstractEntityFeatureBuilder<T>> builders, T[] array) {
         final int length = array.length;
         for(int i = 0; i < length; i++) {
             array[i] = builders.get(i).create();

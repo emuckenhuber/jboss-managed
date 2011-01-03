@@ -27,12 +27,12 @@ import java.io.Serializable;
 import org.jboss.model.types.Named;
 
 /**
- * TODO add class javadoc for EntityFeatureInfo.
+ * TODO add class javadoc for ManagedResourceFeatureInfo.
  *
  * @author Brian Stansberry
  * @author Emanuel Muckenhuber
  */
-public class EntityFeatureInfo implements Named, Serializable, Cloneable {
+public class ManagedResourceFeatureInfo implements Named, Serializable, Cloneable {
 
     private static final long serialVersionUID = -6601713831278724297L;
 
@@ -58,25 +58,25 @@ public class EntityFeatureInfo implements Named, Serializable, Cloneable {
     private final Fields fields;
 
     /**
-     * Constructs an <CODE>EntityFeatureInfo</CODE> object. This constructor is
+     * Constructs an <CODE>ManagedResourceFeatureInfo</CODE> object. This constructor is
      * equivalent to {@code MBeanFeatureInfo(name, description, (Descriptor) null}.
      *
      * @param name The name of the feature.
      * @param description A human readable description of the feature.
      */
-    public EntityFeatureInfo(String name, String description) {
+    public ManagedResourceFeatureInfo(String name, String description) {
         this(name, description, null);
     }
 
     /**
-     * Constructs an <CODE>EntityFeatureInfo</CODE> object.
+     * Constructs an <CODE>ManagedResourceFeatureInfo</CODE> object.
      *
      * @param name The name of the feature.
      * @param description A human readable description of the feature.
      * @param descriptor The descriptor for the feature. This may be null which is
      *            equivalent to an empty descriptor.
      */
-    public EntityFeatureInfo(String name, String description, Fields fields) {
+    public ManagedResourceFeatureInfo(String name, String description, Fields fields) {
         this.name = name;
         this.description = description;
         this.fields = fields;
@@ -112,7 +112,7 @@ public class EntityFeatureInfo implements Named, Serializable, Cloneable {
      *
      * @param o the object to compare to.
      *
-     * @return true if and only if <code>o</code> is an EntityFeatureInfo such
+     * @return true if and only if <code>o</code> is an ManagedResourceFeatureInfo such
      *         that its {@link #getName()}, {@link #getDescription()}, and
      *         {@link #getFields()} values are equal (not necessarily
      *         identical) to those of this MBeanFeatureInfo.
@@ -122,10 +122,10 @@ public class EntityFeatureInfo implements Named, Serializable, Cloneable {
         if (o == this) {
             return true;
         }
-        if (!(o instanceof EntityFeatureInfo)) {
+        if (!(o instanceof ManagedResourceFeatureInfo)) {
             return false;
         }
-        EntityFeatureInfo p = (EntityFeatureInfo) o;
+        ManagedResourceFeatureInfo p = (ManagedResourceFeatureInfo) o;
         return (p.getName().equals(getName()) && p.getDescription().equals(getDescription()) && p.getFields().equals(getFields()));
     }
 

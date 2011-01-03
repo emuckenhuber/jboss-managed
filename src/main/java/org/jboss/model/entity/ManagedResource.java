@@ -29,27 +29,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.jboss.model.entity.info.EntityAttributeInfo;
-import org.jboss.model.entity.info.EntityChildrenInfo;
-import org.jboss.model.entity.info.ModelEntityInfo;
+import org.jboss.model.entity.info.ManagedResourceAttributeInfo;
+import org.jboss.model.entity.info.ManagedResourceChildrenInfo;
+import org.jboss.model.entity.info.ManagedResourceInfo;
 import org.jboss.model.types.MetaType;
 import org.jboss.model.values.MetaValue;
 
 /**
- * Provides a detyped view of an {@link AbstractAddressablesModelElement}.
+ * Provides a detyped view of a managed resource.
  * <p/>
- * A ModelEntity can come in two flavors, depending on the value of its
+ * A ManagedResource can come in two flavors, depending on the value of its
  * {@link #isIdOnly()} property. If <code>true</code> the object should be
  * regarded as simply a placeholder in a larger data structure. If <code>false</code>
  * the object contains information on the underlying model element's properties.
  * </p/>
- * Typical usages of a ModelEntity whose {@link #isIdOnly()} property
+ * Typical usages of a ManagedResource whose {@link #isIdOnly()} property
  * is <code>true</code> are:
  * <ul>
  * <li>For a remote client reading the model, as a placeholder entry for model
  * data in which the client is not interested, allowing less data to be
  * shipped to the client while still maintaining the basic model structure.</li>
- * <li>For management client that passes back a ModelEntity to the server
+ * <li>For management client that passes back a ManagedResource to the server
  * that is meant to represent an updated view of the model, as a placeholder
  * entry for a portion of the model that is not modified by the update. Including
  * the placeholder allows to server to clearly distinguish elements that are
@@ -58,41 +58,41 @@ import org.jboss.model.values.MetaValue;
  *
  * @author Brian Stansberry
  */
-public class ModelEntity implements Serializable, Cloneable {
+public class ManagedResource implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -1796243230556461143L;
 
     /** The entity address. */
-    private final EntityAddress address;
+    private final ManagedResourceAddress address;
     private final boolean idOnly;
 
     /** The entity info. */
-    private final ModelEntityInfo entityInfo;
+    private final ManagedResourceInfo entityInfo;
 
     /** The attribute values. */
     private final Map<String, MetaValue> attributeValues = new HashMap<String, MetaValue>();
 
     /** The children grouped by type. */
-    private final Map<EntityIdType, ModelEntityChildren> children = new HashMap<EntityIdType, ModelEntityChildren>();
+    private final Map<EntityIdType, ManagedResourceChildren> children = new HashMap<EntityIdType, ManagedResourceChildren>();
 
     /**
-     * Create a new ModelEntity, with idOnly false.
+     * Create a new ManagedResource, with idOnly false.
      *
      * @param addresss the entity address
      * @param info the model entity info
      */
-    public ModelEntity(final EntityAddress address, final ModelEntityInfo info) {
+    public ManagedResource(final ManagedResourceAddress address, final ManagedResourceInfo info) {
         this(address, info, false);
     }
 
     /**
-     * Create a new ModelEntity.
+     * Create a new ManagedResource.
      *
      * @param address the entity address
      * @param info the model entity info
      * @param idOnly true if this is a idOnly entity
      */
-    public ModelEntity(final EntityAddress address, final ModelEntityInfo info, final boolean idOnly) {
+    public ManagedResource(final ManagedResourceAddress address, final ManagedResourceInfo info, final boolean idOnly) {
         if (address == null) {
             throw new IllegalArgumentException("address is null");
         }
@@ -110,7 +110,7 @@ public class ModelEntity implements Serializable, Cloneable {
         this.idOnly = idOnly;
     }
 
-    public ModelEntity(ModelEntity toClone) {
+    public ManagedResource(ManagedResource toClone) {
         this.address = toClone.address;
         this.idOnly = toClone.idOnly;
         this.entityInfo = toClone.entityInfo;
@@ -122,8 +122,8 @@ public class ModelEntity implements Serializable, Cloneable {
                 }
                 this.attributeValues.put(entry.getKey(), value);
             }
-            for (Map.Entry<EntityIdType, ModelEntityChildren> entry : toClone.children.entrySet()) {
-                children.put(entry.getKey(), new ModelEntityChildren(entry.getValue()));
+            for (Map.Entry<EntityIdType, ManagedResourceChildren> entry : toClone.children.entrySet()) {
+                children.put(entry.getKey(), new ManagedResourceChildren(entry.getValue()));
             }
         }
     }
@@ -133,7 +133,7 @@ public class ModelEntity implements Serializable, Cloneable {
      *
      * @return the entity address
      */
-    public EntityAddress getAddress() {
+    public ManagedResourceAddress getAddress() {
         return address;
     }
 
@@ -143,12 +143,12 @@ public class ModelEntity implements Serializable, Cloneable {
      *
      * @return the entityInfo
      */
-    public ModelEntityInfo getEntityInfo() {
+    public ManagedResourceInfo getEntityInfo() {
         return entityInfo;
     }
 
     /**
-     * Get the available attribute names for this {@code ModelEntity}.
+     * Get the available attribute names for this {@code ManagedResource}.
      *
      * @return the attribute names
      */
@@ -171,7 +171,7 @@ public class ModelEntity implements Serializable, Cloneable {
         if(attributeName == null) {
             throw new IllegalArgumentException("null attribute name");
         }
-        final EntityAttributeInfo attribute = entityInfo.getAttributeInfo(attributeName);
+        final ManagedResourceAttributeInfo attribute = entityInfo.getAttributeInfo(attributeName);
         if(attribute == null) {
             throw new IllegalArgumentException(String.format("attribute (%s) not declared.", attributeName));
         }
@@ -219,12 +219,12 @@ public class ModelEntity implements Serializable, Cloneable {
      * @param id the entity id
      * @return the model entity, <code>null</code> if it does not exist
      */
-    public ModelEntity getChildEntity(final EntityId id) {
+    public ManagedResource getChildEntity(final EntityId id) {
         if(id == null) {
             throw new IllegalArgumentException("null entity id");
         }
         final EntityIdType type = new EntityIdType(id.getElementName()); // TODO
-        ModelEntityChildren children = this.children.get(type);
+        ManagedResourceChildren children = this.children.get(type);
         if(children == null) {
             return null;
         }
@@ -236,7 +236,7 @@ public class ModelEntity implements Serializable, Cloneable {
      *
      * @param entity the model entity to add
      */
-    protected void addChildEntity(final ModelEntity entity) {
+    protected void addChildEntity(final ManagedResource entity) {
         if(entity == null) {
             throw new IllegalArgumentException("null entity");
         }
@@ -250,7 +250,7 @@ public class ModelEntity implements Serializable, Cloneable {
      * @param id the entity id
      * @param entity the mode entity
      */
-    protected void addChildEntity(final EntityId id, final ModelEntity entity) {
+    protected void addChildEntity(final EntityId id, final ManagedResource entity) {
         if(id == null) {
             throw new IllegalArgumentException("null entity id");
         }
@@ -258,13 +258,13 @@ public class ModelEntity implements Serializable, Cloneable {
             throw new IllegalArgumentException("null entity");
         }
         final EntityIdType type = new EntityIdType(id.getElementName()); // TODO
-        ModelEntityChildren children = this.children.get(type);
+        ManagedResourceChildren children = this.children.get(type);
         if(children == null) {
-            final EntityChildrenInfo info = entityInfo.getChildInfo(type);
+            final ManagedResourceChildrenInfo info = entityInfo.getChildInfo(type);
             if(info == null) {
                 throw new IllegalArgumentException();
             }
-            children = new ModelEntityChildren(info);
+            children = new ManagedResourceChildren(info);
             this.children.put(type, children);
         }
         children.addChild(id, entity);
@@ -281,7 +281,7 @@ public class ModelEntity implements Serializable, Cloneable {
             throw new IllegalArgumentException("null entity id");
         }
         final EntityIdType type = new EntityIdType(id.getElementName()); // TODO
-        final ModelEntityChildren children = this.children.get(type);
+        final ManagedResourceChildren children = this.children.get(type);
         if(children == null) {
             return false;
         } else {
@@ -295,11 +295,11 @@ public class ModelEntity implements Serializable, Cloneable {
      * @param entityType the entity type
      * @return the entities
      */
-    public Collection<ModelEntity> getChildren(EntityIdType entityType) {
+    public Collection<ManagedResource> getChildren(EntityIdType entityType) {
         if(entityType == null) {
             throw new IllegalArgumentException("null entity type");
         }
-        final ModelEntityChildren children = this.children.get(entityType);
+        final ManagedResourceChildren children = this.children.get(entityType);
         if(children != null) {
             return children.getChildren();
         } else {
@@ -307,8 +307,8 @@ public class ModelEntity implements Serializable, Cloneable {
         }
     }
 
-    public ModelEntity getChildEntity(final EntityAddress relativeAddress) {
-        ModelEntity element = this;
+    public ManagedResource getChildEntity(final ManagedResourceAddress relativeAddress) {
+        ManagedResource element = this;
         for (int i = 0; i < relativeAddress.size(); i++) {
             element = element.getChildEntity(relativeAddress.get(i));
             if (element == null) {
@@ -326,7 +326,7 @@ public class ModelEntity implements Serializable, Cloneable {
      *          it is a descendant of the root
      */
     public boolean isRoot() {
-        return this.address == EntityAddress.ROOT;
+        return this.address == ManagedResourceAddress.ROOT;
     }
 
     /**

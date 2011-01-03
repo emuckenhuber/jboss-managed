@@ -25,11 +25,11 @@ package org.jboss.model.entity.info;
 import org.jboss.model.types.MetaType;
 
 /**
- * TODO add class javadoc for EntityParameterInfo.
+ * TODO add class javadoc for ManagedResourceParameterInfo.
  *
  * @author Brian Stansberry
  */
-public class EntityParameterInfo extends EntityFeatureInfo {
+public class ManagedResourceParameterInfo extends ManagedResourceFeatureInfo {
 
     private static final long serialVersionUID = -1934506813806183055L;
 
@@ -43,7 +43,7 @@ public class EntityParameterInfo extends EntityFeatureInfo {
      * @param description a human readable description of the data. Can be <code>null</code>.
      * @param nillable whether the parameter can be <code>null</code> or not
      */
-    public EntityParameterInfo(String name, MetaType type, String description, boolean nillable) {
+    public ManagedResourceParameterInfo(String name, MetaType type, String description, boolean nillable) {
         this(name, type, description, nillable, null);
     }
 
@@ -54,7 +54,7 @@ public class EntityParameterInfo extends EntityFeatureInfo {
      * @param nillable whether the parameter can be <code>null</code> or not
      * @param fields the fields for the operation.  Can be <code>null</code> which is equivalent to an empty descriptor.
      */
-    public EntityParameterInfo(String name, MetaType type, String description, boolean nillable, Fields fields) {
+    public ManagedResourceParameterInfo(String name, MetaType type, String description, boolean nillable, Fields fields) {
         super(name, description, fields);
         this.type = type;
         this.nillable = nillable;
@@ -86,8 +86,8 @@ public class EntityParameterInfo extends EntityFeatureInfo {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o instanceof EntityParameterInfo) {
-            EntityParameterInfo p = (EntityParameterInfo) o;
+        if (o instanceof ManagedResourceParameterInfo) {
+            ManagedResourceParameterInfo p = (ManagedResourceParameterInfo) o;
             return (p.getName().equals(getName()) && p.getType().equals(getType())
                     && p.getDescription().equals(getDescription()) && p.getFields().equals(getFields()));
         }

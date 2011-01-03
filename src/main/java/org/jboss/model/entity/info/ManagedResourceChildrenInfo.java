@@ -22,39 +22,50 @@
 
 package org.jboss.model.entity.info;
 
+import java.io.Serializable;
+
 import org.jboss.model.entity.EntityIdType;
-import org.jboss.model.types.SimpleMetaType;
 
 /**
- * The MockEntityInfo creates new EntityAttributeInfo and EntityChildrenInfo
- * upon request.
- *
- * TODO remove
- *
  * @author Emanuel Muckenhuber
  */
-public class MockEntityInfo extends ModelEntityInfo {
+public class ManagedResourceChildrenInfo implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5780713629997200906L;
 
-    public static MockEntityInfo create(final String entityType) {
-        return new MockEntityInfo(new EntityIdType(entityType));
+    private final ManagedResourceInfo info;
+    private final Cardinality cardinality;
+
+    public ManagedResourceChildrenInfo(final ManagedResourceInfo info, final Cardinality cardinality) {
+        if(info == null) {
+            throw new IllegalArgumentException("null entity type");
+        }
+        if(cardinality == null) {
+            throw new IllegalArgumentException("null entity cardinality");
+        }
+        this.info = info;
+        this.cardinality = cardinality;
     }
 
     /**
-     * @param identifierType
-     * @throws IllegalArgumentException
+     * @return the cardinality
      */
-    public MockEntityInfo(EntityIdType identifierType) throws IllegalArgumentException {
-        super(identifierType, MockEntityInfo.class.getName(), null, null, null, null);
+    public Cardinality getCardinality() {
+        return cardinality;
     }
 
-    public EntityAttributeInfo getAttributeInfo(String name) {
-        return new EntityAttributeInfo(name, SimpleMetaType.STRING, "");
+    /**
+     * @return the info
+     */
+    public ManagedResourceInfo getModelEntityInfo() {
+        return info;
     }
 
-    public EntityChildrenInfo getChildInfo(EntityIdType type) {
-        return new EntityChildrenInfo(this, Cardinality.ZERO_INFINITY);
+    /**
+     * @return the identifierType
+     */
+    public EntityIdType getIdentifierType() {
+        return info.getIdentifierType();
     }
 
 }

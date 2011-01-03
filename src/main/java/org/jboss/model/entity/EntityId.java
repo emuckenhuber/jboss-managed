@@ -25,9 +25,9 @@ package org.jboss.model.entity;
 import java.io.Serializable;
 
 /**
- * One element in a {@link EntityAddress}; the portion of the address that
+ * One element in a {@link ManagedResourceAddress}; the portion of the address that
  * uniquely identifies a particular model element within the portion of the
- * model identified by by preceding elements in the EntityAddress.
+ * model identified by by preceding elements in the ManagedResourceAddress.
  *
  * @author Brian Stansberry
  */

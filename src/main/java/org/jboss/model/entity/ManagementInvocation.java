@@ -25,27 +25,26 @@ package org.jboss.model.entity;
 import org.jboss.model.values.MetaValue;
 
 /**
- * TODO add class javadoc for ModelUpdate.
+ * TODO add class javadoc for ManagementInvocation.
  *
  * @author Brian Stansberry
  */
-public class ModelUpdate {
+public class ManagementInvocation {
 
     private static final MetaValue[] EMPTY = new MetaValue[0];
 
-    private final EntityAddress entityAddress;
+    private final ManagedResourceAddress entityAddress;
     private final String operationId;
     private final MetaValue[] params;
-    private transient volatile UpdateIdentifier identifier;
 
-    public ModelUpdate(final EntityAddress entityAddress, final String operationId, final MetaValue... params) {
+    public ManagementInvocation(final ManagedResourceAddress entityAddress, final String operationId, final MetaValue... params) {
         // TODO assertions
         this.entityAddress = entityAddress;
         this.operationId = operationId;
         this.params = params == null ? EMPTY : params;
     }
 
-    public EntityAddress getEntityAddress() {
+    public ManagedResourceAddress getEntityAddress() {
         return entityAddress;
     }
 
@@ -55,14 +54,6 @@ public class ModelUpdate {
 
     public MetaValue[] getParams() {
         return params;
-    }
-
-    public UpdateIdentifier getUpdateIdentifier() {
-        if (identifier == null) {
-            // Thread safety -- we don't care if we create this twice
-            identifier = new UpdateIdentifier(entityAddress.getEntityIdTypes(), operationId);
-        }
-        return identifier;
     }
 
 }

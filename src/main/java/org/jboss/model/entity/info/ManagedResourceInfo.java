@@ -29,20 +29,22 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jboss.model.entity.EntityIdType;
+import org.jboss.model.types.MetaType;
+import org.jboss.model.values.MetaValue;
 
 /**
- * TODO add class javadoc for ModelEntityInfo.
+ * TODO add class javadoc for ManagedResourceInfo.
  *
  * @author Brian Stansberry
  */
-public class ModelEntityInfo implements Serializable, Cloneable {
+public class ManagedResourceInfo implements Serializable, Cloneable, MetaType {
 
     private static final long serialVersionUID = 5142058281439142818L;
 
-    private static final EntityAttributeInfo[] NO_ATTRIBUTES = new EntityAttributeInfo[0];
-    private static final EntityOperationInfo[] NO_OPERATIONS = new EntityOperationInfo[0];
-    private static final EntityAdderInfo[] NO_ADDERS = new EntityAdderInfo[0];
-    private static final  Map<EntityIdType, EntityChildrenInfo> NO_CHILDREN = Collections.emptyMap();
+    private static final ManagedResourceAttributeInfo[] NO_ATTRIBUTES = new ManagedResourceAttributeInfo[0];
+    private static final ManagedResourceOperationInfo[] NO_OPERATIONS = new ManagedResourceOperationInfo[0];
+    private static final ManagedResourceAdderInfo[] NO_ADDERS = new ManagedResourceAdderInfo[0];
+    private static final  Map<EntityIdType, ManagedResourceChildrenInfo> NO_CHILDREN = Collections.emptyMap();
 
     /** The human readable description of the entity. */
     private final String description;
@@ -51,27 +53,27 @@ public class ModelEntityInfo implements Serializable, Cloneable {
     private final EntityIdType identifierType;
 
     /** The entity adder descriptors. */
-    private final EntityAdderInfo[] adders;
+    private final ManagedResourceAdderInfo[] adders;
 
     /** The entity attribute descriptors. */
-    private final EntityAttributeInfo[] attributes;
+    private final ManagedResourceAttributeInfo[] attributes;
 
     /** The entity operation descriptors. */
-    private final EntityOperationInfo[] operations;
+    private final ManagedResourceOperationInfo[] operations;
 
     /** The children infos. */
-    private final Map<EntityIdType, EntityChildrenInfo> childrenInfo;
+    private final Map<EntityIdType, ManagedResourceChildrenInfo> childrenInfo;
 
     /** The fields. */
     private final Fields fields;
 
-    public ModelEntityInfo(EntityIdType identifierType, String description, EntityAttributeInfo[] attributes,
-            EntityOperationInfo[] operations, EntityAdderInfo[] adders, Map<EntityIdType, EntityChildrenInfo> children) throws IllegalArgumentException {
+    public ManagedResourceInfo(EntityIdType identifierType, String description, ManagedResourceAttributeInfo[] attributes,
+            ManagedResourceOperationInfo[] operations, ManagedResourceAdderInfo[] adders, Map<EntityIdType, ManagedResourceChildrenInfo> children) throws IllegalArgumentException {
         this(identifierType, description, attributes, operations, adders, children, null);
     }
 
-    public ModelEntityInfo(EntityIdType identifierType, String description, EntityAttributeInfo[] attributes,
-            EntityOperationInfo[] operations, EntityAdderInfo[] adders, Map<EntityIdType, EntityChildrenInfo> children, Fields fields)
+    public ManagedResourceInfo(EntityIdType identifierType, String description, ManagedResourceAttributeInfo[] attributes,
+            ManagedResourceOperationInfo[] operations, ManagedResourceAdderInfo[] adders, Map<EntityIdType, ManagedResourceChildrenInfo> children, Fields fields)
             throws IllegalArgumentException {
 
         this.identifierType = identifierType;
@@ -115,20 +117,20 @@ public class ModelEntityInfo implements Serializable, Cloneable {
         return identifierType;
     }
 
-    public EntityAttributeInfo[] getAttributes() {
+    public ManagedResourceAttributeInfo[] getAttributes() {
         return attributes.length == 0 ? attributes : attributes.clone();
     }
 
     public Set<String> getAttributeNames() {
         final Set<String> set = new HashSet<String>();
-        for(final EntityAttributeInfo attribute : attributes) {
+        for(final ManagedResourceAttributeInfo attribute : attributes) {
             set.add(attribute.getName());
         }
         return set;
     }
 
-    public EntityAttributeInfo getAttributeInfo(final String name) {
-        for(final EntityAttributeInfo attribute : attributes) {
+    public ManagedResourceAttributeInfo getAttributeInfo(final String name) {
+        for(final ManagedResourceAttributeInfo attribute : attributes) {
             if(name.equals(attribute.getName())) {
                 return attribute;
             }
@@ -136,16 +138,77 @@ public class ModelEntityInfo implements Serializable, Cloneable {
         return null;
     }
 
-    public EntityOperationInfo[] getOperations() {
+    public ManagedResourceOperationInfo[] getOperations() {
         return operations.length == 0 ? operations : operations.clone();
     }
 
-    public EntityAdderInfo[] getAdders() {
+    public ManagedResourceAdderInfo[] getAdders() {
         return adders.length == 0 ? adders : adders.clone();
     }
 
-    public EntityChildrenInfo getChildInfo(final EntityIdType type) {
+    public ManagedResourceChildrenInfo getChildInfo(final EntityIdType type) {
         return childrenInfo.get(type);
+    }
+
+    @Override
+    public String getClassName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getTypeName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean isArray() {
+        return false;
+    }
+
+    @Override
+    public boolean isCollection() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnum() {
+        return false;
+    }
+
+    @Override
+    public boolean isSimple() {
+        return false;
+    }
+
+    @Override
+    public boolean isComposite() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isTable() {
+        return false;
+    }
+
+    @Override
+    public boolean isValue(MetaValue value) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isValue(Object obj) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public <T extends MetaType> T as(Class<T> expected) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

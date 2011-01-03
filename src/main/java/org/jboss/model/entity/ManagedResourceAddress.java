@@ -27,23 +27,23 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A EntityAddress is a list of {@link EntityId address parts}, which
+ * A ManagedResourceAddress is a list of {@link EntityId address parts}, which
  * represent a path to a particular element in a model.
  * <p/>
  * This name can be absolute (i.e., relative from the root node - {@link #ROOT}
  * ), or relative to any node in the cache. Reading the documentation on each
- * API call that makes use of {@link EntityAddress}es will tell you whether the
- * API expects a relative or absolute EntityAddress.
+ * API call that makes use of {@link ManagedResourceAddress}es will tell you whether the
+ * API expects a relative or absolute ManagedResourceAddress.
  * <p/>
  *
  * @version $Revision: 8221 $
  */
-public final class EntityAddress implements Comparable<EntityAddress>, Serializable {
+public final class ManagedResourceAddress implements Comparable<ManagedResourceAddress>, Serializable {
 
     private static final long serialVersionUID = -6901735117605327068L;
 
     /**
-     * Separator between EntityAddress elements.
+     * Separator between ManagedResourceAddress elements.
      */
     public static final String SEPARATOR = "/";
 
@@ -51,12 +51,12 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
     private transient volatile int hash_code = 0;
 
     /**
-     * Immutable root EntityAddress.
+     * Immutable root ManagedResourceAddress.
      */
-    public static final EntityAddress ROOT = new EntityAddress();
+    public static final ManagedResourceAddress ROOT = new ManagedResourceAddress();
 
     /**
-     * A cached string representation of this EntityAddress, used by toString
+     * A cached string representation of this ManagedResourceAddress, used by toString
      * so it isn't calculated again every time.
      */
     protected String stringRepresentation;
@@ -67,13 +67,13 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
     /**
      * Public to satisfy Externalization.
      */
-    public EntityAddress() {
+    public ManagedResourceAddress() {
         elements = new EntityId[] {};
     }
 
     /**
      * If safe is false, Collections.unmodifiableList() is used to wrap the list
-     * passed in. This is an optimisation so EntityAddress.fromString(),
+     * passed in. This is an optimisation so ManagedResourceAddress.fromString(),
      * probably the most frequently used factory method, doesn't end up needing
      * to use the unmodifiableList() since it creates the list internally.
      *
@@ -83,7 +83,7 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
      *            whether this list is referenced externally (safe = false) or
      *            not (safe = true).
      */
-    private EntityAddress(EntityId[] elements, boolean safe) {
+    private ManagedResourceAddress(EntityId[] elements, boolean safe) {
         if (elements != null) {
             validateIds(elements);
             // if not safe make a defensive copy
@@ -98,7 +98,7 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
         }
     }
 
-    private EntityAddress(EntityAddress base, EntityId... childIds) {
+    private ManagedResourceAddress(ManagedResourceAddress base, EntityId... childIds) {
         validateIds(childIds);
         elements = new EntityId[base.elements.length + childIds.length];
         System.arraycopy(base.elements, 0, elements, 0, base.elements.length);
@@ -117,82 +117,82 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
     // only. ----------------------
 
     /**
-     * Retrieves a EntityAddress that represents the list of elements passed
+     * Retrieves a ManagedResourceAddress that represents the list of elements passed
      * in.
      *
      * @param elements
-     *            list of elements that comprise the EntityAddress
-     * @return a EntityAddress
+     *            list of elements that comprise the ManagedResourceAddress
+     * @return a ManagedResourceAddress
      */
-    public static EntityAddress fromList(List<EntityId> elements) {
-        return new EntityAddress(elements.toArray(new EntityId[elements.size()]), true);
+    public static ManagedResourceAddress fromList(List<EntityId> elements) {
+        return new ManagedResourceAddress(elements.toArray(new EntityId[elements.size()]), true);
     }
 
     /**
-     * Retrieves a EntityAddress that represents the array of elements passed
+     * Retrieves a ManagedResourceAddress that represents the array of elements passed
      * in.
      *
      * @param elements
-     *            array of elements that comprise the EntityAddress
+     *            array of elements that comprise the ManagedResourceAddress
      *
-     * @return a EntityAddress
+     * @return a ManagedResourceAddress
      */
-    public static EntityAddress fromElements(EntityId... elements) {
-        return new EntityAddress(elements, true);
+    public static ManagedResourceAddress fromElements(EntityId... elements) {
+        return new ManagedResourceAddress(elements, true);
     }
 
     /**
-     * Retrieves a EntityAddress that represents the absolute EntityAddress of
-     * the relative EntityAddress passed in.
+     * Retrieves a ManagedResourceAddress that represents the absolute ManagedResourceAddress of
+     * the relative ManagedResourceAddress passed in.
      *
      * @param base
-     *            base EntityAddress
+     *            base ManagedResourceAddress
      * @param relative
-     *            relative EntityAddress
-     * @return a EntityAddress
+     *            relative ManagedResourceAddress
+     * @return a ManagedResourceAddress
      */
-    public static EntityAddress fromRelativeAddress(EntityAddress base, EntityAddress relative) {
-        return new EntityAddress(base, relative.elements);
+    public static ManagedResourceAddress fromRelativeAddress(ManagedResourceAddress base, ManagedResourceAddress relative) {
+        return new ManagedResourceAddress(base, relative.elements);
     }
 
     /**
-     * Retrieves a EntityAddress that represents the List<EntityId> of
-     * elements passed in, relative to the base EntityAddress.
+     * Retrieves a ManagedResourceAddress that represents the List<EntityId> of
+     * elements passed in, relative to the base ManagedResourceAddress.
      *
      * @param base
-     *            base EntityAddress
+     *            base ManagedResourceAddress
      * @param relativeElements
      *            relative List<EntityId> of elements
-     * @return a EntityAddress
+     * @return a ManagedResourceAddress
      */
-    public static EntityAddress fromRelativeList(EntityAddress base, List<EntityId> relativeElements) {
-        return new EntityAddress(base, relativeElements.toArray(new EntityId[relativeElements.size()]));
+    public static ManagedResourceAddress fromRelativeList(ManagedResourceAddress base, List<EntityId> relativeElements) {
+        return new ManagedResourceAddress(base, relativeElements.toArray(new EntityId[relativeElements.size()]));
     }
 
     /**
-     * Retrieves a EntityAddress that represents the array of elements passed
-     * in, relative to the base EntityAddress.
+     * Retrieves a ManagedResourceAddress that represents the array of elements passed
+     * in, relative to the base ManagedResourceAddress.
      *
      * @param base
-     *            base EntityAddress
+     *            base ManagedResourceAddress
      * @param relativeElements
      *            relative elements
-     * @return a EntityAddress
+     * @return a ManagedResourceAddress
      */
-    public static EntityAddress fromRelativeElements(EntityAddress base, EntityId... relativeElements) {
-        return new EntityAddress(base, relativeElements);
+    public static ManagedResourceAddress fromRelativeElements(ManagedResourceAddress base, EntityId... relativeElements) {
+        return new ManagedResourceAddress(base, relativeElements);
     }
 
     /**
-     * Returns a new EntityAddress from a string, where the elements are
+     * Returns a new ManagedResourceAddress from a string, where the elements are
      * deliminated by one or more separator ({@link #SEPARATOR}) characters.
      *
      * @param stringRepresentation
-     *            String representation of the EntityAddress
-     * @return an EntityAddress constructed from the string representation passed
+     *            String representation of the ManagedResourceAddress
+     * @return an ManagedResourceAddress constructed from the string representation passed
      *         in
      */
-    public static EntityAddress fromString(String stringRepresentation) {
+    public static ManagedResourceAddress fromString(String stringRepresentation) {
         if (stringRepresentation == null || stringRepresentation.equals(SEPARATOR) || stringRepresentation.equals(""))
             return root();
 
@@ -203,49 +203,49 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
         for (int i = 0; i < parts.length; i++) {
             parts[i] = EntityId.fromString(el[i]);
         }
-        return new EntityAddress(parts, true);
+        return new ManagedResourceAddress(parts, true);
     }
 
     /**
-     * Obtains an ancestor of the current EntityAddress. Literally performs
+     * Obtains an ancestor of the current ManagedResourceAddress. Literally performs
      * <code>elements.subList(0, generation)</code> such that if
-     * <code> generation == EntityAddress.size() </code> then the return value
-     * is the EntityAddress itself (current generation), and if
-     * <code> generation == EntityAddress.size() - 1 </code> then the return
-     * value is the same as <code> EntityAddress.getParent() </code> i.e., just
+     * <code> generation == ManagedResourceAddress.size() </code> then the return value
+     * is the ManagedResourceAddress itself (current generation), and if
+     * <code> generation == ManagedResourceAddress.size() - 1 </code> then the return
+     * value is the same as <code> ManagedResourceAddress.getParent() </code> i.e., just
      * one generation behind the current generation.
-     * <code> generation == 0 </code> would return EntityAddress.ROOT.
+     * <code> generation == 0 </code> would return ManagedResourceAddress.ROOT.
      *
      * @param generation
      *            the generation of the ancestor to retrieve
-     * @return an ancestor of the current EntityAddress
+     * @return an ancestor of the current ManagedResourceAddress
      */
-    public EntityAddress getAncestor(int generation) {
+    public ManagedResourceAddress getAncestor(int generation) {
         if (generation == 0)
             return root();
         return getSubAddress(0, generation);
     }
 
     /**
-     * Obtains a sub-address from the given EntityAddress.
+     * Obtains a sub-address from the given ManagedResourceAddress.
      *
      * @param startIndex
      *            starting index
      * @param endIndex
      *            end index
-     * @return a sub-EntityAddress
+     * @return a sub-ManagedResourceAddress
      */
-    public EntityAddress getSubAddress(int startIndex, int endIndex) {
+    public ManagedResourceAddress getSubAddress(int startIndex, int endIndex) {
         if (endIndex < startIndex)
             throw new IllegalArgumentException("End index cannot be less than start index!");
         int len = endIndex - startIndex;
         EntityId[] subElements = new EntityId[len];
         System.arraycopy(elements, startIndex, subElements, 0, len);
-        return new EntityAddress(subElements, true);
+        return new ManagedResourceAddress(subElements, true);
     }
 
     /**
-     * @return the number of elements in the EntityAddress. The root node
+     * @return the number of elements in the ManagedResourceAddress. The root node
      *         contains zero.
      */
     public int size() {
@@ -255,14 +255,14 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
     /**
      * @param n
      *            index of the element to return
-     * @return Returns the nth element in the EntityAddress.
+     * @return Returns the nth element in the ManagedResourceAddress.
      */
     public EntityId get(int n) {
         return elements[n];
     }
 
     /**
-     * @return the last element in the EntityAddress.
+     * @return the last element in the ManagedResourceAddress.
      * @see #getLastElementAsString
      */
     public EntityId getLastElement() {
@@ -274,7 +274,7 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
     /**
      * @param element
      *            element to find
-     * @return true if the EntityAddress contains this element, false otherwise.
+     * @return true if the ManagedResourceAddress contains this element, false otherwise.
      */
     public boolean hasElement(EntityId element) {
         return indexOf(element) != -1;
@@ -289,17 +289,17 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
     }
 
     /**
-     * Returns true if obj is a EntityAddress with the same elements.
+     * Returns true if obj is a ManagedResourceAddress with the same elements.
      */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof EntityAddress)) {
+        if (!(obj instanceof ManagedResourceAddress)) {
             return false;
         }
-        EntityAddress other = (EntityAddress) obj;
+        ManagedResourceAddress other = (ManagedResourceAddress) obj;
         if (elements.length != other.elements.length)
             return false;
         // compare elements in *reverse*!
@@ -311,7 +311,7 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
     }
 
     /**
-     * Returns a hash code with EntityAddress elements.
+     * Returns a hash code with ManagedResourceAddress elements.
      */
     @Override
     public int hashCode() {
@@ -322,10 +322,10 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
     }
 
     /**
-     * Returns this EntityAddress as a string, prefixing the first element with a
-     * {@link EntityAddress#SEPARATOR} and joining each subsequent element with
-     * a {@link EntityAddress#SEPARATOR}. If this is the root EntityAddress, returns
-     * {@link EntityAddress#SEPARATOR}.
+     * Returns this ManagedResourceAddress as a string, prefixing the first element with a
+     * {@link ManagedResourceAddress#SEPARATOR} and joining each subsequent element with
+     * a {@link ManagedResourceAddress#SEPARATOR}. If this is the root ManagedResourceAddress, returns
+     * {@link ManagedResourceAddress#SEPARATOR}.
      */
     @Override
     public String toString() {
@@ -336,36 +336,36 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
     }
 
     /**
-     * Returns true if this EntityAddress is a child of parent.
+     * Returns true if this ManagedResourceAddress is a child of parent.
      *
      * @param parent
      *            candidate parent to test against
      * @return true if the target is a child of parent
      */
-    public boolean isChildOf(EntityAddress parent) {
+    public boolean isChildOf(ManagedResourceAddress parent) {
         return parent.elements.length != elements.length && isChildOrEquals(parent);
     }
 
     /**
-     * Returns true if this EntityAddress is a <i>direct</i> child of a given
-     * EntityAddress.
+     * Returns true if this ManagedResourceAddress is a <i>direct</i> child of a given
+     * ManagedResourceAddress.
      *
      * @param parent
      *            parent to compare with
      * @return true if this is a direct child, false otherwise.
      */
-    public boolean isDirectChildOf(EntityAddress parent) {
+    public boolean isDirectChildOf(ManagedResourceAddress parent) {
         return elements.length == parent.elements.length + 1 && isChildOf(parent);
     }
 
     /**
-     * Returns true if this EntityAddress is equal to or the child of parent.
+     * Returns true if this ManagedResourceAddress is equal to or the child of parent.
      *
      * @param parent
      *            candidate parent to test against
-     * @return true if this EntityAddress is equals or the child of parent.
+     * @return true if this ManagedResourceAddress is equals or the child of parent.
      */
-    public boolean isChildOrEquals(EntityAddress parent) {
+    public boolean isChildOrEquals(ManagedResourceAddress parent) {
         EntityId[] parentElems = parent.elements;
         if (parentElems.length > elements.length) {
             return false;
@@ -411,7 +411,7 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
      *
      * @return the parent parent
      */
-    public EntityAddress getParent() {
+    public ManagedResourceAddress getParent() {
         switch (elements.length) {
         case 0:
         case 1:
@@ -421,24 +421,24 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
         }
     }
 
-    public static EntityAddress root() {
+    public static ManagedResourceAddress root() {
         return ROOT;
     }
 
     /**
-     * Returns true if this is a root EntityAddress.
+     * Returns true if this is a root ManagedResourceAddress.
      *
-     * @return true if the EntityAddress is {@link EntityAddress#ROOT}.
+     * @return true if the ManagedResourceAddress is {@link ManagedResourceAddress#ROOT}.
      */
     public boolean isRoot() {
         return elements.length == 0;
     }
 
     /**
-     * If this is the root, returns {@link EntityAddress#SEPARATOR}.
+     * If this is the root, returns {@link ManagedResourceAddress#SEPARATOR}.
      *
      * @return a String representation of the last element that makes up this
-     *         EntityAddress.
+     *         ManagedResourceAddress.
      */
     public String getLastElementAsString() {
         if (isRoot()) {
@@ -476,27 +476,27 @@ public final class EntityAddress implements Comparable<EntityAddress>, Serializa
     }
 
     /**
-     * Compares this EntityAddress to another using {@link EntityAddressComparator}.
+     * Compares this ManagedResourceAddress to another using {@link ManagedResourceAddressComparator}.
      */
-    public int compareTo(EntityAddress address) {
-        return EntityAddressComparator.INSTANCE.compare(this, address);
+    public int compareTo(ManagedResourceAddress address) {
+        return ManagedResourceAddressComparator.INSTANCE.compare(this, address);
     }
 
     /**
-     * Creates a new EntityAddress whose ancestor has been replaced with the
+     * Creates a new ManagedResourceAddress whose ancestor has been replaced with the
      * new ancestor passed in.
      *
      * @param oldAncestor
      *            old ancestor to replace
      * @param newAncestor
      *            nw ancestor to replace with
-     * @return a new EntityAddress with ancestors replaced.
+     * @return a new ManagedResourceAddress with ancestors replaced.
      */
-    public EntityAddress replaceAncestor(EntityAddress oldAncestor, EntityAddress newAncestor) {
+    public ManagedResourceAddress replaceAncestor(ManagedResourceAddress oldAncestor, ManagedResourceAddress newAncestor) {
         if (!isChildOf(oldAncestor))
-            throw new IllegalArgumentException("Old ancestor must be an ancestor of the current EntityAddress!");
-        EntityAddress subAddress = this.getSubAddress(oldAncestor.size(), size());
-        return EntityAddress.fromRelativeAddress(newAncestor, subAddress);
+            throw new IllegalArgumentException("Old ancestor must be an ancestor of the current ManagedResourceAddress!");
+        ManagedResourceAddress subAddress = this.getSubAddress(oldAncestor.size(), size());
+        return ManagedResourceAddress.fromRelativeAddress(newAncestor, subAddress);
     }
 
     private static boolean safeEquals(Object a, Object b) {

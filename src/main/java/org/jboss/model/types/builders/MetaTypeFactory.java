@@ -25,8 +25,8 @@ package org.jboss.model.types.builders;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jboss.model.entity.info.EntityAttributeInfo;
-import org.jboss.model.entity.info.ModelEntityInfo;
+import org.jboss.model.entity.info.ManagedResourceAttributeInfo;
+import org.jboss.model.entity.info.ManagedResourceInfo;
 import org.jboss.model.types.ArrayMetaType;
 import org.jboss.model.types.CollectionMetaType;
 import org.jboss.model.types.CompositeMapMetaType;
@@ -153,17 +153,17 @@ public class MetaTypeFactory implements SimpleTypes {
     }
 
     /**
-     * Creates a composite type based on a {@link ModelEntityInfo} attributes.
+     * Creates a composite type based on a {@link ManagedResourceInfo} attributes.
      *
      * @param info the model entity info
      * @return the composite meta type
      */
-    public static CompositeMetaType createCompositeType(final ModelEntityInfo info) {
+    public static CompositeMetaType createCompositeType(final ManagedResourceInfo info) {
         if(info == null) {
             throw new IllegalArgumentException("null entity info");
         }
         final MutableCompositeMetaType composite = new MutableCompositeMetaType(info.getIdentifierType().getElementName(), info.getDescription());
-        for(final EntityAttributeInfo attribute : info.getAttributes()) {
+        for(final ManagedResourceAttributeInfo attribute : info.getAttributes()) {
             composite.addItem(attribute.getName(), attribute.getDescription(), attribute.getType());
         }
         composite.freeze();

@@ -22,13 +22,13 @@
 
 package org.jboss.model.entity.info.builder;
 
-import org.jboss.model.entity.info.EntityAttributeInfo;
+import org.jboss.model.entity.info.ManagedResourceAttributeInfo;
 import org.jboss.model.types.MetaType;
 
 /**
  * @author Emanuel Muckenhuber
  */
-public final class EntityAttributeInfoBuilder extends AbstractEntityFeatureBuilder<EntityAttributeInfo> {
+public final class EntityAttributeInfoBuilder extends AbstractEntityFeatureBuilder<ManagedResourceAttributeInfo> {
 
     private MetaType attributeType;
 
@@ -67,9 +67,9 @@ public final class EntityAttributeInfoBuilder extends AbstractEntityFeatureBuild
         }
     }
 
-    public EntityAttributeInfo create() {
+    public ManagedResourceAttributeInfo create() {
         checkValid();
-        return new EntityAttributeInfo(name, attributeType, description);
+        return new ManagedResourceAttributeInfo(name, attributeType, description);
     }
 
 }

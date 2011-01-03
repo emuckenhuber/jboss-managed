@@ -22,50 +22,39 @@
 
 package org.jboss.model.entity.info;
 
-import java.io.Serializable;
-
 import org.jboss.model.entity.EntityIdType;
+import org.jboss.model.types.SimpleMetaType;
 
 /**
+ * The MockManagedResourceInfo creates new ManagedResourceAttributeInfo and ManagedResourceChildrenInfo
+ * upon request.
+ *
+ * TODO remove
+ *
  * @author Emanuel Muckenhuber
  */
-public class EntityChildrenInfo implements Serializable, Cloneable {
+public class MockManagedResourceInfo extends ManagedResourceInfo {
 
-    private static final long serialVersionUID = 5780713629997200906L;
+    private static final long serialVersionUID = 1L;
 
-    private final ModelEntityInfo info;
-    private final Cardinality cardinality;
-
-    public EntityChildrenInfo(final ModelEntityInfo info, final Cardinality cardinality) {
-        if(info == null) {
-            throw new IllegalArgumentException("null entity type");
-        }
-        if(cardinality == null) {
-            throw new IllegalArgumentException("null entity cardinality");
-        }
-        this.info = info;
-        this.cardinality = cardinality;
+    public static MockManagedResourceInfo create(final String entityType) {
+        return new MockManagedResourceInfo(new EntityIdType(entityType));
     }
 
     /**
-     * @return the cardinality
+     * @param identifierType
+     * @throws IllegalArgumentException
      */
-    public Cardinality getCardinality() {
-        return cardinality;
+    public MockManagedResourceInfo(EntityIdType identifierType) throws IllegalArgumentException {
+        super(identifierType, MockManagedResourceInfo.class.getName(), null, null, null, null);
     }
 
-    /**
-     * @return the info
-     */
-    public ModelEntityInfo getModelEntityInfo() {
-        return info;
+    public ManagedResourceAttributeInfo getAttributeInfo(String name) {
+        return new ManagedResourceAttributeInfo(name, SimpleMetaType.STRING, "");
     }
 
-    /**
-     * @return the identifierType
-     */
-    public EntityIdType getIdentifierType() {
-        return info.getIdentifierType();
+    public ManagedResourceChildrenInfo getChildInfo(EntityIdType type) {
+        return new ManagedResourceChildrenInfo(this, Cardinality.ZERO_INFINITY);
     }
 
 }

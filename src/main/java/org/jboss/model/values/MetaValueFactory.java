@@ -24,9 +24,9 @@ package org.jboss.model.values;
 
 import java.util.Collection;
 
-import org.jboss.model.entity.ModelEntity;
-import org.jboss.model.entity.info.EntityAttributeInfo;
-import org.jboss.model.entity.info.ModelEntityInfo;
+import org.jboss.model.entity.ManagedResource;
+import org.jboss.model.entity.info.ManagedResourceAttributeInfo;
+import org.jboss.model.entity.info.ManagedResourceInfo;
 import org.jboss.model.types.ArrayMetaType;
 import org.jboss.model.types.CollectionMetaType;
 import org.jboss.model.types.CompositeMapMetaType;
@@ -153,19 +153,19 @@ public class MetaValueFactory extends SimpleValue.Factory {
     }
 
     /**
-     * Create a composite value based on a {@code ModelEntity}.
+     * Create a composite value based on a {@code ManagedResource}.
      *
      * @param entity the model entity.
      * @return the composite value
      */
-    public static CompositeValue createCompositeValue(final ModelEntity entity) {
+    public static CompositeValue createCompositeValue(final ManagedResource entity) {
         if(entity == null) {
             throw new IllegalArgumentException("null entity");
         }
-        final ModelEntityInfo entityInfo = entity.getEntityInfo();
+        final ManagedResourceInfo entityInfo = entity.getEntityInfo();
         final CompositeMetaType metaType = MetaTypeFactory.createCompositeType(entityInfo);
         final CompositeValue value = create(metaType);
-        for(final EntityAttributeInfo attribute : entityInfo.getAttributes()) {
+        for(final ManagedResourceAttributeInfo attribute : entityInfo.getAttributes()) {
             final String attributeName = attribute.getName();
             final MetaValue attributeValue = entity.getAttribute(attributeName);
             if(attributeValue != null) {
