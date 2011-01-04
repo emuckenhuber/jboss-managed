@@ -44,7 +44,7 @@ public class ManagedResourceInfo implements Serializable, Cloneable, MetaType {
     private static final ManagedResourceAttributeInfo[] NO_ATTRIBUTES = new ManagedResourceAttributeInfo[0];
     private static final ManagedResourceOperationInfo[] NO_OPERATIONS = new ManagedResourceOperationInfo[0];
     private static final ManagedResourceAdderInfo[] NO_ADDERS = new ManagedResourceAdderInfo[0];
-    private static final  Map<EntityIdType, ManagedResourceChildrenInfo> NO_CHILDREN = Collections.emptyMap();
+    private static final Map<EntityIdType, ManagedResourceChildrenInfo> NO_CHILDREN = Collections.emptyMap();
 
     /** The human readable description of the entity. */
     private final String description;

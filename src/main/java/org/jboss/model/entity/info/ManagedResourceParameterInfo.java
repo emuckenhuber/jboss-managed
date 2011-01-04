@@ -23,11 +23,13 @@
 package org.jboss.model.entity.info;
 
 import org.jboss.model.types.MetaType;
+import org.jboss.model.values.MetaValue;
 
 /**
  * TODO add class javadoc for ManagedResourceParameterInfo.
  *
  * @author Brian Stansberry
+ * @author Emanuel Muckenhuber
  */
 public class ManagedResourceParameterInfo extends ManagedResourceFeatureInfo {
 
@@ -97,6 +99,20 @@ public class ManagedResourceParameterInfo extends ManagedResourceFeatureInfo {
     @Override
     public int hashCode() {
         return getName().hashCode() ^ getType().hashCode();
+    }
+
+    /**
+     * Check whether a given value matches the type signature
+     * for this parameter.
+     *
+     * @param metaValue the meta value
+     * @return
+     */
+    public boolean isValue(final MetaValue metaValue) {
+        if(metaValue == null) {
+            return nillable;
+        }
+        return type.isValue(metaValue);
     }
 
 }

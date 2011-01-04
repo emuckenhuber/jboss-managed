@@ -61,4 +61,39 @@ public class MockSimpleValue extends MockMetaValue implements SimpleValue {
             compare = 0;
         return compare;
     }
+
+    /** {@inheritDocs} */
+    public String asString() {
+        return null;
+    }
+
+    /** {@inheritDocs} */
+    public Integer asInteger() {
+        return null;
+    }
+
+    /** {@inheritDocs} */
+    public Float asFloat() {
+        return null;
+    }
+
+    /** {@inheritDocs} */
+    public Short asShort() {
+        return null;
+    }
+
+    /** {@inheritDocs} */
+    public Boolean asBoolean() {
+        return null;
+    }
+
+    /** {@inheritDocs} */
+    public Byte asByte() {
+        return null;
+    }
+
+    /** {@inheritDocs} */
+    public Number asNumber() {
+        return null;
+    }
 }

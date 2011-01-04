@@ -40,7 +40,7 @@ public interface EnumValue extends MetaValue {
      *
      * @return the underlying value
      */
-    public String getValue();
+    String getValue();
 
     /**
      * Get the value as enum.
@@ -49,5 +49,5 @@ public interface EnumValue extends MetaValue {
      * @param enumType the enum class
      * @return the enum
      */
-    public <E extends Enum<E>> E getValue(Class<E> enumType);
+    <E extends Enum<E>> E getValue(Class<E> enumType);
 }

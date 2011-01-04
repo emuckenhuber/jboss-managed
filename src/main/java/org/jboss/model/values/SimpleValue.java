@@ -49,6 +49,66 @@ public interface SimpleValue extends MetaValue, SimpleTypes, Comparable<SimpleVa
     Serializable getValue();
 
     /**
+     * Get the underlying value as {@code String}.
+     *
+     * @return the string representation of the underlying value
+     */
+    String asString();
+
+    /**
+     * Get the underlying value as {@code Integer}.
+     *
+     * @return the value
+     * @throws IllegalStateException if the type cannot be converted to an integer
+     * @throws NumberFormatException if the type cannot be converted to an integer
+     */
+    Integer asInteger();
+
+    /**
+     * Get the underlying value as {@code Float}.
+     *
+     * @return the value
+     * @throws IllegalStateException if the type cannot be converted to a float
+     * @throws NumberFormatException if the type cannot be converted to a float
+     */
+    Float asFloat();
+
+    /**
+     * Get the underlying value as {@code Short}.
+     *
+     * @return the value
+     * @throws IllegalStateException if the type cannot be converted to a short
+     * @throws NumberFormatException if the type cannot be converted to a short
+     */
+    Short asShort();
+
+    /**
+     * Get the underlying value as {@code Boolean}.
+     *
+     * @return the value
+     * @throws IllegalStateException if the type cannot be converted to a boolean
+     */
+    Boolean asBoolean();
+
+    /**
+     * Get the underlying value as {@code Byte}.
+     *
+     * @return the value
+     * @throws IllegalStateException if the type cannot be converted to a byte
+     * @throws NumberFormatException if the type cannot be converted to a byte
+     */
+    Byte asByte();
+
+    /**
+     * Get the underlying value as {@code Number}.
+     *
+     * @return the value
+     * @throws IllegalStateException if the type cannot be converted to a number
+     * @throws NumberFormatException if the type cannot be converted to a number
+     */
+    Number asNumber();
+
+    /**
      * A value factory for simple types.
      */
     public static class Factory {
