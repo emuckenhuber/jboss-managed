@@ -22,6 +22,10 @@
 
 package org.jboss.model.entity;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+
 import org.jboss.model.values.MetaValue;
 
 /**
@@ -31,14 +35,19 @@ import org.jboss.model.values.MetaValue;
  */
 public class ManagementInvocation {
 
-    private static final MetaValue[] EMPTY = new MetaValue[0];
+    private static final Map<String,MetaValue> EMPTY = Collections.emptyMap();
 
     private final ManagedResourceAddress entityAddress;
     private final String operationId;
-    private final MetaValue[] params;
+    private final Map<String, MetaValue> params;
 
-    public ManagementInvocation(final ManagedResourceAddress entityAddress, final String operationId, final MetaValue... params) {
-        // TODO assertions
+    public ManagementInvocation(final ManagedResourceAddress entityAddress, final String operationId, final Map<String, MetaValue> params) {
+        if(entityAddress == null) {
+            throw new IllegalArgumentException("null resource address");
+        }
+        if(operationId == null) {
+            throw new IllegalArgumentException("null operation ID");
+        }
         this.entityAddress = entityAddress;
         this.operationId = operationId;
         this.params = params == null ? EMPTY : params;
@@ -52,7 +61,15 @@ public class ManagementInvocation {
         return operationId;
     }
 
-    public MetaValue[] getParams() {
+    public MetaValue getParam(final String parameterName) {
+        return params.get(parameterName);
+    }
+
+    public Set<String> getParameterNames() {
+        return params.keySet();
+    }
+
+    public Map<String, MetaValue> getParams() {
         return params;
     }
 
